@@ -8,8 +8,17 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link
       rel="stylesheet"
+      href="https://js.arcgis.com/4.25/esri/themes/dark/main.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+
+    <!-- external API locations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://js.arcgis.com/4.25/"></script>
   </head>
   <body>
     <!-- NAVIGATION BAR  -->
@@ -188,16 +197,41 @@
         </div>
         <div class="box">All amounts are in current year dollars.</div>
       </div>
+
       <!-- MAP & SLIDER -->
       <div class="column">
-        <div class="box">
-          <figure class="image is-300x400">
-            <img src="Screenshot_testMap.png" />
-          </figure>
+        <!-- map -->
+        <div id="applicationDiv" class="box">
+          <div id="viewDiv"></div>
+          <!-- slider -->
+          <div id="sliderContainer" class="esri-widget">
+            <span id="sliderValue"></span>
+            <div id="sliderInnerContainer">
+              <div id="slider"></div>
+            </div>
+            <div
+              id="playButton"
+              class="esri-widget esri-widget--button toggle-button"
+            >
+              <div>
+                <span
+                  class="toggle-button-icon esri-icon-play"
+                  aria-label="play icon"
+                ></span>
+                Play
+              </div>
+              <div>
+                <span
+                  class="toggle-button-icon esri-icon-pause"
+                  aria-label="pause icon"
+                ></span>
+                Pause
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </body>
-  <script></script>
-  <script></script>
+  <script src="parcelAnalysis.js"></script>
 </html>
