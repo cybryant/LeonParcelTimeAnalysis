@@ -21,185 +21,102 @@
     <script src="https://js.arcgis.com/4.25/"></script>
   </head>
   <body>
-    <!-- NAVIGATION BAR  -->
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <!-- Title -->
-      <div class="navbar-brand">
-        <!-- <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-          </a> -->
-        <a class="navbar-item subtitle is-2"> Parcel Analysis </a>
-
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-      <!-- Menu -->
-      <div id="menu" class="navbar-menu">
-        <!-- Other Views -->
-        <div class="navbar-start">
-          <a class="navbar-item"> Valuation & Units </a>
-          <a class="navbar-item"> Land Use </a>
-          <a class="navbar-item"> Growth Scenarios </a>
-        </div>
-        <!-- Information -->
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-primary">
-                <strong>Info</strong>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
     <!-- APPLICATION -->
     <div class="columns">
       <!-- USER SETTINGS COLUMN-->
-      <div class="column is-one-quarter">
+      <div class="column is-narrow">
+        <nav class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <h3 class="title is-3">Parcel Analysis</h3>
+            </div>
+            <div class="level-item">
+              <a class="button is-info is-light is-small"> Info </a>
+            </div>
+          </div>
+        </nav>
+        <div class="tabs is-boxed is-small">
+          <ul>
+            <li class="is-active">
+              <a>
+                <span class="icon is-small"
+                  ><i class="fas fa-image" aria-hidden="true"></i
+                ></span>
+                <span>Development</span>
+              </a>
+            </li>
+            <li>
+              <a>
+                <span class="icon is-small"
+                  ><i class="fas fa-music" aria-hidden="true"></i
+                ></span>
+                <span>Land Use</span>
+              </a>
+            </li>
+            <li>
+              <a>
+                <span class="icon is-small"
+                  ><i class="fas fa-film" aria-hidden="true"></i
+                ></span>
+                <span>Growth</span>
+              </a>
+            </li>
+          </ul>
+        </div>
         <!-- Set variables -->
         <div class="box">
-          <p>Choose 1 or 2 variables to display.</p>
-          <table class="table">
-            <tbody>
-              <tr>
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" checked />
-                    Option 1
-                  </label>
-                </td>
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" />
-                    Option 2
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" />
-                    Option 3
-                  </label>
-                </td>
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" />
-                    Option 4
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" />
-                    Option 5
-                  </label>
-                </td>
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" />
-                    Option 6
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" />
-                    Option 7
-                  </label>
-                </td>
-                <td>
-                  <label class="checkbox">
-                    <input type="checkbox" />
-                    Option 8
-                  </label>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <p>Choose 1 or 2 variables to display.<br /><br /></p>
+          <label class="checkbox">
+            <input type="checkbox" checked />
+            Residential Units<br /> </label
+          ><br />
+          <label class="checkbox">
+            <input type="checkbox" />
+            Non-residential Square Feet<br /> </label
+          ><br />
+          <label class="checkbox">
+            <input type="checkbox" />
+            Prior Year Valuation<br />
+          </label>
+          <br />
+          <label class="checkbox">
+            <input type="checkbox" />
+            Prior Year Taxes<br />
+          </label>
+          <br />
+          <label class="checkbox">
+            <input type="checkbox" />
+            Homesteads<br />
+          </label>
+          <br />
+          <label class="checkbox">
+            <input type="checkbox" />
+            Number of Sales<br />
+          </label>
+          <br />
+          <label class="checkbox">
+            <input type="checkbox" />
+            Valuation per Unit<br />
+          </label>
+          <br />
+          <label class="checkbox">
+            <input type="checkbox" />
+            Taxes per Unit<br />
+          </label>
         </div>
         <!-- Choose Hotspot Analysis -->
         <div class="box">
-          <p>Or, choose a Hotpot Analysis to display.</p>
-          <table class="table">
-            <tbody>
-              <tr>
-                <td>
-                  <label class="radio">
-                    <input type="radio" name="hotspot" />
-                    Option 1
-                  </label>
-                </td>
-                <td>
-                  <label class="radio">
-                    <input type="radio" name="hotspot" />
-                    Option 2
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="radio">
-                    <input type="radio" name="hotspot" />
-                    Option 3
-                  </label>
-                </td>
-                <td>
-                  <label class="radio">
-                    <input type="radio" name="hotspot" />
-                    Option 4
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="radio">
-                    <input type="radio" name="hotspot" />
-                    Option 5
-                  </label>
-                </td>
-                <td>
-                  <label class="radio">
-                    <input type="radio" name="hotspot" />
-                    Option 6
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label class="radio">
-                    <input type="radio" name="hotspot" />
-                    Option 7
-                  </label>
-                </td>
-                <td>
-                  <label class="radio">
-                    <input type="radio" name="hotspot" />
-                    Option 8
-                  </label>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <p>
+            Or, choose one variable and see <br />
+            a Hotpot Analysis for the all years.<br /><br />
+            <button class="button is-primary">Hot Spot Analysis</button>
+          </p>
         </div>
         <div class="box">All amounts are in current year dollars.</div>
       </div>
 
       <!-- MAP & SLIDER -->
-      <div class="column">
+      <div class="column is-fullheight">
         <!-- map -->
         <div id="applicationDiv" class="box">
           <div id="viewDiv"></div>
