@@ -12,6 +12,8 @@
   height: 100%;
   flex: 1 1 auto;
   order: 1;
+  align-items: stretch;
+  background-color: hsl(0, 0%, 96%);
 }
 
 #sliderContainer {
@@ -59,4 +61,11 @@
   order: 3;
 
   margin: 20px 0;
+}
+
+/* ESRI STYLING OVERRIDES */
+
+/* width of legend */
+div.esri-component.esri-legend.esri-widget.esri-widget--panel {
+  max-width: 190px;
 }

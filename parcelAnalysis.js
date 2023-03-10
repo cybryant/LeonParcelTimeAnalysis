@@ -127,7 +127,7 @@ require([
         minValue: 5000,
         maxValue: 19999,
         symbol: less20000,
-        label: "$20,000%"
+        label: "$20,000"
       },
       {
         minValue: 20000,
@@ -149,14 +149,31 @@ require([
     renderer: renderer
   });
 
+  const boundRenderer = {
+    type: "simple",
+    symbol: {
+      type: "simple-fill",
+      // color: [144, 238, 144, 0.95],
+      color: null,
+      outline: { width: 1.5, color: "darkslategray" }
+    }
+  };
+
+  const urbServArea = new FeatureLayer({
+    portalItem: {
+      id: "23dd4294859a4169a911aa2f949187f5"
+    },
+    title: "Urban Service Area",
+    labelsVisible: false,
+    // legendEnabled: false,
+    visible: true,
+    renderer: boundRenderer
+  });
+
   // create the map object from portal basemap & add layers
   const map = new Map({
-    basemap: {
-      portalItem: {
-        id: "4f2e99ba65e34bb8af49733d9778fb8e"
-      }
-    },
-    layers: [hexLayer]
+    basemap: "gray-vector",
+    layers: [hexLayer, urbServArea]
   });
 
   //set the mapView parameters
@@ -164,9 +181,10 @@ require([
     map: map,
     container: "viewDiv",
     // center: [-84.28073, 30.43826], //this is the true center but it's offset due to more northward growth
-    center: [-84.28073, 30.47],
-    // scale: 250000,
-    zoom: 11,
+    // center: [-84.28073, 30.47],
+    center: [-84.23, 30.47],
+    scale: 75000,
+    //zoom: 13,
     constraints: {
       snapToZoom: false
       //minScale: 72223.819286,
