@@ -19,6 +19,10 @@
     <!-- external API locations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="https://js.arcgis.com/4.25/"></script>
+    <script type="module">
+      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+      const div = d3.selectAll("div");
+    </script>
   </head>
   <body>
     <!-- APPLICATION -->
@@ -39,7 +43,7 @@
                 <span class="icon is-small"
                   ><i class="fas fa-image" aria-hidden="true"></i
                 ></span>
-                <span>Development</span>
+                <span>Parcel Data</span>
               </a>
             </li>
             <li>
