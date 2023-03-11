@@ -11,7 +11,8 @@ require([
   "esri/widgets/Expand",
   "esri/layers/support/FeatureEffect",
   "esri/renderers/visualVariables/ColorVariable",
-  "esri/renderers/ClassBreaksRenderer"
+  "esri/renderers/ClassBreaksRenderer",
+  "esri/layers/GeoJSONLayer"
 ], (
   Map,
   FeatureLayer,
@@ -25,7 +26,8 @@ require([
   Expand,
   FeatureEffect,
   ColorVariable,
-  ClassBreaksRenderer
+  ClassBreaksRenderer,
+  GeoJSONLayer
 ) => {
   /*********************************************/
   /*             SETUP MAP & VIEW              */
@@ -138,10 +140,8 @@ require([
     ]
   };
 
-  const hexLayer = new FeatureLayer({
-    portalItem: {
-      id: "73aed7ea54be4a14ae96568569c25f5b"
-    },
+  const hexLayer = new GeoJSONLayer({
+    url: "hex09.geojson",
     title: "1-Acre Hexagrams",
     labelsVisible: false,
     // legendEnabled: false,
@@ -167,7 +167,8 @@ require([
     labelsVisible: false,
     // legendEnabled: false,
     visible: true,
-    renderer: boundRenderer
+    renderer: boundRenderer,
+    popupEnabled: false
   });
 
   // create the map object from portal basemap & add layers
