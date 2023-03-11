@@ -238,15 +238,31 @@ require([
     }
   });
 
+  //*********************************
+  // ADD FUNCTIONALITY TO EXPAND Legend WIDGET
+  //*********************************
+  let legendSmall = new Legend({
+    view: view
+    // id: "legendBox"
+  });
+
+  let legendExpand = new Expand({
+    expandIconClass: "esri-icon-legend",
+    expandTooltip: "Legend",
+    view: view,
+    content: legendSmall,
+    mode: "floating"
+  });
+
+  let legendFull = new Legend({
+    view: view
+    // id: "legendBox"
+  });
+
   // Set up view elements
   view.ui.add(sliderContainer, "manual");
-  view.ui.add(
-    new Legend({
-      view: view
-      // id: "legendBox"
-    }),
-    "top-right"
-  );
+  view.ui.add(legendFull, "top-right");
+  view.ui.add(legendExpand, "top-right");
   view.ui.add(
     new Fullscreen({
       view: view,
@@ -254,4 +270,14 @@ require([
     }),
     "top-left"
   );
+
+  let screenWidth = screen.width;
+  console.log(screenWidth);
+
+  if (screenWidth > 728) {
+    legendExpand.visible = false;
+  }
+  if (screenWidth < 728) {
+    legendFull.visible = false;
+  }
 });
