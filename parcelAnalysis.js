@@ -121,13 +121,13 @@ require([
         minValue: 1000,
         maxValue: 4999,
         symbol: less5000,
-        label: "$5,000"
+        label: "< $5,000"
       },
       {
         minValue: 5000,
         maxValue: 19999,
         symbol: less20000,
-        label: "$20,000"
+        label: "< $20,000"
       },
       {
         minValue: 20000,
