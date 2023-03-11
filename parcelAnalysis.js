@@ -144,8 +144,8 @@ require([
     url: "hex09.geojson",
     title: "1-Acre Hexagrams",
     labelsVisible: false,
-    // legendEnabled: false,
     visible: true,
+    // legendEnabled: false,
     renderer: renderer
   });
 
@@ -165,7 +165,7 @@ require([
     },
     title: "Urban Service Area",
     labelsVisible: false,
-    // legendEnabled: false,
+    legendEnabled: false,
     visible: true,
     renderer: boundRenderer,
     popupEnabled: false
@@ -202,6 +202,7 @@ require([
   // get reference to the DOM elements
   const sliderValue = document.getElementById("sliderValue");
   const playButton = document.getElementById("playButton");
+  const sliderContainer = document.getElementById("sliderContainer");
 
   //create the slider widget
   const slider = new Slider({
@@ -238,6 +239,7 @@ require([
   });
 
   // Set up view elements
+  view.ui.add(sliderContainer, "manual");
   view.ui.add(
     new Legend({
       view: view

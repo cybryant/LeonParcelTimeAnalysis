@@ -26,27 +26,27 @@
   </head>
   <body class="has-background-success-light">
     <!-- APPLICATION -->
-    <div class="columns">
+    <div class="columns has-text-centered">
       <!-- USER SETTINGS COLUMN-->
       <div class="column is-narrow">
         <nav class="level">
           <div class="level">
             <div class="level-item has-text-centered">
-              <h3 class="title is-3">
+              <h3 class="title is-3 ml-3">
                 Tallahassee Development <br />
                 Analysis, 2009 to 2022
               </h3>
             </div>
           </div>
         </nav>
-        <div class="tabs is-boxed is-small">
+        <div class="tabs is-boxed is-small ml-3 has-text-centered">
           <ul>
             <li class="is-active">
               <a>
                 <span class="icon is-small"
                   ><i class="fas fa-image" aria-hidden="true"></i
                 ></span>
-                <span>Parcel Data</span>
+                <span>Parcel<br />Data</span>
               </a>
             </li>
             <li>
@@ -54,7 +54,7 @@
                 <span class="icon is-small"
                   ><i class="fas fa-music" aria-hidden="true"></i
                 ></span>
-                <span>Land Use</span>
+                <span>Land Use<br />Patterns</span>
               </a>
             </li>
             <li>
@@ -62,18 +62,18 @@
                 <span class="icon is-small"
                   ><i class="fas fa-film" aria-hidden="true"></i
                 ></span>
-                <span>Growth</span>
+                <span>Growth<br />Scenarios</span>
               </a>
             </li>
           </ul>
         </div>
         <!-- Set variables -->
-        <div class="panel has-background-white-bis">
+        <div class="panel has-background-white-bis ml-3">
           <p class="panel-heading">Choose 1 or 2 variables to display.</p>
           <div class="panel-block">
-            <p class="control">
+            <p class="control has-text-left">
               <label class="checkbox">
-                <input type="checkbox" checked />
+                <input type="checkbox" />
                 Residential Units<br /> </label
               ><br />
               <label class="checkbox">
@@ -86,7 +86,7 @@
               </label>
               <br />
               <label class="checkbox">
-                <input type="checkbox" />
+                <input type="checkbox" checked />
                 Prior Year Taxes<br />
               </label>
               <br />
@@ -113,7 +113,7 @@
           </div>
         </div>
         <!-- Choose Hotspot Analysis -->
-        <div class="panel has-text-centered has-background-white-bis">
+        <div class="panel has-text-centered has-background-white-bis ml-3">
           <p class="panel-heading">
             Or, choose one variable and see an<br />
             emerging hotpot/coldspot analysis.
@@ -124,54 +124,57 @@
             </button>
           </p>
         </div>
-        <div class="columns">
-          <div class="column is-two-thirds">
-            <div class="box has-text-centered">
-              All amounts are in <br />current year dollars.
+        <a class="button is-info is-light"> Learn About This Project </a>
+
+        <!-- <div class="columns">
+          <div class="column is-three-quarters">
+            <div class="box has-text-centered ml-3 is-size-7">
+              All amounts are in current year dollars.
             </div>
           </div>
           <div class="column">
             <div class="box has-text-centered">
-              <a class="button is-info is-light"> Info </a>
+              <a class="button is-info is-light"> i </a>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- MAP & SLIDER -->
       <div class="column">
         <!-- map -->
-        <div id="applicationDiv" class="box">
-          <div class="block" id="viewDiv"></div>
-          <!-- slider -->
-          <!-- <div id="sliderContainer" class="esri-widget"> -->
-          <!-- <div id="sliderContainer" class="box has-background-success-light"> -->
-          <div id="sliderContainer" class="box">
-            <span id="sliderValue"></span>
-            <div id="sliderInnerContainer">
-              <!-- <div id="slider" class="has-background-success-light"></div> -->
-              <div id="slider"></div>
-            </div>
-            <div
-              id="playButton"
-              class="esri-widget esri-widget--button toggle-button"
-            >
-              <div>
-                <span
-                  class="toggle-button-icon esri-icon-play"
-                  aria-label="play icon"
-                ></span>
-                Play
+        <div id="applicationDiv" class="box my-2 mr-3">
+          <div class="block" id="viewDiv">
+            <div id="sliderContainer" class="box">
+              <!-- <span id="sliderValue"></span> -->
+              <div id="sliderInnerContainer">
+                <!-- <div id="slider" class="has-background-success-light"></div> -->
+                <div id="slider"></div>
               </div>
-              <div>
-                <span
-                  class="toggle-button-icon esri-icon-pause"
-                  aria-label="pause icon"
-                ></span>
-                Pause
+              <div
+                id="playButton"
+                class="esri-widget esri-widget--button toggle-button"
+              >
+                <div>
+                  <span
+                    class="toggle-button-icon esri-icon-play"
+                    aria-label="play icon"
+                  ></span>
+                  <!-- Play -->
+                </div>
+                <div>
+                  <span
+                    class="toggle-button-icon esri-icon-pause"
+                    aria-label="pause icon"
+                  ></span>
+                  <!-- Pause -->
+                </div>
               </div>
             </div>
           </div>
+          <!-- slider -->
+          <!-- <div id="sliderContainer" class="esri-widget"> -->
+          <!-- <div id="sliderContainer" class="box has-background-success-light"> -->
         </div>
       </div>
     </div>
