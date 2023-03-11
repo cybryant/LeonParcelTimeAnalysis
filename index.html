@@ -32,7 +32,10 @@
         <nav class="level">
           <div class="level-left">
             <div class="level-item">
-              <h3 class="title is-3">Parcel Analysis</h3>
+              <h3 class="title is-3">
+                Tallahassee Development <br />
+                Analysis, 2009 to 2022
+              </h3>
             </div>
           </div>
         </nav>
@@ -65,58 +68,70 @@
           </ul>
         </div>
         <!-- Set variables -->
-        <div class="box">
-          <p>Choose 1 or 2 variables to display.<br /><br /></p>
-          <label class="checkbox">
-            <input type="checkbox" checked />
-            Residential Units<br /> </label
-          ><br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Non-residential Square Feet<br /> </label
-          ><br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Prior Year Valuation<br />
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Prior Year Taxes<br />
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Homesteads<br />
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Number of Sales<br />
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Valuation per Unit<br />
-          </label>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox" />
-            Taxes per Unit<br />
-          </label>
+        <div class="panel">
+          <p class="panel-heading">Choose 1 or 2 variables to display.</p>
+          <div class="panel-block">
+            <p class="control">
+              <label class="checkbox">
+                <input type="checkbox" checked />
+                Residential Units<br /> </label
+              ><br />
+              <label class="checkbox">
+                <input type="checkbox" />
+                Non-residential Square Feet<br /> </label
+              ><br />
+              <label class="checkbox">
+                <input type="checkbox" />
+                Prior Year Valuation<br />
+              </label>
+              <br />
+              <label class="checkbox">
+                <input type="checkbox" />
+                Prior Year Taxes<br />
+              </label>
+              <br />
+              <label class="checkbox">
+                <input type="checkbox" />
+                Homesteads<br />
+              </label>
+              <br />
+              <label class="checkbox">
+                <input type="checkbox" />
+                Number of Sales<br />
+              </label>
+              <br />
+              <label class="checkbox">
+                <input type="checkbox" />
+                Valuation per Unit<br />
+              </label>
+              <br />
+              <label class="checkbox">
+                <input type="checkbox" />
+                Taxes per Unit<br />
+              </label>
+            </p>
+          </div>
         </div>
         <!-- Choose Hotspot Analysis -->
-        <div class="box has-text-centered">
-          <p>
+        <div class="panel has-text-centered">
+          <p class="panel-heading">
             Or, choose one variable and see <br />
-            a Hotpot Analysis for the all years.<br /><br />
-            <button class="button is-primary">Hot Spot Analysis</button>
+            a Hotpot Analysis for the all years.
+          </p>
+          <p class="control">
+            <button class="button is-primary my-4">Hot Spot Analysis</button>
           </p>
         </div>
-        <div class="box">All amounts are in current year dollars.</div>
-        <div class="level">
-          <div class="level-item">
-            <a class="button is-info is-light is-small"> Info </a>
+        <div class="columns">
+          <div class="column is-two-thirds">
+            <div class="box has-text-centered">
+              All amounts are in <br />current year dollars.
+            </div>
+          </div>
+          <div class="column">
+            <div class="box has-text-centered">
+              <a class="button is-info is-light"> Info </a>
+            </div>
           </div>
         </div>
       </div>

@@ -142,8 +142,8 @@ require([
     portalItem: {
       id: "73aed7ea54be4a14ae96568569c25f5b"
     },
-    title: "hexbin",
-    // labelsVisible: false,
+    title: "1-Acre Hexagrams",
+    labelsVisible: false,
     // legendEnabled: false,
     visible: true,
     renderer: renderer
