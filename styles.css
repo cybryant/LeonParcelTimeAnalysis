@@ -1,3 +1,10 @@
+html,
+body {
+  /* background-color: hsl(142, 52%, 96%); */
+  width: 100%;
+  height: 100%;
+}
+
 #applicationDiv {
   /* position: absolute; */
   width: 100%;
@@ -10,6 +17,8 @@
 #viewDiv {
   width: 100%;
   height: 100%;
+  /* since this div is just a placeholder for the js script generated map & doesn't have any html content, we need a min-height to make sure it doesn't shrink to zero on mobile devices */
+  min-height: 500px;
   /* flex: 1 1 auto; */
   /* flex: 1 1 auto; */
   /* order: 1; */
@@ -78,4 +87,18 @@
 /* width of legend */
 div.esri-component.esri-legend.esri-widget.esri-widget--panel {
   max-width: 190px;
+}
+
+/* BULMA STYLING OVERRIDES */
+.tabs.is-toggle li.is-active a {
+  background-color: hsl(171, 100%, 41%);
+  border-color: hsl(171, 100%, 41%);
+  color: #fff;
+  z-index: 1;
+}
+
+.button.is-info.is-light {
+  background-color: #eff5fb;
+  color: #296fa8;
+  border-color: #296fa8;
 }

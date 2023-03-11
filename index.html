@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="has-background-success-light>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -10,11 +10,11 @@
       rel="stylesheet"
       href="https://js.arcgis.com/4.25/esri/themes/light/main.css"
     />
-    <link rel="stylesheet" href="styles.css" />
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <link rel="stylesheet" href="styles.css" />
 
     <!-- external API locations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
@@ -24,22 +24,23 @@
       const div = d3.selectAll("div");
     </script>
   </head>
-  <body class="has-background-success-light">
-    <!-- APPLICATION -->
+  <body class="has-background-success-light px-3">
+    <!-- wrapper section so the entire visible screen background is styled -->
+    <section class="hero is-fullheight">
+    <!-- SET UP COLUMNS -->
     <div class="columns has-text-centered">
       <!-- USER SETTINGS COLUMN-->
       <div class="column is-narrow">
-        <nav class="level">
-          <div class="level">
-            <div class="level-item has-text-centered">
-              <h3 class="title is-3 ml-3">
-                Tallahassee Development <br />
-                Analysis, 2009 to 2022
+        <!-- <nav class="level"> -->
+            <div>
+              <h3 class="title">
+                Tallahassee<br>Development
+                Analysis
               </h3>
+              <h4 class="subtitle pt-1">2009 to 2022</h4>
             </div>
-          </div>
-        </nav>
-        <div class="tabs is-boxed is-small ml-3 has-text-centered">
+        <!-- </nav> -->
+        <div class="tabs is-boxed is-small has-text-centered pt-5 is-fullwidth is-toggle">
           <ul>
             <li class="is-active">
               <a>
@@ -68,7 +69,7 @@
           </ul>
         </div>
         <!-- Set variables -->
-        <div class="panel has-background-white-bis ml-3">
+        <div class="panel has-background-white-bis">
           <p class="panel-heading">Choose 1 or 2 variables to display.</p>
           <div class="panel-block">
             <p class="control has-text-left">
@@ -113,7 +114,7 @@
           </div>
         </div>
         <!-- Choose Hotspot Analysis -->
-        <div class="panel has-text-centered has-background-white-bis ml-3">
+        <div class="panel has-text-centered has-background-white-bis">
           <p class="panel-heading">
             Or, choose one variable and see an<br />
             emerging hotpot/coldspot analysis.
@@ -148,7 +149,6 @@
             <div id="sliderContainer" class="box">
               <!-- <span id="sliderValue"></span> -->
               <div id="sliderInnerContainer">
-                <!-- <div id="slider" class="has-background-success-light"></div> -->
                 <div id="slider"></div>
               </div>
               <div
@@ -160,14 +160,12 @@
                     class="toggle-button-icon esri-icon-play"
                     aria-label="play icon"
                   ></span>
-                  <!-- Play -->
                 </div>
                 <div>
                   <span
                     class="toggle-button-icon esri-icon-pause"
                     aria-label="pause icon"
                   ></span>
-                  <!-- Pause -->
                 </div>
               </div>
             </div>
@@ -178,6 +176,7 @@
         </div>
       </div>
     </div>
+    </section>
   </body>
   <script src="parcelAnalysis.js"></script>
 </html>
