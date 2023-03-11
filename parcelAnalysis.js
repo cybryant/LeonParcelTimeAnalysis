@@ -247,4 +247,11 @@ require([
     }),
     "top-right"
   );
+  view.ui.add(
+    new Fullscreen({
+      view: view,
+      element: applicationDiv
+    }),
+    "top-left"
+  );
 });
