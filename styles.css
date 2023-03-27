@@ -32,7 +32,7 @@ body {
   /* flex: 0 0 80px; */
   /* order: 2; */
   display: flex;
-  height: 5%;
+  height: 10%;
   width: 60%;
   flex-flow: row;
   align-items: center;
@@ -55,6 +55,7 @@ body {
   /* flex-direction: column; */
   text-align: center;
   font-size: 300%;
+  color: #0d2644;
 }
 
 #sliderInnerContainer {
@@ -103,4 +104,7 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 
 .hero {
   padding: 1.5vh;
+  /* padding-top: 1.5vh;
+  padding-left: 1.5vh;
+  padding-right: 1.5vh; */
 }

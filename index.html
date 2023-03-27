@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="has-background-success-light>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,8 +11,8 @@
       href="https://js.arcgis.com/4.25/esri/themes/light/main.css"
     />
     <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
     <link rel="stylesheet" href="styles.css" />
 
@@ -26,108 +26,107 @@
   </head>
   <body class="has-background-success-light">
     <!-- wrapper section so the entire visible screen background is styled -->
-    <section class="hero is-fullheight">
-    <!-- SET UP COLUMNS -->
-    <div class="columns has-text-centered">
-      <!-- USER SETTINGS COLUMN-->
-      <div class="column is-narrow">
-        <!-- <nav class="level"> -->
-            <div>
-              <h3 class="title">
-                Tallahassee<br>Development
-                Analysis
-              </h3>
-              <h4 class="subtitle pt-1">2009 to 2022</h4>
+    <section class="hero is-fullheight has-background-success-light"">
+      <!-- SET UP COLUMNS -->
+      <div class="columns has-text-centered">
+        <!-- USER SETTINGS COLUMN-->
+        <div class="column is-narrow">
+          <!-- <nav class="level"> -->
+          <div>
+            <h3 class="title">Tallahassee<br />Development Analysis</h3>
+            <h4 class="subtitle pt-1">2009 to 2022</h4>
+          </div>
+          <!-- </nav> -->
+          <div
+            class="tabs is-boxed is-small has-text-centered pt-5 is-fullwidth is-toggle"
+          >
+            <ul>
+              <li class="is-active">
+                <a>
+                  <span class="icon is-small"
+                    ><i class="fas fa-image" aria-hidden="true"></i
+                  ></span>
+                  <span>Parcel<br />Data</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="icon is-small"
+                    ><i class="fas fa-music" aria-hidden="true"></i
+                  ></span>
+                  <span>Land Use<br />Patterns</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="icon is-small"
+                    ><i class="fas fa-film" aria-hidden="true"></i
+                  ></span>
+                  <span>Growth<br />Scenarios</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- Set variables -->
+          <div class="panel has-background-white-bis">
+            <p class="panel-heading">Choose 1 or 2 variables to display.</p>
+            <div class="panel-block">
+              <p class="control has-text-left">
+                <label class="checkbox">
+                  <input type="checkbox" />
+                  Residential Units<br /> </label
+                ><br />
+                <label class="checkbox">
+                  <input type="checkbox" />
+                  Non-residential Square Feet<br /> </label
+                ><br />
+                <label class="checkbox">
+                  <input type="checkbox" />
+                  Prior Year Valuation<br />
+                </label>
+                <br />
+                <label class="checkbox">
+                  <input type="checkbox" checked />
+                  Prior Year Taxes<br />
+                </label>
+                <br />
+                <label class="checkbox">
+                  <input type="checkbox" />
+                  Homesteads<br />
+                </label>
+                <br />
+                <label class="checkbox">
+                  <input type="checkbox" />
+                  Number of Sales<br />
+                </label>
+                <br />
+                <label class="checkbox">
+                  <input type="checkbox" />
+                  Valuation per Unit<br />
+                </label>
+                <br />
+                <label class="checkbox">
+                  <input type="checkbox" />
+                  Taxes per Unit<br />
+                </label>
+              </p>
             </div>
-        <!-- </nav> -->
-        <div class="tabs is-boxed is-small has-text-centered pt-5 is-fullwidth is-toggle">
-          <ul>
-            <li class="is-active">
-              <a>
-                <span class="icon is-small"
-                  ><i class="fas fa-image" aria-hidden="true"></i
-                ></span>
-                <span>Parcel<br />Data</span>
-              </a>
-            </li>
-            <li>
-              <a>
-                <span class="icon is-small"
-                  ><i class="fas fa-music" aria-hidden="true"></i
-                ></span>
-                <span>Land Use<br />Patterns</span>
-              </a>
-            </li>
-            <li>
-              <a>
-                <span class="icon is-small"
-                  ><i class="fas fa-film" aria-hidden="true"></i
-                ></span>
-                <span>Growth<br />Scenarios</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <!-- Set variables -->
-        <div class="panel has-background-white-bis">
-          <p class="panel-heading">Choose 1 or 2 variables to display.</p>
-          <div class="panel-block">
-            <p class="control has-text-left">
-              <label class="checkbox">
-                <input type="checkbox" />
-                Residential Units<br /> </label
-              ><br />
-              <label class="checkbox">
-                <input type="checkbox" />
-                Non-residential Square Feet<br /> </label
-              ><br />
-              <label class="checkbox">
-                <input type="checkbox" />
-                Prior Year Valuation<br />
-              </label>
-              <br />
-              <label class="checkbox">
-                <input type="checkbox" checked />
-                Prior Year Taxes<br />
-              </label>
-              <br />
-              <label class="checkbox">
-                <input type="checkbox" />
-                Homesteads<br />
-              </label>
-              <br />
-              <label class="checkbox">
-                <input type="checkbox" />
-                Number of Sales<br />
-              </label>
-              <br />
-              <label class="checkbox">
-                <input type="checkbox" />
-                Valuation per Unit<br />
-              </label>
-              <br />
-              <label class="checkbox">
-                <input type="checkbox" />
-                Taxes per Unit<br />
-              </label>
+          </div>
+          <!-- Choose Hotspot Analysis -->
+          <div class="panel has-text-centered has-background-white-bis">
+            <p class="panel-heading">
+              Or, choose one variable and see an<br />
+              emerging hotpot/coldspot analysis.
+            </p>
+            <p class="control">
+              <button class="button is-primary my-4">
+                Perform Hot Spot/Coldspot Analysis
+              </button>
             </p>
           </div>
-        </div>
-        <!-- Choose Hotspot Analysis -->
-        <div class="panel has-text-centered has-background-white-bis">
-          <p class="panel-heading">
-            Or, choose one variable and see an<br />
-            emerging hotpot/coldspot analysis.
-          </p>
-          <p class="control">
-            <button class="button is-primary my-4">
-              Perform Hot Spot/Coldspot Analysis
-            </button>
-          </p>
-        </div>
-        <a class="button is-info is-light"> Learn About This Project </a>
+          <a class="button is-info is-light"> Learn About This Project </a>
 
-        <!-- <div class="columns">
+          <!-- <div class="columns">
           <div class="column is-three-quarters">
             <div class="box has-text-centered ml-3 is-size-7">
               All amounts are in current year dollars.
@@ -139,44 +138,45 @@
             </div>
           </div>
         </div> -->
-      </div>
+        </div>
 
-      <!-- MAP & SLIDER -->
-      <div class="column">
-        <!-- map -->
-        <div id="applicationDiv" class="box">
-          <div class="block" id="viewDiv">
-            <div id="sliderContainer" class="box">
-              <!-- <span id="sliderValue"></span> -->
-              <div id="sliderInnerContainer">
-                <div id="slider"></div>
-              </div>
-              <div
-                id="playButton"
-                class="esri-widget esri-widget--button toggle-button"
-              >
-                <div>
-                  <span
-                    class="toggle-button-icon esri-icon-play"
-                    aria-label="play icon"
-                  ></span>
+        <!-- MAP & SLIDER -->
+        <div class="column">
+          <!-- map -->
+          <div id="applicationDiv" class="box">
+            <div class="block" id="viewDiv">
+              <div id="sliderContainer" class="box">
+                <span id="sliderValue"></span>
+                <div id="sliderInnerContainer">
+                  <div id="slider"></div>
                 </div>
-                <div>
-                  <span
-                    class="toggle-button-icon esri-icon-pause"
-                    aria-label="pause icon"
-                  ></span>
+                <div
+                  id="playButton"
+                  class="esri-widget esri-widget--button toggle-button"
+                >
+                  <div>
+                    <span
+                      class="toggle-button-icon esri-icon-play"
+                      aria-label="play icon"
+                    ></span>
+                  </div>
+                  <div>
+                    <span
+                      class="toggle-button-icon esri-icon-pause"
+                      aria-label="pause icon"
+                    ></span>
+                  </div>
                 </div>
               </div>
             </div>
+            <!-- slider -->
+            <!-- <div id="sliderContainer" class="esri-widget"> -->
+            <!-- <div id="sliderContainer" class="box has-background-success-light"> -->
           </div>
-          <!-- slider -->
-          <!-- <div id="sliderContainer" class="esri-widget"> -->
-          <!-- <div id="sliderContainer" class="box has-background-success-light"> -->
         </div>
       </div>
-    </div>
     </section>
   </body>
   <script src="parcelAnalysis.js"></script>
+  <!-- <script src="renderers.js"></script> -->
 </html>
