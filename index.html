@@ -44,7 +44,7 @@
               <li class="is-active">
                 <a>
                   <span class="icon is-small"
-                    ><i class="fas fa-image" aria-hidden="true"></i
+                    ><i class="fas fa-parcel" aria-hidden="true"></i
                   ></span>
                   <span>Parcel<br />Data</span>
                 </a>
@@ -52,7 +52,7 @@
               <li>
                 <a>
                   <span class="icon is-small"
-                    ><i class="fas fa-music" aria-hidden="true"></i
+                    ><i class="fas fa-landuse" aria-hidden="true"></i
                   ></span>
                   <span>Land Use<br />Patterns</span>
                 </a>
@@ -60,7 +60,7 @@
               <li>
                 <a>
                   <span class="icon is-small"
-                    ><i class="fas fa-film" aria-hidden="true"></i
+                    ><i class="fas fa-growth" aria-hidden="true"></i
                   ></span>
                   <span>Growth<br />Scenarios</span>
                 </a>
@@ -70,45 +70,50 @@
           <!-- Set variables -->
           <div class="panel has-background-white-bis">
             <p class="panel-heading">Choose 1 or 2 variables to display.</p>
-            <div class="panel-block">
+            <div id="checkBoxDiv" class="panel-block">
               <p class="control has-text-left">
                 <label class="checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" id="resUnits"/>
                   Residential Units<br /> </label
                 ><br />
                 <label class="checkbox">
-                  <input type="checkbox" />
-                  Non-residential Square Feet<br /> </label
+                  <input type="checkbox" id="nonResSF"/>
+                  Non-residential ft<sup>2</sup> <br /> </label
                 ><br />
                 <label class="checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" id="prYrVal"/>
                   Prior Year Valuation<br />
                 </label>
                 <br />
                 <label class="checkbox">
-                  <input type="checkbox" checked />
+                  <input type="checkbox" id="prYrTax" checked />
                   Prior Year Taxes<br />
                 </label>
                 <br />
                 <label class="checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" id="homesteads" />
                   Homesteads<br />
                 </label>
                 <br />
                 <label class="checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" id="numSales"/>
                   Number of Sales<br />
                 </label>
                 <br />
                 <label class="checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" id="valPerUnit"/>
                   Valuation per Unit<br />
                 </label>
                 <br />
                 <label class="checkbox">
-                  <input type="checkbox" />
+                  <input type="checkbox" id="taxPerUnit"/>
                   Taxes per Unit<br />
                 </label>
+              </p>
+              <p class="control">
+                <button id="displayBtn" class="button is-primary my-4">
+                  Display
+                </button>
               </p>
             </div>
           </div>

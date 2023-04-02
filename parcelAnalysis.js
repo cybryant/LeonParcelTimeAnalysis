@@ -152,17 +152,19 @@ require([
   // set initial state of the year displayed in large text
   sliderValue.innerHTML = "2009";
 
+  let renderYear;
+
   //Sets the current visualized year based on slider value
   function setYear(value) {
-    sliderValue.innerHTML = `20${Math.floor(value)}`;
+    renderYear = Math.floor(value);
+    sliderValue.innerHTML = `${renderYear}`;
     slider.viewModel.setValue(0, value);
     console.log("slider internal html is" + sliderValue.innerHTML);
-    console.log("value is" + Math.floor(value));
+    console.log("value is" + renderYear);
     // let displayYear = "11";
     // hexLayer.renderer = taxRenderer(displayYear);
-    hexLayer.renderer = taxRenderer(Math.floor(value));
-    // cityLimLayer.renderer = cityLimRenderer(value);
-    // layer.renderer = createRenderer(value);
+    hexLayer.renderer = taxRenderer(renderFldPrefix, Math.floor(value));
+    // return renderYear;
   }
 
   //*********************************
@@ -207,6 +209,52 @@ require([
     legendFull.visible = false;
   }
 
+  ///////////////////////////////////////
+  // VARIABLE CHECK BOXES EVENT LISTENER
+  //////////////////////////////////////
+
+  document
+    .getElementById("displayBtn")
+    .addEventListener("click", ValidateCheckBoxes);
+
+  function ValidateCheckBoxes() {
+    let checked = 0;
+
+    //Reference the Table.
+    let checkBoxes = document.getElementById("checkBoxDiv");
+
+    //Reference all the CheckBoxes in Table.
+    let chks = checkBoxes.getElementsByTagName("INPUT");
+
+    //Loop and count the number of checked CheckBoxes.
+    for (var i = 0; i < chks.length; i++) {
+      if (chks[i].checked) {
+        checked++;
+      }
+    }
+
+    if (checked == 1) {
+      for (var i = 0; i < chks.length; i++) {
+        if (chks[i].checked) {
+          renderFldPrefix = chks[i].id;
+          console.log(renderFldPrefix);
+          hexLayer.renderer = taxRenderer(
+            renderFldPrefix,
+            sliderValue.innerHTML
+          );
+          console.log(sliderValue.innerHTML);
+        }
+      }
+      // return true;
+    } else if (checked == 2) {
+      alert(checked + "boxes are checked.");
+      return true;
+    } else {
+      alert(`${checked} boxes are chosen. Check just 1 or 2 boxes.`);
+      return false;
+    }
+  }
+
   //**************************/
   // RENDERERS
   //**************************/
@@ -216,7 +264,7 @@ require([
   //*******************************
   // color class variables
   //*******************************
-  const less1000 = {
+  const negative = {
     type: "simple-fill", // autocasts as new SimpleFillSymbol()
     color: "#fffcd4",
     style: "solid",
@@ -226,7 +274,7 @@ require([
     }
   };
 
-  const less5000 = {
+  const zeroTO25 = {
     type: "simple-fill", // autocasts as new SimpleFillSymbol()
     color: "#b1cdc2",
     style: "solid",
@@ -236,7 +284,7 @@ require([
     }
   };
 
-  const less20000 = {
+  const over25 = {
     type: "simple-fill", // autocasts as new SimpleFillSymbol()
     color: "#38627a",
     style: "solid",
@@ -246,7 +294,7 @@ require([
     }
   };
 
-  const more20000 = {
+  const over50 = {
     type: "simple-fill", // autocasts as new SimpleFillSymbol()
     color: "#0d2644",
     style: "solid",
@@ -256,17 +304,17 @@ require([
     }
   };
 
-  // let displayYear = "11";
-
-  // taxRenderer(displayYear);
-
-  // taxRenderer variable
+  // taxRenderer
   //*******************************
-  function taxRenderer(dispYear) {
+  // set initial render state
+  renderFldPrefix = "PYR_TAXES";
+
+  function taxRenderer(fieldPrefix, dispYear) {
+    console.log(`${fieldPrefix}_${dispYear}_BYPC`);
     return {
       type: "class-breaks", // autocasts as new ClassBreaksRenderer()
       // field: "PYR_TAXES_11",
-      field: `PYR_TAXES_${dispYear}`,
+      field: `${fieldPrefix}_${dispYear}_BYPC`,
       legendOptions: {
         title: "Prior Year Taxes"
       },
@@ -282,28 +330,28 @@ require([
       defaultLabel: "no data",
       classBreakInfos: [
         {
-          minValue: 0,
-          maxValue: 999,
-          symbol: less1000,
-          label: "< $1,000"
+          // minValue: 0,
+          maxValue: 0,
+          symbol: negative,
+          label: "negative"
         },
         {
-          minValue: 1000,
-          maxValue: 4999,
-          symbol: less5000,
-          label: "< $5,000"
+          minValue: 0.00001,
+          maxValue: 24.9,
+          symbol: zeroTO25,
+          label: "< 25%"
         },
         {
-          minValue: 5000,
-          maxValue: 19999,
-          symbol: less20000,
-          label: "< $20,000"
+          minValue: 25,
+          maxValue: 49.999,
+          symbol: over25,
+          label: "> 25%"
         },
         {
-          minValue: 20000,
-          maxValue: 500000,
-          symbol: more20000,
-          label: "> $20,000"
+          minValue: 50,
+          maxValue: 1000,
+          symbol: over50,
+          label: "> 50%"
         }
       ]
     };
