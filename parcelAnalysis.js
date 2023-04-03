@@ -101,20 +101,23 @@ require([
 
   // get reference to the DOM elements
   const sliderValue = document.getElementById("sliderValue");
-  const playButton = document.getElementById("playButton");
   const sliderContainer = document.getElementById("sliderContainer");
+  // not using play or animation on this version
+  // const playButton = document.getElementById("playButton");
 
   // ### TO DO ### update hardcoding to be variable recognizing 2009 to last year ###
   //create the slider widget
   const slider = new Slider({
     container: "slider",
-    min: 09,
-    max: 22,
-    values: [09],
+    min: 2009,
+    max: 2022,
+    values: [2009],
     tickConfigs: [
       {
         mode: "position",
-        values: [09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+        values: [
+          2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021
+        ],
         labelsVisible: true
       }
     ],
@@ -150,13 +153,13 @@ require([
   // });
 
   // set initial state of the year displayed in large text
-  sliderValue.innerHTML = "2009";
+  // sliderValue.innerHTML = "2009";
 
-  let renderYear;
+  // let renderYear;
 
   //Sets the current visualized year based on slider value
   function setYear(value) {
-    renderYear = Math.floor(value);
+    let renderYear = Math.floor(value);
     sliderValue.innerHTML = `${renderYear}`;
     slider.viewModel.setValue(0, value);
     console.log("slider internal html is" + sliderValue.innerHTML);
@@ -358,5 +361,5 @@ require([
   }
 
   // set initial renderer display year
-  setYear(09);
+  setYear(2009);
 });
