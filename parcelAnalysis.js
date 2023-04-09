@@ -12,7 +12,9 @@ require([
   "esri/layers/support/FeatureEffect",
   "esri/renderers/visualVariables/ColorVariable",
   "esri/renderers/ClassBreaksRenderer",
-  "esri/layers/GeoJSONLayer"
+  "esri/renderers/UniqueValueRenderer",
+  "esri/layers/GeoJSONLayer",
+  "esri/renderers/SimpleRenderer"
 ], (
   Map,
   FeatureLayer,
@@ -27,7 +29,9 @@ require([
   FeatureEffect,
   ColorVariable,
   ClassBreaksRenderer,
-  GeoJSONLayer
+  UniqueValueRenderer,
+  GeoJSONLayer,
+  SimpleRenderer
 ) => {
   /*********************************************/
   /*             SETUP MAP & VIEW              */
@@ -42,7 +46,7 @@ require([
   // });
 
   const hexLayer = new FeatureLayer({
-    url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hex_11gdb/FeatureServer/0",
+    url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_2011_gdb2/FeatureServer/0",
     title: "1-Acre Hexagrams",
     labelsVisible: false,
     visible: true
@@ -164,9 +168,7 @@ require([
     slider.viewModel.setValue(0, value);
     console.log("slider internal html is" + sliderValue.innerHTML);
     console.log("value is" + renderYear);
-    // let displayYear = "11";
-    // hexLayer.renderer = taxRenderer(displayYear);
-    hexLayer.renderer = taxRenderer(renderFldPrefix, Math.floor(value));
+    hexLayer.renderer = hexRenderer(renderFldPrefix, Math.floor(value));
     // return renderYear;
   }
 
@@ -241,7 +243,7 @@ require([
         if (chks[i].checked) {
           renderFldPrefix = chks[i].id;
           console.log(renderFldPrefix);
-          hexLayer.renderer = taxRenderer(
+          hexLayer.renderer = hexRenderer(
             renderFldPrefix,
             sliderValue.innerHTML
           );
@@ -259,107 +261,103 @@ require([
   }
 
   //**************************/
-  // RENDERERS
+  // UNIQUE VALUE RENDERER
   //**************************/
-
-  //*******************************
-  //PRIOR YEAR TAXES RENDERER
-  //*******************************
-  // color class variables
-  //*******************************
-  const negative = {
-    type: "simple-fill", // autocasts as new SimpleFillSymbol()
-    color: "#fffcd4",
-    style: "solid",
-    outline: {
-      width: 0.2,
-      color: [255, 255, 255, 0.5]
-    }
-  };
-
-  const zeroTO25 = {
-    type: "simple-fill", // autocasts as new SimpleFillSymbol()
-    color: "#b1cdc2",
-    style: "solid",
-    outline: {
-      width: 0.2,
-      color: [255, 255, 255, 0.5]
-    }
-  };
-
-  const over25 = {
-    type: "simple-fill", // autocasts as new SimpleFillSymbol()
-    color: "#38627a",
-    style: "solid",
-    outline: {
-      width: 0.2,
-      color: [255, 255, 255, 0.5]
-    }
-  };
-
-  const over50 = {
-    type: "simple-fill", // autocasts as new SimpleFillSymbol()
-    color: "#0d2644",
-    style: "solid",
-    outline: {
-      width: 0.2,
-      color: [255, 255, 255, 0.5]
-    }
-  };
-
-  // taxRenderer
-  //*******************************
-  // set initial render state
-  renderFldPrefix = "PYR_TAXES";
-
-  function taxRenderer(fieldPrefix, dispYear) {
-    console.log(`${fieldPrefix}_${dispYear}_BYPC`);
+  function hexRenderer(fieldPrefix, dispYear) {
+    fieldName = `${fieldPrefix}_${dispYear}_CPCcat`;
+    // console.log(`${fieldPrefix}_${dispYear}_CPCcat`);
+    // console.log(fieldName);
+    // hexLayer.definitionExpression = `${fieldName} == "neg25to50"`;
     return {
-      type: "class-breaks", // autocasts as new ClassBreaksRenderer()
-      // field: "PYR_TAXES_11",
-      field: `${fieldPrefix}_${dispYear}_BYPC`,
-      legendOptions: {
-        title: "Prior Year Taxes"
-      },
-      defaultSymbol: {
-        type: "simple-fill", // autocasts as new SimpleFillSymbol()
-        color: "black",
-        style: "backward-diagonal",
-        outline: {
-          width: 0.5,
-          color: [50, 50, 50, 0.6]
-        }
-      },
-      defaultLabel: "no data",
-      classBreakInfos: [
+      type: "unique-value",
+      // field: `${fieldPrefix}_${dispYear}_CPCcat`,
+      field: fieldName,
+      // valueExpression: `${fieldName} == 'neg25to50'`,
+      defaultSymbol: { type: "simple-fill", color: null, outline: null },
+      uniqueValueInfos: [
         {
-          // minValue: 0,
-          maxValue: 0,
-          symbol: negative,
-          label: "negative"
+          value: "neg50plus",
+          symbol: {
+            type: "simple-fill",
+            color: "blue",
+            outline: { width: 0.25, color: "darkslategray" }
+          }
         },
         {
-          minValue: 0.00001,
-          maxValue: 24.9,
-          symbol: zeroTO25,
-          label: "< 25%"
+          value: "neg25to50",
+          symbol: {
+            type: "simple-fill",
+            color: "green",
+            outline: { width: 0.25, color: "darkslategray" }
+          }
         },
         {
-          minValue: 25,
-          maxValue: 49.999,
-          symbol: over25,
-          label: "> 25%"
+          value: "neg0to25",
+          symbol: {
+            type: "simple-fill",
+            color: "red",
+            outline: { width: 0.25, color: "darkslategray" }
+          }
         },
         {
-          minValue: 50,
-          maxValue: 1000,
-          symbol: over50,
-          label: "> 50%"
+          value: "zeroTo25",
+          symbol: {
+            type: "simple-fill",
+            color: "yellow",
+            outline: { width: 0.25, color: "darkslategray" }
+          }
+        },
+        {
+          value: "twenty5to50",
+          symbol: {
+            type: "simple-fill",
+            color: "orange",
+            outline: { width: 0.25, color: "darkslategray" }
+          }
+        },
+        {
+          value: "fiftyTo75",
+          symbol: {
+            type: "simple-fill",
+            color: "brown",
+            outline: { width: 0.25, color: "darkslategray" }
+          }
+        },
+        {
+          value: "seventy5to100",
+          symbol: {
+            type: "simple-fill",
+            color: "steelblue",
+            outline: { width: 0.25, color: "darkslategray" }
+          }
+        },
+        {
+          value: "over100",
+          symbol: {
+            type: "simple-fill",
+            color: "coral",
+            outline: { width: 0.25, color: "darkslategray" }
+          }
         }
       ]
+      // visualVariables: [
+      //   {
+      //     type: "opacity",
+      //     field: "POPULATION",
+      //     normalizationField: "SQ_KM",
+      //     // features with 30 ppl/sq km or below are assigned the first opacity value
+      //     stops: [
+      //       { value: 100, opacity: 0.15 },
+      //       { value: 1000, opacity: 0.9 }
+      //     ]
+      //   }
+      // ]
     };
   }
 
+  // set initial render state
+  renderFldPrefix = "PYR_TAXES";
+
   // set initial renderer display year
-  setYear(2009);
+  setYear(2010);
 });
