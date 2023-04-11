@@ -46,7 +46,9 @@ require([
   // });
 
   const hexLayer = new FeatureLayer({
-    url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_2011_gdb2/FeatureServer/0",
+    // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_2011_gdb2/FeatureServer/0",
+    // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_2022_gdb/FeatureServer/0", //hex2022GDB
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/testParcelAnalysis/FeatureServer", //hex_2022GDB_noSL
     title: "1-Acre Hexagrams",
     labelsVisible: false,
     visible: true
