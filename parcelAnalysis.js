@@ -48,7 +48,8 @@ require([
   const hexLayer = new FeatureLayer({
     // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_2011_gdb2/FeatureServer/0",
     // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_2022_gdb/FeatureServer/0", //hex2022GDB
-    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/testParcelAnalysis/FeatureServer", //hex_2022GDB_noSL
+    // url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/testParcelAnalysis/FeatureServer", //hex_2022GDB_noSL
+    url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_gdb3/FeatureServer/0", //uploaded via gdb on personal developer account
     title: "1-Acre Hexagrams",
     labelsVisible: false,
     visible: true
@@ -75,6 +76,196 @@ require([
     visible: true,
     renderer: usBoundRndr,
     popupEnabled: false
+  });
+
+  // hotspot renderer
+  let commonProperties = {
+    type: "simple-fill",
+    outline: { width: 0.25, color: "darkslategray" }
+  };
+
+  // let hotSpotFldName = `pattern_${htsptCat}`;
+
+  const hotspotRenderer = {
+    type: "unique-value",
+    // field: hotSpotFldName,
+    field: "pattern",
+    defaultSymbol: { type: "simple-fill", color: null, outline: null },
+    uniqueValueInfos: [
+      {
+        value: "Persistent Hot Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#990000"
+        }
+      },
+      {
+        value: "Intensifying Hot Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#d7301f"
+        }
+      },
+      {
+        value: "Consecutive Hot Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#ef6548"
+        }
+      },
+      {
+        value: "New Hot Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#fc8d59"
+        }
+      },
+      {
+        value: "Diminishing Hot Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#fdbb84"
+        }
+      },
+      {
+        value: "Sporadic Hot Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#fdd49e"
+        }
+      },
+      {
+        value: "Oscillating Hot Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#fee8c8"
+        }
+      },
+      {
+        value: "Historical Hot Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#fff7ec"
+        }
+      },
+      {
+        value: "Historical Cold Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#fff7fb"
+        }
+      },
+      {
+        value: "Oscillating Cold Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#ece7f2"
+        }
+      },
+      {
+        value: "Sporadic Cold Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#d0d1e6"
+        }
+      },
+      {
+        value: "Diminishing Cold Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#a6bddb"
+        }
+      },
+      {
+        value: "New Cold Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#74a9cf"
+        }
+      },
+      {
+        value: "Consecutive Cold Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#3690c0"
+        }
+      },
+      {
+        value: "Intensifying Cold Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#0570b0"
+        }
+      },
+      {
+        value: "Persistent Cold Spot",
+        // label: "",
+        symbol: {
+          ...commonProperties,
+          color: "#034e7b"
+        }
+      }
+    ]
+  };
+
+  // resunuts hotspot layer
+  const resunitsLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resUnits_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Residential Units Hotspot / Coldspot Analysis",
+    labelsVisible: false,
+    visible: true,
+    renderer: hotspotRenderer
+  });
+
+  // nonresidential SF hotspot layer
+  const nonResLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonResSF_STCube_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Homesteads SF Hotspot / Coldspot Analysis",
+    labelsVisible: false,
+    visible: true,
+    renderer: hotspotRenderer
+  });
+
+  // homesteads hotspot layer
+  const homesteadsLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_STCube_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Residential Units Hotspot / Coldspot Analysis",
+    labelsVisible: false,
+    visible: true,
+    renderer: hotspotRenderer
+  });
+
+  // valuation hotspot layer
+  const valuationLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/PYR_MARKET_STCube_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Valuation Hotspot / Coldspot Analysis",
+    labelsVisible: false,
+    visible: true,
+    renderer: hotspotRenderer
+  });
+
+  // taxes hotspot layer
+  const taxesLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/PYR_TAXES_STCube_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Property Taxes Hotspot / Coldspot Analysis",
+    labelsVisible: false,
+    visible: true,
+    renderer: hotspotRenderer
   });
 
   // create the map object from portal basemap & add layers
