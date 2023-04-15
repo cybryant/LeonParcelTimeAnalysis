@@ -125,3 +125,9 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
   flex-direction: row-reverse;
   flex-wrap: wrap;
 }
+
+/* overides Bulma to make text of both columns align to the top */
+/* contain should already have inherited display:flex, so didn't need to repeat here */
+#checkBoxDiv {
+  align-items: stretch;
+}

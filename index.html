@@ -69,32 +69,28 @@
           </div>
           <!-- Variable Attribute Panel -->
           <div class="panel has-background-white-bis">
-            <p class="panel-heading">Choose 1 or 2 variables to display.</p>
+            <p class="panel-heading is-size-6">First, choose a variable to display:</p>
             <div id="checkBoxDiv" class="panel-block">
-              <p class="control has-text-left">
-                <label class="checkbox">
-                  <input type="checkbox" id="resunits"/>
-                  Residential Units<br /> </label
-                ><br />
-                <label class="checkbox">
-                  <input type="checkbox" id="nonResSF"/>
-                  Nonresidential ft<sup>2</sup> <br /> </label
-                ><br />
-                <label class="checkbox">
-                  <input type="checkbox" id="PYR_MARKET"/>
-                  Prior Year Valuation<br />
+              <p class="control">
+                <label class="radio">
+                  <input type="radio" id="resunits" name="variablePanel" checked/>
+                  residential units
                 </label>
-                <br />
-                </p>
-                <p>
-                <label class="checkbox">
-                  <input type="checkbox" id="PYR_TAXES" checked />
-                  Prior Year Taxes<br />
+                <label class="radio">
+                  <input type="radio" id="nonResSF" name="variablePanel"/>
+                  nonresidential ft<sup>2</sup>
+                </label><br />
+                <label class="radio">
+                  <input type="radio" id="PYR_MARKET" name="variablePanel"/>
+                  valuation
                 </label>
-                <br />
-                <label class="checkbox">
-                  <input type="checkbox" id="homestead" />
-                  Homesteads<br />
+                <label class="radio">
+                  <input type="radio" id="homestead" name="variablePanel"/>
+                  homesteads
+                </label>
+                <label class="radio">
+                  <input type="radio" id="PYR_TAXES" name="variablePanel"/>
+                  property taxes
                 </label>
                 <!-- <br />
                 <label class="checkbox">
@@ -112,42 +108,46 @@
                   Taxes per Unit<br />
                 </label> -->
               </p>
-              <!-- <p class="control"> -->
-                <!-- <fieldset id="filterBtns" class="fieldset" class="radiocontainer" class="has-background-primary-light	">
-                  <b>Display As:</b>
-                  <label class="radio">
-                    <input type="radio" id="NU"/>
-                    Real Numbers<br />
-                  </label>
-                  <br />
-                  <label class="radio">
-                    <input type="radio" id="CPC" checked />
-                    Cumulative % Change<br />
-                  </label>
-                  <br />
-                  <label class="radio">
-                    <input type="radio" id="APC" />
-                    Annual % Change<br />
-                  </label>
-                </fieldset> -->
-              <!-- </p> -->
             </div>
-            <button id="displayBtn" class="button is-primary my-4">
-              Display
-            </button>
           </div>
+
+          <!-- Choose Yearly Change Display Mode -->
+          <div class="panel has-text-centered has-background-white-bis">
+            <p class="panel-heading is-size-6">
+              Then, choose how to display yearly change:
+            </p>
+            <div id="checkBoxDiv" class="panel-block">
+              <p class="control">
+                <label class="radio">
+                  <input type="radio" id="APC" name="modePanel" checked/>
+                  annual %
+                </label>
+                <label class="radio">
+                  <input type="radio" id="CPC" name="modePanel"/>
+                  cumulative %
+                </label>
+                <label class="radio">
+                  <input type="radio" id="NU" name="modePanel"/>
+                  real number
+                </label><br>
+                <button id="displayBtn" class="button is-primary my-4">
+                  Display Time Series
+                </button>
+              </p> 
+            </div>
+          </div>
+
+
           <!-- Choose Hotspot Analysis -->
           <div class="panel has-text-centered has-background-white-bis">
-            <p class="panel-heading">
-              Or, choose one variable and see an<br />
-              emerging hotpot/coldspot analysis.
+            <p class="panel-heading is-size-6">
+              Or, see an emerging hotspot analysis.
             </p>
-            <p class="control">
-              <button class="button is-primary my-4">
-                Display Hot Spot/Coldspot Analysis
-              </button>
-            </p>
+            <button class="button is-primary my-4">
+              Display Hot Spot/Coldspot Analysis
+            </button>
           </div>
+
           <a class="button is-info is-light"> Learn About This Project </a>
 
           <!-- <div class="columns">
@@ -162,7 +162,8 @@
             </div>
           </div>
         </div> -->
-        </div>
+
+      </div>
 
         <!-- MAP & SLIDER -->
         <div class="column">
