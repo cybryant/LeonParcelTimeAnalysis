@@ -56,6 +56,7 @@ body {
   text-align: center;
   font-size: 300%;
   color: #0d2644;
+  margin-right: 15px;
 }
 
 #sliderInnerContainer {
@@ -64,7 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 20px;
+  padding: 0 2px;
 }
 
 #slider {
@@ -74,11 +75,29 @@ body {
   * Play/Stop toggle button
   */
 
-#playButton {
+/* #playButton {
   /* flex: 0 0 100px; */
-  /* flex: 1 1 auto; */
-  order: 3;
-  /* margin: 20px 0; */
+/* flex: 1 1 auto; */
+/* order: 2; */
+/* margin: 20px 0; */
+/* } */
+
+#backBtn {
+  order: 2;
+  background-image: url("backwd25.png");
+  width: 25px;
+  height: 26px;
+  background-color: transparent;
+  border: 0px;
+}
+
+#fwdBtn {
+  order: 4;
+  background-image: url("fwd25.png");
+  width: 25px;
+  height: 26px;
+  background-color: transparent;
+  border: 0px;
 }
 
 /* ESRI STYLING OVERRIDES */
@@ -104,21 +123,9 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 
 .hero {
   padding: 1.5vh;
-  /* padding-top: 1.5vh;
-  padding-left: 1.5vh;
-  padding-right: 1.5vh; */
 }
 
-/* Radio Button Control Box */
-.fieldset {
-  margin-top: 15px;
-  padding: 5px;
-  border: 1px solid hsl(0, 0%, 71%);
-  border-radius: 10px;
-  /* background-color: hsl(171, 100%, 96%); */
-  background-color: hsl(171, 60%, 96%);
-  font-size: small;
-}
+/*  */
 
 .radiocontainer {
   display: inline-flex;
@@ -128,6 +135,6 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 
 /* overides Bulma to make text of both columns align to the top */
 /* contain should already have inherited display:flex, so didn't need to repeat here */
-#checkBoxDiv {
+/* #checkBoxDiv {
   align-items: stretch;
-}
+} */

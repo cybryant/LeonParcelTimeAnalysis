@@ -315,15 +315,17 @@ require([
         values: [
           2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021
         ],
-        labelsVisible: true
+        labelsVisible: false
       }
     ],
-    step: 1,
+    steps: 1,
     visibleElements: {
       rangeLabels: true
     }
-    // draggableSegmentsEnabled: false //didn't do anything
   });
+
+  // makes slider snap to whole numbers
+  slider.viewModel.snapOnClickEnabled = true;
 
   // When user drags the slider:
   //  - stops the animation
@@ -367,6 +369,34 @@ require([
     console.log("value is" + renderYear);
     hexLayer.renderer = hexRenderer(renderFldPrefix, Math.floor(value));
     // return renderYear;
+  }
+
+  //*************************/
+  // back button
+  //*************************/
+  document.getElementById("backBtn").addEventListener("click", moveBack);
+
+  function moveBack() {
+    renderYear = Number(sliderValue.innerHTML) - 1;
+    if (renderYear >= 2009) {
+      hexLayer.renderer = hexRenderer(renderFldPrefix, renderYear);
+      sliderValue.innerHTML = `${renderYear}`;
+      slider.viewModel.setValue(0, renderYear);
+    }
+  }
+
+  //*************************/
+  // forward button
+  //*************************/
+  document.getElementById("fwdBtn").addEventListener("click", moveFwd);
+
+  function moveFwd() {
+    renderYear = Number(sliderValue.innerHTML) + 1;
+    if (renderYear <= 2022) {
+      hexLayer.renderer = hexRenderer(renderFldPrefix, renderYear);
+      sliderValue.innerHTML = `${renderYear}`;
+      slider.viewModel.setValue(0, renderYear);
+    }
   }
 
   //*********************************
@@ -422,7 +452,7 @@ require([
   function ValidateCheckBoxes() {
     let checked = 0;
 
-    //Reference the Table.
+    //Reference the div holding the boxes
     let checkBoxes = document.getElementById("checkBoxDiv");
 
     //Reference all the CheckBoxes in div.
@@ -503,6 +533,10 @@ require([
     // console.log(`${fieldPrefix}_${dispYear}_CPCcat`);
     // console.log(fieldName);
     // hexLayer.definitionExpression = `${fieldName} == "neg25to50"`;
+    let commonProperties2 = {
+      type: "simple-fill",
+      outline: { width: 0.05, color: "darkslategray" }
+    };
     return {
       type: "unique-value",
       // field: `${fieldPrefix}_${dispYear}_CPCcat`,
@@ -513,65 +547,58 @@ require([
         {
           value: "neg50plus",
           symbol: {
-            type: "simple-fill",
-            color: "blue",
-            outline: { width: 0.25, color: "darkslategray" }
+            ...commonProperties2,
+            color: "blue"
           }
         },
         {
           value: "neg25to50",
           symbol: {
+            ...commonProperties2,
             type: "simple-fill",
-            color: "green",
-            outline: { width: 0.25, color: "darkslategray" }
+            color: "green"
           }
         },
         {
           value: "neg0to25",
           symbol: {
-            type: "simple-fill",
-            color: "red",
-            outline: { width: 0.25, color: "darkslategray" }
+            ...commonProperties2,
+            color: "red"
           }
         },
         {
           value: "zeroTo25",
           symbol: {
-            type: "simple-fill",
-            color: "yellow",
-            outline: { width: 0.25, color: "darkslategray" }
+            ...commonProperties2,
+            color: "yellow"
           }
         },
         {
           value: "twenty5to50",
           symbol: {
-            type: "simple-fill",
-            color: "orange",
-            outline: { width: 0.25, color: "darkslategray" }
+            ...commonProperties2,
+            color: "orange"
           }
         },
         {
           value: "fiftyTo75",
           symbol: {
-            type: "simple-fill",
-            color: "brown",
-            outline: { width: 0.25, color: "darkslategray" }
+            ...commonProperties2,
+            color: "brown"
           }
         },
         {
           value: "seventy5to100",
           symbol: {
-            type: "simple-fill",
-            color: "steelblue",
-            outline: { width: 0.25, color: "darkslategray" }
+            ...commonProperties2,
+            color: "steelblue"
           }
         },
         {
           value: "over100",
           symbol: {
-            type: "simple-fill",
-            color: "coral",
-            outline: { width: 0.25, color: "darkslategray" }
+            ...commonProperties2,
+            color: "coral"
           }
         }
       ]
@@ -591,7 +618,7 @@ require([
   }
 
   // set initial render state
-  renderFldPrefix = "PYR_TAXES";
+  renderFldPrefix = "resunits";
 
   // set initial renderer display year
   setYear(2010);
