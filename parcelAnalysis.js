@@ -233,25 +233,25 @@ require([
   });
 
   // nonresidential SF hotspot layer
-  const nonResLayer = new FeatureLayer({
+  const nonResSFLayer = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonResSF_STCube_EmergingHotSpotAnalysis/FeatureServer",
-    title: "Homesteads SF Hotspot / Coldspot Analysis",
+    title: "Nonresidential SF Hotspot / Coldspot Analysis",
     labelsVisible: false,
     visible: true,
     renderer: hotspotRenderer
   });
 
   // homesteads hotspot layer
-  const homesteadsLayer = new FeatureLayer({
+  const homesteadLayer = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_STCube_EmergingHotSpotAnalysis/FeatureServer",
-    title: "Residential Units Hotspot / Coldspot Analysis",
+    title: "Homestead Hotspot / Coldspot Analysis",
     labelsVisible: false,
     visible: true,
     renderer: hotspotRenderer
   });
 
   // valuation hotspot layer
-  const valuationLayer = new FeatureLayer({
+  const PYR_MARKETLayer = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/PYR_MARKET_STCube_EmergingHotSpotAnalysis/FeatureServer",
     title: "Valuation Hotspot / Coldspot Analysis",
     labelsVisible: false,
@@ -260,7 +260,7 @@ require([
   });
 
   // taxes hotspot layer
-  const taxesLayer = new FeatureLayer({
+  const PYR_TAXESLayer = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/PYR_TAXES_STCube_EmergingHotSpotAnalysis/FeatureServer",
     title: "Property Taxes Hotspot / Coldspot Analysis",
     labelsVisible: false,
@@ -355,7 +355,11 @@ require([
   // let renderYear;
 
   //Sets the current visualized year based on slider value
+
   function setYear(value) {
+    if (map.layers != [hexLayer, urbServArea]) {
+      map.layers = [hexLayer, urbServArea];
+    }
     let renderYear = Math.floor(value);
     sliderValue.innerHTML = `${renderYear}`;
     slider.viewModel.setValue(0, value);
@@ -421,8 +425,9 @@ require([
     //Reference the Table.
     let checkBoxes = document.getElementById("checkBoxDiv");
 
-    //Reference all the CheckBoxes in Table.
+    //Reference all the CheckBoxes in div.
     let chks = checkBoxes.getElementsByTagName("INPUT");
+    // let chks = checkBoxes.getElementByName("variablePanel");
 
     //Loop and count the number of checked CheckBoxes.
     for (var i = 0; i < chks.length; i++) {
@@ -453,10 +458,47 @@ require([
     }
   }
 
+  //*****************************/
+  // EVENT LISTENER FOR HOT SPOT BUTTON
+  //****************************/
+
+  document.getElementById("hotSpotBtn").addEventListener("click", showHotSpots);
+
+  function showHotSpots() {
+    let checked = 0;
+
+    //Reference the div
+    let checkBoxes2 = document.getElementById("checkBoxDiv");
+
+    //Reference all the CheckBoxes in Div.
+    let chks = checkBoxes2.getElementsByTagName("INPUT");
+
+    // have to spell out the map.layers definitions here because the string manipulation (used in ValidateCheckboxes() above) doesn't work for layers since they are objects rather than strings.
+    for (var i = 0; i < chks.length; i++) {
+      if (chks[i].checked) {
+        let checkedBtn = chks[i].id;
+        if (checkedBtn == "resunits") {
+          map.layers = [resunitsLayer, urbServArea];
+        } else if (checkedBtn == "nonResSF") {
+          map.layers = [nonResSFLayer, urbServArea];
+        } else if (checkedBtn == "homestead") {
+          map.layers = [homesteadLayer, urbServArea];
+        } else if (checkedBtn == "PYR_MARKET") {
+          map.layers = [PYR_MARKETLayer, urbServArea];
+        } else if (checkedBtn == "PYR_TAXES") {
+          map.layers = [PYR_TAXESLayer, urbServArea];
+        }
+      }
+    }
+  }
+
   //**************************/
   // UNIQUE VALUE RENDERER
   //**************************/
   function hexRenderer(fieldPrefix, dispYear) {
+    if (map.layers != [hexLayer, urbServArea]) {
+      map.layers = [hexLayer, urbServArea];
+    }
     fieldName = `${fieldPrefix}_${dispYear}_CPCcat`;
     // console.log(`${fieldPrefix}_${dispYear}_CPCcat`);
     // console.log(fieldName);
