@@ -367,7 +367,11 @@ require([
     slider.viewModel.setValue(0, value);
     console.log("slider internal html is" + sliderValue.innerHTML);
     console.log("value is" + renderYear);
-    hexLayer.renderer = hexRenderer(renderFldPrefix, Math.floor(value));
+    hexLayer.renderer = hexRenderer(
+      renderFldPrefix,
+      Math.floor(value),
+      renderChngMode
+    );
     // return renderYear;
   }
 
@@ -379,7 +383,11 @@ require([
   function moveBack() {
     renderYear = Number(sliderValue.innerHTML) - 1;
     if (renderYear >= 2009) {
-      hexLayer.renderer = hexRenderer(renderFldPrefix, renderYear);
+      hexLayer.renderer = hexRenderer(
+        renderFldPrefix,
+        renderYear,
+        renderChngMode
+      );
       sliderValue.innerHTML = `${renderYear}`;
       slider.viewModel.setValue(0, renderYear);
     }
@@ -393,7 +401,11 @@ require([
   function moveFwd() {
     renderYear = Number(sliderValue.innerHTML) + 1;
     if (renderYear <= 2022) {
-      hexLayer.renderer = hexRenderer(renderFldPrefix, renderYear);
+      hexLayer.renderer = hexRenderer(
+        renderFldPrefix,
+        renderYear,
+        renderChngMode
+      );
       sliderValue.innerHTML = `${renderYear}`;
       slider.viewModel.setValue(0, renderYear);
     }
@@ -452,13 +464,11 @@ require([
   function ValidateCheckBoxes() {
     let checked = 0;
 
-    //Reference the div holding the boxes
+    //Reference the div holding the variable checkboxes (currenlty radio, but may go back so leaving code)
     let checkBoxes = document.getElementById("checkBoxDiv");
-
     //Reference all the CheckBoxes in div.
     let chks = checkBoxes.getElementsByTagName("INPUT");
     // let chks = checkBoxes.getElementByName("variablePanel");
-
     //Loop and count the number of checked CheckBoxes.
     for (var i = 0; i < chks.length; i++) {
       if (chks[i].checked) {
@@ -466,16 +476,26 @@ require([
       }
     }
 
+    let changeModeDiv = document.getElementById("changeModeDiv");
+    let changeModeBtns = changeModeDiv.getElementsByTagName("INPUT");
+
+    for (var c = 0; c < changeModeBtns.length; c++)
+      if (changeModeBtns[c].checked) {
+        renderChngMode = changeModeBtns[c].id;
+        console.log(renderChngMode);
+      }
+
     if (checked == 1) {
       for (var i = 0; i < chks.length; i++) {
         if (chks[i].checked) {
           renderFldPrefix = chks[i].id;
-          console.log(renderFldPrefix);
+          // console.log(renderFldPrefix);
           hexLayer.renderer = hexRenderer(
             renderFldPrefix,
-            sliderValue.innerHTML
+            sliderValue.innerHTML,
+            renderChngMode
           );
-          console.log(sliderValue.innerHTML);
+          console.log(sliderValue.innerHTML + "_" + renderChngMode);
         }
       }
       // return true;
@@ -525,11 +545,12 @@ require([
   //**************************/
   // UNIQUE VALUE RENDERER
   //**************************/
-  function hexRenderer(fieldPrefix, dispYear) {
+  function hexRenderer(fieldPrefix, dispYear, chngMode) {
+    // function hexRenderer(fieldPrefix, dispYear) {
     if (map.layers != [hexLayer, urbServArea]) {
       map.layers = [hexLayer, urbServArea];
     }
-    fieldName = `${fieldPrefix}_${dispYear}_CPCcat`;
+    fieldName = `${fieldPrefix}_${dispYear}_${chngMode}cat`;
     // console.log(`${fieldPrefix}_${dispYear}_CPCcat`);
     // console.log(fieldName);
     // hexLayer.definitionExpression = `${fieldName} == "neg25to50"`;
@@ -618,7 +639,10 @@ require([
   }
 
   // set initial render state
-  renderFldPrefix = "resunits";
+  let renderFldPrefix = "resunits";
+
+  // set initial render state
+  let renderChngMode = "NU";
 
   // set initial renderer display year
   setYear(2010);
