@@ -41,7 +41,7 @@
             class="tabs is-boxed is-small has-text-centered pt-5 is-fullwidth is-toggle"
           >
             <ul>
-              <li class="is-active">
+              <li id="parcelTab" class="is-active">
                 <a>
                   <span class="icon is-small"
                     ><i class="fas fa-parcel" aria-hidden="true"></i
@@ -49,15 +49,15 @@
                   <span>Parcel<br />Data</span>
                 </a>
               </li>
-              <li>
+              <li id="landUseTab">
                 <a>
-                  <span class="icon is-small"
+                  <span  class="icon is-small"
                     ><i class="fas fa-landuse" aria-hidden="true"></i
                   ></span>
                   <span>Land Use<br />Patterns</span>
                 </a>
               </li>
-              <li>
+              <li id="growthTab">
                 <a>
                   <span class="icon is-small"
                     ><i class="fas fa-growth" aria-hidden="true"></i
@@ -119,17 +119,18 @@
             <div id="changeModeDiv" class="panel-block">
               <p class="control">
                 <label class="radio">
-                  <input type="radio" id="APC" name="modePanel"/>
+                  <input type="radio" id="APC" name="modePanel" checked/>
                   annual %
                 </label>
                 <label class="radio">
                   <input type="radio" id="CPC" name="modePanel"/>
                   cumulative %
                 </label>
-                <label class="radio">
+                <!-- <label class="radio">
                   <input type="radio" id="NU" name="modePanel" checked/>
                   real number
-                </label><br>
+                </label> -->
+                <br>
                 <button id="displayBtn" class="button is-primary my-4">
                   Display Time Series
                 </button>

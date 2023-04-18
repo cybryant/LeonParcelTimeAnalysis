@@ -558,6 +558,18 @@ require([
       type: "simple-fill",
       outline: { width: 0.05, color: "darkslategray" }
     };
+
+    const colors = [
+      "#804521",
+      "#aa8363",
+      "#d5c0a4",
+      "#eadfc5",
+      "#dbdfd0",
+      "#b6c0b9",
+      "#6d838c",
+      "#24455f"
+    ];
+
     return {
       type: "unique-value",
       // field: `${fieldPrefix}_${dispYear}_CPCcat`,
@@ -566,60 +578,68 @@ require([
       defaultSymbol: { type: "simple-fill", color: null, outline: null },
       uniqueValueInfos: [
         {
-          value: "neg50plus",
+          value: "over100",
+          label: "100+%",
           symbol: {
             ...commonProperties2,
-            color: "blue"
-          }
-        },
-        {
-          value: "neg25to50",
-          symbol: {
-            ...commonProperties2,
-            type: "simple-fill",
-            color: "green"
-          }
-        },
-        {
-          value: "neg0to25",
-          symbol: {
-            ...commonProperties2,
-            color: "red"
-          }
-        },
-        {
-          value: "zeroTo25",
-          symbol: {
-            ...commonProperties2,
-            color: "yellow"
-          }
-        },
-        {
-          value: "twenty5to50",
-          symbol: {
-            ...commonProperties2,
-            color: "orange"
-          }
-        },
-        {
-          value: "fiftyTo75",
-          symbol: {
-            ...commonProperties2,
-            color: "brown"
+            color: colors[7]
           }
         },
         {
           value: "seventy5to100",
+          label: "75-100%",
           symbol: {
             ...commonProperties2,
-            color: "steelblue"
+            color: colors[6]
           }
         },
         {
-          value: "over100",
+          value: "fiftyTo75",
+          label: "50-75%",
           symbol: {
             ...commonProperties2,
-            color: "coral"
+            color: colors[5]
+          }
+        },
+        {
+          value: "twenty5to50",
+          label: "25-50%",
+          symbol: {
+            ...commonProperties2,
+            color: colors[4]
+          }
+        },
+        {
+          value: "zeroTo25",
+          label: "0-25%",
+          symbol: {
+            ...commonProperties2,
+            color: colors[3]
+          }
+        },
+        {
+          value: "neg0to25",
+          label: "-25-0%",
+          symbol: {
+            ...commonProperties2,
+            color: colors[2]
+          }
+        },
+        {
+          value: "neg25to50",
+          label: "-25 to -50%",
+          symbol: {
+            ...commonProperties2,
+            type: "simple-fill",
+            color: colors[1]
+          }
+        },
+        {
+          value: "neg50plus",
+          label: "less than -50%",
+          symbol: {
+            ...commonProperties2,
+            color: colors[0]
           }
         }
       ]
@@ -638,11 +658,29 @@ require([
     };
   }
 
+  //***********************************/
+  //EVENT LISTENER FOR PLACEHOLDER TABS
+  //***********************************/
+
+  document
+    .getElementById("landUseTab")
+    .addEventListener("click", landUseMessage);
+  function landUseMessage() {
+    alert("Land Use Analysis coming in Phase 2");
+    return true;
+  }
+
+  document.getElementById("growthTab").addEventListener("click", growthMessage);
+  function growthMessage() {
+    alert("Growth Scenarios coming in Phase 3");
+    return true;
+  }
+
   // set initial render state
   let renderFldPrefix = "resunits";
 
   // set initial render state
-  let renderChngMode = "NU";
+  let renderChngMode = "APC";
 
   // set initial renderer display year
   setYear(2010);
