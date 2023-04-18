@@ -9,12 +9,13 @@ require([
   "esri/widgets/Zoom",
   "esri/widgets/Fullscreen",
   "esri/widgets/Expand",
-  "esri/layers/support/FeatureEffect",
-  "esri/renderers/visualVariables/ColorVariable",
-  "esri/renderers/ClassBreaksRenderer",
-  "esri/renderers/UniqueValueRenderer",
-  "esri/layers/GeoJSONLayer",
-  "esri/renderers/SimpleRenderer"
+  // "esri/layers/support/FeatureEffect",
+  // "esri/renderers/visualVariables/ColorVariable",
+  // "esri/renderers/ClassBreaksRenderer",
+  // "esri/renderers/UniqueValueRenderer",
+  // "esri/layers/GeoJSONLayer",
+  // "esri/renderers/SimpleRenderer",
+  "esri/core/reactiveUtils"
 ], (
   Map,
   FeatureLayer,
@@ -26,12 +27,13 @@ require([
   Zoom,
   Fullscreen,
   Expand,
-  FeatureEffect,
-  ColorVariable,
-  ClassBreaksRenderer,
-  UniqueValueRenderer,
-  GeoJSONLayer,
-  SimpleRenderer
+  // FeatureEffect,
+  // ColorVariable,
+  // ClassBreaksRenderer,
+  // UniqueValueRenderer,
+  // GeoJSONLayer,
+  // SimpleRenderer,
+  reactiveUtils
 ) => {
   /*********************************************/
   /*             SETUP MAP & VIEW              */
@@ -60,7 +62,6 @@ require([
     type: "simple",
     symbol: {
       type: "simple-fill",
-      // color: [144, 238, 144, 0.95],
       color: null,
       outline: { width: 1.5, color: "darkslategray" }
     }
@@ -78,10 +79,36 @@ require([
     popupEnabled: false
   });
 
+  // streets boundary renderer
+  const streetsRndr = {
+    type: "simple",
+    symbol: {
+      type: "simple-line",
+      color: "black",
+      width: 0.5,
+      style: "short-dot"
+    }
+  };
+
+  // streets layer
+  const streets = new FeatureLayer({
+    // portalItem: {
+    //   id: "3a5c0cceee864a20bdd2ca491865c5d5"
+    // },
+    url: "https://intervector.leoncountyfl.gov/intervector/rest/services/MapServices/TLC_OverlayStreetCenterline_D_WM/MapServer/0",
+    title: "Streets",
+    labelsVisible: true,
+    legendEnabled: true,
+    // definitionExpression: "FUNC_CLASS > 2",
+    visible: true,
+    renderer: streetsRndr,
+    popupEnabled: false
+  });
+
   // hotspot renderer
   let commonProperties = {
     type: "simple-fill",
-    outline: { width: 0.25, color: "darkslategray" }
+    outline: { width: 0.05, color: "darkslategray" }
   };
 
   // let hotSpotFldName = `pattern_${htsptCat}`;
@@ -271,7 +298,7 @@ require([
   // create the map object from portal basemap & add layers
   const map = new Map({
     basemap: "gray-vector",
-    layers: [hexLayer, urbServArea]
+    layers: [hexLayer, urbServArea, streets]
   });
 
   //set the mapView parameters
@@ -291,6 +318,29 @@ require([
     // This ensures that when going fullscreen the top left corner of the view extent stays aligned with the top left corner of the view's container
     resizeAlign: "top-left"
   });
+
+  let loading = document.getElementById("loading");
+
+  // Display the loading indicator when the view is updating
+  // NEEDS WORK SO IT WORKS FOR WHEN LAYERS UPDATE AS WELL
+  reactiveUtils.watch(
+    () => view.updating,
+    (updating) => {
+      loading.style.visibility = "visible";
+    }
+  );
+
+  reactiveUtils.watch(
+    () => view.updating,
+    (updating = false) => {
+      loading.style.visibility = "hidden";
+    }
+  );
+
+  // Hide the loading indicator when the view stops updating
+  // reactiveUtils.whenFalse(view, "updating", function (evt) {
+  //   $("#loading").hide();
+  // });
 
   /*********************************************/
   /*             SLIDER WIDGET                 */
@@ -443,6 +493,7 @@ require([
     }),
     "top-left"
   );
+  view.ui.add(loading, "manual");
 
   // make legend show full on larger screens or as an expandable widget on smaller screens
   let screenWidth = screen.width;
@@ -462,6 +513,8 @@ require([
     .addEventListener("click", ValidateCheckBoxes);
 
   function ValidateCheckBoxes() {
+    sliderContainer.style.visibility = "visible";
+
     let checked = 0;
 
     //Reference the div holding the variable checkboxes (currenlty radio, but may go back so leaving code)
@@ -515,6 +568,10 @@ require([
   document.getElementById("hotSpotBtn").addEventListener("click", showHotSpots);
 
   function showHotSpots() {
+    // make the slider invisible
+
+    sliderContainer.style.visibility = "hidden";
+
     let checked = 0;
 
     //Reference the div
@@ -546,14 +603,10 @@ require([
   // UNIQUE VALUE RENDERER
   //**************************/
   function hexRenderer(fieldPrefix, dispYear, chngMode) {
-    // function hexRenderer(fieldPrefix, dispYear) {
     if (map.layers != [hexLayer, urbServArea]) {
       map.layers = [hexLayer, urbServArea];
     }
     fieldName = `${fieldPrefix}_${dispYear}_${chngMode}cat`;
-    // console.log(`${fieldPrefix}_${dispYear}_CPCcat`);
-    // console.log(fieldName);
-    // hexLayer.definitionExpression = `${fieldName} == "neg25to50"`;
     let commonProperties2 = {
       type: "simple-fill",
       outline: { width: 0.05, color: "darkslategray" }
@@ -572,9 +625,10 @@ require([
 
     return {
       type: "unique-value",
-      // field: `${fieldPrefix}_${dispYear}_CPCcat`,
       field: fieldName,
-      // valueExpression: `${fieldName} == 'neg25to50'`,
+      legendOptions: {
+        title: `${dispYear} ${chngMode}`
+      },
       defaultSymbol: { type: "simple-fill", color: null, outline: null },
       uniqueValueInfos: [
         {
@@ -636,7 +690,7 @@ require([
         },
         {
           value: "neg50plus",
-          label: "less than -50%",
+          label: "below -50%",
           symbol: {
             ...commonProperties2,
             color: colors[0]

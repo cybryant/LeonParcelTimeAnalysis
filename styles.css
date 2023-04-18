@@ -46,6 +46,15 @@ body {
   bottom: 7px;
 }
 
+#loading {
+  width: 10%;
+}
+
+img#loading.esri-component {
+  left: 45%;
+  bottom: 40%;
+}
+
 #sliderValue {
   flex: 0 0 100px;
   order: 1;
