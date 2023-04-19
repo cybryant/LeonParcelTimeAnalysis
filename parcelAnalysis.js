@@ -9,6 +9,7 @@ require([
   "esri/widgets/Zoom",
   "esri/widgets/Fullscreen",
   "esri/widgets/Expand",
+  "esri/widgets/LayerList",
   // "esri/layers/support/FeatureEffect",
   // "esri/renderers/visualVariables/ColorVariable",
   // "esri/renderers/ClassBreaksRenderer",
@@ -27,6 +28,7 @@ require([
   Zoom,
   Fullscreen,
   Expand,
+  LayerList,
   // FeatureEffect,
   // ColorVariable,
   // ClassBreaksRenderer,
@@ -48,9 +50,6 @@ require([
   // });
 
   const hexLayer = new FeatureLayer({
-    // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_2011_gdb2/FeatureServer/0",
-    // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_2022_gdb/FeatureServer/0", //hex2022GDB
-    // url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/testParcelAnalysis/FeatureServer", //hex_2022GDB_noSL
     url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_gdb3/FeatureServer/0", //uploaded via gdb on personal developer account
     title: "1-Acre Hexagrams",
     labelsVisible: false,
@@ -76,7 +75,8 @@ require([
     legendEnabled: false,
     visible: true,
     renderer: usBoundRndr,
-    popupEnabled: false
+    popupEnabled: false,
+    listMode: "hide"
   });
 
   // streets boundary renderer
@@ -85,25 +85,10 @@ require([
     symbol: {
       type: "simple-line",
       color: "black",
-      width: 0.5,
+      width: 1,
       style: "short-dot"
     }
   };
-
-  // streets layer
-  const streets = new FeatureLayer({
-    // portalItem: {
-    //   id: "3a5c0cceee864a20bdd2ca491865c5d5"
-    // },
-    url: "https://intervector.leoncountyfl.gov/intervector/rest/services/MapServices/TLC_OverlayStreetCenterline_D_WM/MapServer/0",
-    title: "Streets",
-    labelsVisible: true,
-    legendEnabled: true,
-    // definitionExpression: "FUNC_CLASS > 2",
-    visible: true,
-    renderer: streetsRndr,
-    popupEnabled: false
-  });
 
   // hotspot renderer
   let commonProperties = {
@@ -295,25 +280,36 @@ require([
     renderer: hotspotRenderer
   });
 
+  // streets layer
+  const streets = new FeatureLayer({
+    portalItem: {
+      id: "3a5c0cceee864a20bdd2ca491865c5d5"
+    },
+    // url: "https://intervector.leoncountyfl.gov/intervector/rest/services/MapServices/TLC_OverlayStreetCenterline_D_WM/MapServer/0",
+    title: "Streets",
+    // labelsVisible: true,
+    // legendEnabled: true,
+    // definitionExpression: "FUNC_CLASS > 2",
+    // visible: true,
+    renderer: streetsRndr,
+    popupEnabled: false
+  });
+
   // create the map object from portal basemap & add layers
   const map = new Map({
     basemap: "gray-vector",
-    layers: [hexLayer, urbServArea, streets]
+    layers: [hexLayer, urbServArea]
   });
 
   //set the mapView parameters
   const view = new MapView({
     map: map,
     container: "viewDiv",
-    // center: [-84.28073, 30.43826], //this is the true center but it's offset due to more northward growth
-    // center: [-84.28073, 30.47],
     center: [-84.23, 30.47],
     scale: 75000,
     //zoom: 13,
     constraints: {
       snapToZoom: false
-      //minScale: 72223.819286,
-      //minScale: 100000,
     },
     // This ensures that when going fullscreen the top left corner of the view extent stays aligned with the top left corner of the view's container
     resizeAlign: "top-left"
@@ -477,15 +473,32 @@ require([
     mode: "floating"
   });
 
-  let legendFull = new Legend({
+  // let legendFull = new Legend({
+  //   view: view
+  // });
+
+  //*********************************
+  // ADD FUNCTIONALITY TO EXPAND LayerList WIDGET
+  //*********************************
+  const layerList = new LayerList({
     view: view
-    // id: "legendBox"
   });
 
-  // Set up view elements
+  layersExpand = new Expand({
+    expandIconClass: "esri-icon-layer-list",
+    expandTooltip: "Layers",
+    view: view,
+    content: layerList,
+    id: "layers"
+  });
+
+  //*********************************
+  // SET UP VIEW ELEMENTS
+  //*********************************
   view.ui.add(sliderContainer, "manual");
-  view.ui.add(legendFull, "top-right");
+  // view.ui.add(legendFull, "top-right");
   view.ui.add(legendExpand, "top-right");
+  view.ui.add(layersExpand, "top-left");
   view.ui.add(
     new Fullscreen({
       view: view,
@@ -496,13 +509,13 @@ require([
   view.ui.add(loading, "manual");
 
   // make legend show full on larger screens or as an expandable widget on smaller screens
-  let screenWidth = screen.width;
+  // let screenWidth = screen.width;
 
-  if (screenWidth > 728) {
-    legendExpand.visible = false;
-  } else {
-    legendFull.visible = false;
-  }
+  // if (screenWidth > 728) {
+  //   legendExpand.visible = false;
+  // } else {
+  //   legendFull.visible = false;
+  // }
 
   ///////////////////////////////////////
   // VARIABLE CHECK BOXES EVENT LISTENER
@@ -613,14 +626,15 @@ require([
     };
 
     const colors = [
-      "#804521",
-      "#aa8363",
-      "#d5c0a4",
-      "#eadfc5",
-      "#dbdfd0",
-      "#b6c0b9",
-      "#6d838c",
-      "#24455f"
+      "#ffaa00",
+      "#f28e00",
+      "#e67500",
+      "#b45a00",
+      "#315b61",
+      "#008c74",
+      "#00b294",
+      "#00d9b4",
+      "#00ffd4"
     ];
 
     return {
@@ -636,52 +650,60 @@ require([
           label: "100+%",
           symbol: {
             ...commonProperties2,
+            color: colors[8]
+          }
+        },
+        {
+          value: "less100",
+          label: "75-100%",
+          symbol: {
+            ...commonProperties2,
             color: colors[7]
           }
         },
         {
-          value: "seventy5to100",
-          label: "75-100%",
+          value: "less75",
+          label: "50-75%",
           symbol: {
             ...commonProperties2,
             color: colors[6]
           }
         },
         {
-          value: "fiftyTo75",
-          label: "50-75%",
+          value: "less50",
+          label: "25-50%",
           symbol: {
             ...commonProperties2,
             color: colors[5]
           }
         },
         {
-          value: "twenty5to50",
-          label: "25-50%",
+          value: "less25",
+          label: "1-25%",
           symbol: {
             ...commonProperties2,
             color: colors[4]
           }
         },
         {
-          value: "zeroTo25",
-          label: "0-25%",
+          value: "noChange",
+          label: "no change",
           symbol: {
             ...commonProperties2,
-            color: colors[3]
+            color: null
           }
         },
         {
-          value: "neg0to25",
-          label: "-25-0%",
+          value: "lessNeg4",
+          label: "-25 to 1%",
           symbol: {
             ...commonProperties2,
             color: colors[2]
           }
         },
         {
-          value: "neg25to50",
-          label: "-25 to -50%",
+          value: "lessNeg50",
+          label: "-50 to -75%",
           symbol: {
             ...commonProperties2,
             type: "simple-fill",
@@ -689,8 +711,8 @@ require([
           }
         },
         {
-          value: "neg50plus",
-          label: "below -50%",
+          value: "lessNeg75",
+          label: "below -75%",
           symbol: {
             ...commonProperties2,
             color: colors[0]
@@ -730,6 +752,10 @@ require([
     return true;
   }
 
+  //***********************************/
+  // SET INITIAL APP STATE
+  //***********************************/
+
   // set initial render state
   let renderFldPrefix = "resunits";
 
@@ -739,3 +765,32 @@ require([
   // set initial renderer display year
   setYear(2010);
 });
+
+//***********************************/
+// MODAL WINDOw
+//***********************************/
+// Get the modal
+var modal = document.getElementById("Modal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("infoBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function () {
+  modal.style.display = "block";
+};
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
