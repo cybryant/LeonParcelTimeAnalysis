@@ -63,7 +63,7 @@ img#loading.esri-component {
   /* align-items: center; */
   /* flex-direction: column; */
   text-align: center;
-  font-size: 300%;
+  font-size: 7vh;
   color: #0d2644;
   margin-right: 15px;
 }
@@ -163,14 +163,19 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
-
-/* Modal Content/Box */
+/* ModalContentBox */
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
+  border: 12px solid #ffaa00;
+  border-radius: 10px;
   width: 80%; /* Could be more or less, depending on screen size */
+  text-align: center;
+}
+
+#modalText {
+  margin: 2%;
 }
 
 /* The Close Button */
@@ -186,4 +191,8 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+h3 {
+  font-size: 30px;
 }

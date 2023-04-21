@@ -50,7 +50,8 @@ require([
   // });
 
   const hexLayer = new FeatureLayer({
-    url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_gdb3/FeatureServer/0", //uploaded via gdb on personal developer account
+    // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_gdb3/FeatureServer/0", //uploaded via gdb on personal developer account
+    url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_4_newclassesgdb/FeatureServer/0", //updated class breaks
     title: "1-Acre Hexagrams",
     labelsVisible: false,
     visible: true
