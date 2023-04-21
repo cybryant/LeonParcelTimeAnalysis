@@ -150,10 +150,10 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 
 /* Modal Window */
 
-/* * The Modal (background) */
-*/ .modal {
+/* The Modal (background) */
+.modal {
   display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
+  position: fixed; /*Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
@@ -166,11 +166,13 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 /* ModalContentBox */
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  top: 10%;
+  bottom: 10% auto;
   padding: 20px;
   border: 12px solid #ffaa00;
   border-radius: 10px;
   width: 80%; /* Could be more or less, depending on screen size */
+  height: 80%;
   text-align: center;
 }
 
