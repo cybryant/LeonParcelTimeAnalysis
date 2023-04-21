@@ -508,6 +508,12 @@ require([
     "top-left"
   );
   view.ui.add(loading, "manual");
+  view.ui.add(
+    new Home({
+      view: view
+    }),
+    "top-left"
+  );
 
   // make legend show full on larger screens or as an expandable widget on smaller screens
   // let screenWidth = screen.width;
