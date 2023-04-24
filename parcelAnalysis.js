@@ -51,7 +51,8 @@ require([
 
   const hexLayer = new FeatureLayer({
     // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_gdb3/FeatureServer/0", //uploaded via gdb on personal developer account
-    url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_4_newclassesgdb/FeatureServer/0", //updated class breaks
+    // url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_4_newclassesgdb/FeatureServer/0", //updated class breaks
+    url: "https://services7.arcgis.com/YOV9eUE0MKHovUid/arcgis/rest/services/hexbin_5_newpercents/FeatureServer/0", // rounding & updated percentages
     title: "1-Acre Hexagrams",
     labelsVisible: false,
     visible: true
@@ -653,6 +654,14 @@ require([
       defaultSymbol: { type: "simple-fill", color: null, outline: null },
       uniqueValueInfos: [
         {
+          value: "new",
+          label: "new (comparison year value was 0)",
+          symbol: {
+            ...commonProperties2,
+            color: "#FF00FF"
+          }
+        },
+        {
           value: "over100",
           label: "100+%",
           symbol: {
@@ -701,7 +710,7 @@ require([
           }
         },
         {
-          value: "lessNeg4",
+          value: "lessNeg1",
           label: "-25 to 1%",
           symbol: {
             ...commonProperties2,
@@ -709,8 +718,8 @@ require([
           }
         },
         {
-          value: "lessNeg50",
-          label: "-50 to -75%",
+          value: "lessNeg25",
+          label: "-25 to -75%",
           symbol: {
             ...commonProperties2,
             type: "simple-fill",
