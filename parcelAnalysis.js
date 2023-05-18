@@ -423,7 +423,6 @@ require([
     // return renderYear;
   }
 
-  //*************************/
   // back button
   //*************************/
   document.getElementById("backBtn").addEventListener("click", moveBack);
@@ -441,7 +440,6 @@ require([
     }
   }
 
-  //*************************/
   // forward button
   //*************************/
   document.getElementById("fwdBtn").addEventListener("click", moveFwd);
@@ -459,7 +457,6 @@ require([
     }
   }
 
-  //*********************************
   // ADD FUNCTIONALITY TO EXPAND Legend WIDGET
   //*********************************
   let legendSmall = new Legend({
@@ -494,7 +491,6 @@ require([
     id: "layers"
   });
 
-  //*********************************
   // SET UP VIEW ELEMENTS
   //*********************************
   view.ui.add(sliderContainer, "manual");
@@ -582,7 +578,6 @@ require([
     }
   }
 
-  //*****************************/
   // EVENT LISTENER FOR HOT SPOT BUTTON
   //****************************/
 
@@ -620,7 +615,6 @@ require([
     }
   }
 
-  //**************************/
   // UNIQUE VALUE RENDERER
   //**************************/
   function hexRenderer(fieldPrefix, dispYear, chngMode) {
@@ -750,7 +744,6 @@ require([
     };
   }
 
-  //***********************************/
   //EVENT LISTENER FOR PLACEHOLDER TABS
   //***********************************/
 
@@ -768,7 +761,6 @@ require([
     return true;
   }
 
-  //***********************************/
   // SET INITIAL APP STATE
   //***********************************/
 
@@ -782,7 +774,6 @@ require([
   setYear(2010);
 });
 
-//***********************************/
 // MODAL WINDOw
 //***********************************/
 // Get the modal
