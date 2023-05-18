@@ -340,10 +340,7 @@ require([
   //   $("#loading").hide();
   // });
 
-  /*********************************************/
-  /*             SLIDER WIDGET                 */
-  /*********************************************/
-
+  ////// SLIDER WIDGET  /////////////////
   // get reference to the DOM elements
   const sliderValue = document.getElementById("sliderValue");
   const sliderContainer = document.getElementById("sliderContainer");
@@ -457,8 +454,7 @@ require([
     }
   }
 
-  // ADD FUNCTIONALITY TO EXPAND Legend WIDGET
-  //*********************************
+  // ********** ADD FUNCTIONALITY TO EXPAND Legend WIDGET ****************
   let legendSmall = new Legend({
     view: view
     // id: "legendBox"
@@ -469,7 +465,8 @@ require([
     expandTooltip: "Legend",
     view: view,
     content: legendSmall,
-    mode: "floating"
+    mode: "floating",
+    expanded: true
   });
 
   // let legendFull = new Legend({
