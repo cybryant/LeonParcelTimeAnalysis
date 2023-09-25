@@ -748,25 +748,38 @@ require([
     .getElementById("landUseTab")
     .addEventListener("click", landUseMessage);
   function landUseMessage() {
-    alert("Land Use Analysis coming in Phase 2");
+    alert(
+      "Land Use Analysis is coming in Phase 2. This phase will examine changes in land use patterns like density, impervious land, and canopy coverage."
+    );
     return true;
   }
 
   document.getElementById("growthTab").addEventListener("click", growthMessage);
   function growthMessage() {
-    alert("Growth Scenarios coming in Phase 3");
+    alert(
+      "Growth Scenarios is coming in Phase 3. This phase will use data from Phase 1 and 2 to explore how various development scenarios (i.e. density and housing type) may affect the amount of land needed to accomodate the 2050 projected population. Potential changes in impervious land and canopy coverage may also be examined."
+    );
     return true;
   }
 
+  // *************** TO DO : NOTIFICATION BOXES FOR TAB PLACEHOLDERS  *****************
+
+  // get the notification element
+  const LUnotification = document.getElementById("landUseNotification");
+  // Get the element that closes the notification
+  // var noteDelete = document.getElementById("delete");
+  const noteDelete = document.getElementsByClassName("delete")[0];
+  // When the user clicks on delete button, close the notification
+  noteDelete.onclick = function () {
+    LUnotification.style.display = "none";
+  };
+
   // SET INITIAL APP STATE
   //***********************************/
-
   // set initial render state
   let renderFldPrefix = "resunits";
-
   // set initial render state
   let renderChngMode = "APC";
-
   // set initial renderer display year
   setYear(2010);
 });

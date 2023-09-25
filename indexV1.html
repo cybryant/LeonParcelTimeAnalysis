@@ -15,9 +15,6 @@
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
 
     <!-- external API locations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
@@ -29,6 +26,11 @@
   </head>
   <body class="has-background-success-light">
     <!-- NOTIFICATION BOXES -->
+    <div id="landUseNotification" class="notification">
+      <button class="delete"></button>
+      Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur.
+    </div>
     <!-- wrapper section so the entire visible screen background is styled -->
     <section class="hero is-fullheight has-background-success-light">
       <!-- SET UP COLUMNS -->
@@ -73,27 +75,27 @@
           </div>
           <!-- Variable Attribute Panel -->
           <div class="panel has-background-white-bis">
-            <p class="panel-heading is-size-6">Choose an attribute to explore:</p>
-            <div id="attributeDiv" class="panel-block">
+            <p class="panel-heading is-size-6">First, choose a variable to display:</p>
+            <div id="checkBoxDiv" class="panel-block">
               <p class="control">
                 <label class="radio">
-                  <input type="radio" id="resunits" name="attributePanel" checked/>
+                  <input type="radio" id="resunits" name="variablePanel" checked/>
                   residential units
                 </label>
                 <label class="radio">
-                  <input type="radio" id="nonressf" name="attributePanel"/>
+                  <input type="radio" id="nonResSF" name="variablePanel"/>
                   nonresidential ft<sup>2</sup>
                 </label><br />
                 <label class="radio">
-                  <input type="radio" id="pyr_market" name="attributePanel"/>
+                  <input type="radio" id="PYR_MARKET" name="variablePanel"/>
                   valuation
                 </label>
                 <label class="radio">
-                  <input type="radio" id="homestead" name="attributePanel"/>
+                  <input type="radio" id="homestead" name="variablePanel"/>
                   homesteads
                 </label>
                 <label class="radio">
-                  <input type="radio" id="pyr_taxes" name="attributePanel"/>
+                  <input type="radio" id="PYR_TAXES" name="variablePanel"/>
                   property taxes
                 </label>
                 <!-- <br />
@@ -115,47 +117,45 @@
             </div>
           </div>
 
-          <!-- Choose Analysis -->
+          <!-- Choose Yearly Change Display Mode -->
           <div class="panel has-text-centered has-background-white-bis">
             <p class="panel-heading is-size-6">
-              Do you want to see how values change over<br />time, or see an emerging hotspot analysis?
-            </p>
-            <button id="timeBtn" class="button is-primary my-4">
-              Over Time
-            </button> &nbsp;&nbsp;&nbsp;&nbsp;
-            <button id="hotspotBtn" class="button is-primary my-4">
-              Hotspots
-            </button>
-          </div>
-          
-          <!-- Choose Yearly Change Display Mode -->
-          <div id="changeModeBlock" class="panel has-text-centered has-background-white-bis">
-            <p class="panel-heading is-size-6">
-              How would you like values displayed?
+              Then, choose how to display yearly change:
             </p>
             <div id="changeModeDiv" class="panel-block">
               <p class="control">
                 <label class="radio">
-                  <input type="radio" id="n" name="modePanel" checked/>
-                  actual values
-                </label><br />
-                <label class="radio">
-                  <input type="radio" id="A" name="modePanel"/>
-                  year by year gains/losses
+                  <input type="radio" id="APC" name="modePanel" checked/>
+                  annual %
                 </label>
                 <label class="radio">
-                  <input type="radio" id="T" name="modePanel" />
-                  total gains/losses
+                  <input type="radio" id="CPC" name="modePanel"/>
+                  cumulative %
                 </label>
+                <!-- <label class="radio">
+                  <input type="radio" id="NU" name="modePanel" checked/>
+                  real number
+                </label> -->
                 <br>
+                <button id="displayBtn" class="button is-primary my-4">
+                  Display Time Series
+                </button>
               </p> 
             </div>
           </div>
 
 
+          <!-- Choose Hotspot Analysis -->
+          <div class="panel has-text-centered has-background-white-bis">
+            <p class="panel-heading is-size-6">
+              Or, see an emerging hotspot analysis.
+            </p>
+            <button id="hotSpotBtn" class="button is-primary my-4">
+              Display Hotspot/Coldspot Analysis
+            </button>
+          </div>
 
-           <!-- Info Button -->
-          <a id="infoBtn" class="button is-info is-light"> About This Project </a>
+          <a id="infoBtn" class="button is-info is-light"> Learn About This Project </a>
 
           <!-- <div class="columns">
           <div class="column is-three-quarters">
@@ -179,36 +179,22 @@
             <img id='loading' src="https://i.stack.imgur.com/qq8AE.gif"/>
             <div class="block" id="viewDiv">
               <div id="sliderContainer" class="box">
-                  <!-- <div id="sliderMiddle"> -->
-                    <span id="sliderValue"></span>
-                    <button id="backBtn"></button>
-                    <div id="sliderInnerContainer">
-                      <div id="slider"></div>
-                    </div>
-                    <button id="fwdBtn"></button>
-                    <!-- <span id="population">Population</span> -->
-                  <!-- </div> -->
+                <span id="sliderValue"></span>
+                <button id="backBtn"></button>
+                <div id="sliderInnerContainer">
+                  <div id="slider"></div>
                 </div>
-                <div id="gainLossBox">
-                  <label class="checkbox">
-                    <input type="checkbox" id="gain" name="gainLossBxs" checked/>
-                    show gains&nbsp;&nbsp;
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" id="loss" name="gainLossBxs"/>
-                    show losses&nbsp;&nbsp;
-                  </label>
-                  <label class="checkbox">
-                    <input type="checkbox" id="same" name="gainLossBxs"/>
-                    stayed same STILL WORKING ON THIS
-                  </label>
+                <button id="fwdBtn"></button>
+
                 </div>
+              </div>
             </div>
             <!-- slider -->
             <!-- <div id="sliderContainer" class="esri-widget"> -->
             <!-- <div id="sliderContainer" class="box has-background-success-light"> -->
           </div>
         </div>
+      </div>
     </section>
 
     <!-- Modal -->
@@ -218,6 +204,8 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <div id="modalText">
+          <p><em>This project is currently in beta. Overlays (streets, neighborhood boundaries) are being added and button functionality updated to provide a more intuitive user experience. The underlying Python script used to generate the dataset is also actively being refined based on feedback from this public-facing map application.</em></p>
+          <br>
           <h3>THE WHAT</h3>
           <p>This project summarizes annual property appraiser data for each parcel into a 1-acre hexagram grid to track development, homeownership, valuation, and property taxes. It covers the Urban Service Area of Leon County, Florida, starting in 2009. Parcel data was processed into the hexagram feature layers using a custom Python script. Thus, it is easy to update each October when updated parcel data is released.<br></p>
           <br>
@@ -228,7 +216,7 @@
           <img src="hexgrid_example.png" alt="hexagon grid graphic" width=75%>
           <br>
           <h3>THE WHO</h3>
-          <p>The developer has been a land use planner in the fast-growing state of Florida for 20+ years and recently earned a Master's of Cartography and Graphic Information Science with a focus in GIS Development from the University of Wisconsin-Madison. This web application and the underlying Python script were developed as a final project for that degree and will continue to be developed as a personal project. The developer on LinkedIn: <a class="badge-base__link LI-simple-link" href="https://www.linkedin.com/in/cherie-bryant-67589480?trk=profile-badge">Cherie Bryant</a></p>              
+          <p>The developer has been a land use planner in the fast-growing state of Florida for 20+ years and recently earned a Master's of Cartography and Graphic Information Science with a focus in GIS Development from the University of Wisconsin-Madison. This web application and the underlying Python script were developed as a final project for that degree and will continue to be developed as a personal project. Contact the developer on LinkedIn: <a class="badge-base__link LI-simple-link" href="https://www.linkedin.com/in/cherie-bryant-67589480?trk=profile-badge">Cherie Bryant</a></p>              
         </div>
       </div>
 
@@ -236,5 +224,4 @@
 
   </body>
   <script src="parcelAnalysisV2.js"></script>
-  <script src="renderers.js"></script>
  </html>
