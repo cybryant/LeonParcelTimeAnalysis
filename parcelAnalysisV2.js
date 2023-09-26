@@ -10,7 +10,7 @@ require([
   "esri/widgets/Fullscreen",
   "esri/widgets/Expand",
   "esri/widgets/LayerList",
-  // "esri/layers/support/FeatureEffect",
+  "esri/layers/support/FeatureEffect",
   // "esri/renderers/visualVariables/ColorVariable",
   // "esri/renderers/ClassBreaksRenderer",
   // "esri/renderers/UniqueValueRenderer",
@@ -29,7 +29,7 @@ require([
   Fullscreen,
   Expand,
   LayerList,
-  // FeatureEffect,
+  FeatureEffect,
   // ColorVariable,
   // ClassBreaksRenderer,
   // UniqueValueRenderer,
@@ -378,18 +378,22 @@ require([
 
   //*******************************************************************
   //*******************************************************************
-  //                  EVENT LISTENERS FOR CONTROL PANEL
+  //         EVENT LISTENERS FOR CONTROL PANEL & GAIN/LOSS BOX
   //*******************************************************************
   //*******************************************************************
 
-  // this function is used by all custom widgets to set the layer based on current radio button selection, so
-  // the code is written based on button names rather than just referencing the radio button change event itself
-  // function setAttribute(displayMode, displayYear, changeMode) {
+  /* This function is used by all control panel inputs to set the layer based on various user selections so the code is written based on button names rather than just referencing the radio button change event itself. */
+
+  // create an identifier to tell the renderer which attribute to display;
+  // made global so it is available for gains/losses filter
+  let fieldPrefix = "resunits";
+  // set an active layer identifier so that it can be use in the gaines/losses filter
+  let activeLyr = resunitsTimeLyr;
+
+  // set appropriate renderers based on display mode, attribute, and value change mode selections
   function setAttribute() {
     if (displayMode == "time") {
-      // create an identifier to tell the renderer which attribute to display
-      let fieldPrefix;
-      // set appropriate renderers based on attribute & change selections
+      // set field prefix, load the appropriate time layer, and update timeRenderer accordingly
       for (var i = 0; i < attributeBtns.length; i++) {
         if (attributeBtns[i].checked) {
           let checkedBtn = attributeBtns[i].id;
@@ -398,50 +402,61 @@ require([
               fieldPrefix = "resunits";
               map.layers = [resunitsTimeLyr, urbServArea];
               resunitsTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              activeLyr = resunitsTimeLyr;
               break;
             case "nonressf":
               fieldPrefix = "nonressf";
               map.layers = [nonressfTimeLyr, urbServArea];
               nonressfTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              activeLyr = nonressfTimeLyr;
               break;
             case "homestead":
               fieldPrefix = "homestead";
               map.layers = [homesteadTimeLyr, urbServArea];
               homesteadTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              activeLyr = homesteadTimeLyr;
               break;
             case "pyr_market":
               fieldPrefix = "pyr_market";
               map.layers = [pyr_marketTimeLyr, urbServArea];
               pyr_marketTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              activeLyr = pyr_marketTimeLyr;
               break;
             case "pyr_taxes":
               fieldPrefix = "pyr_taxes";
               map.layers = [pyr_taxesTimeLyr, urbServArea];
               pyr_taxesTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              activeLyr = pyr_taxesTimeLyr;
               break;
-          }
-        }
-      }
+          } // END time SWITCH
+        } // END time IF
+      } // END time FOR
     } else if (displayMode == "hotspot") {
       // load the appropriate hotspot layer
       for (var i = 0; i < attributeBtns.length; i++) {
         if (attributeBtns[i].checked) {
           let checkedBtn = attributeBtns[i].id;
-          if (checkedBtn == "resunits") {
-            map.layers = [resunitsLayer, urbServArea];
-          } else if (checkedBtn == "nonressf") {
-            map.layers = [nonResSFLayer, urbServArea];
-          } else if (checkedBtn == "homestead") {
-            map.layers = [homesteadLayer, urbServArea];
-          } else if (checkedBtn == "pyr_market") {
-            map.layers = [PYR_MARKETLayer, urbServArea];
-          } else if (checkedBtn == "pyr_taxes") {
-            map.layers = [PYR_TAXESLayer, urbServArea];
-          }
-        }
-      }
-    }
-  }
+          switch (checkedBtn) {
+            case "resunits":
+              map.layers = [resunitsLayer, urbServArea];
+              break;
+            case "nonressf":
+              map.layers = [nonResSFLayer, urbServArea];
+              break;
+            case "homestead":
+              map.layers = [homesteadLayer, urbServArea];
+              break;
+            case "pyr_market":
+              map.layers = [PYR_MARKETLayer, urbServArea];
+              break;
+            case "pyr_taxes":
+              map.layers = [PYR_TAXESLayer, urbServArea];
+              break;
+          } // END hotspot SWITCH
+        } // END hotspot IF
+      } // END hotspot FOR
+    } // END displayMode IF/ELSE
+  } // END SetAttribute()
 
   //*************************/
   // ATTRIBUTE RADIO BUTTONS
@@ -469,8 +484,7 @@ require([
     sliderContainer.style.visibility = "visible";
     changeModeBlock.style.visibility = "visible";
 
-    // setAttribute(displayMode, displayYear, changeMode);
-    setAttribute(changeMode);
+    setAttribute();
   }
 
   // ****************/
@@ -485,13 +499,15 @@ require([
     sliderContainer.style.visibility = "hidden";
     changeModeBlock.style.visibility = "hidden";
 
-    // setAttribute(displayMode, displayYear, changeMode);
-    setAttribute(changeMode);
+    setAttribute();
   }
 
   // *************************/
   // CHANGE MODE RADIO BUTTONS
   // *************************/
+  // create a variable to keep track of change mode state and set initial value to "n" for "Actual Values"
+  let changeMode = "n";
+
   let changeModeDiv = document.getElementById("changeModeDiv");
   let changeModeBtns = changeModeDiv.getElementsByTagName("INPUT");
   changeModeDiv.addEventListener("change", setChangeMode);
@@ -502,11 +518,11 @@ require([
         changeMode = changeModeBtns[c].id;
       }
 
-    setAttribute(changeMode);
-  }
+    setAttribute();
+  } // END SetChangeMode()
 
+  // show the Gaines/Losses box if Annual or Total mode is chosen, otherwise hide it
   changeModeDiv.addEventListener("change", DisplayGainLossBox);
-
   function DisplayGainLossBox() {
     for (var i = 0; i < changeModeBtns.length; i++) {
       if (changeModeBtns[i].checked) {
@@ -521,69 +537,88 @@ require([
           case "T":
             gainLossBox.style.visibility = "visible";
         } // END SWITCH
-      } // END if
-    } // END for
-  } // END DisplayGainLossBox
+      }
+    }
+  } // END DisplayGainLossBox()
 
   // *************************/
-  // GAINS/LOSSES FILTER BOX - STILL WORKING ON THIS
+  // GAINS/LOSSES FILTER BOX
   // *************************/
 
-  // name the active layer based on current user settings
-  let activeLyr = map.layers[0];
-  console.log(activeLyr);
+  // create layerview object from active layer in order to filter it on the client side
+  // the active layer is set in the SetAttribute() function
+  let activeLyrView;
 
-  //   // create layerview object from active layer in order to filter it on the client side
-  //   let activeLyrView;
+  // once layerView loads, assign to the view variable & return it
+  view.whenLayerView(activeLyr).then((layerView) => {
+    activeLyrView = layerView;
+    return activeLyrView;
+  });
 
-  //   // once layerView loads, assign to the view variable & return it
-  //   view.whenLayerView(activeLyr).then((layerView) => {
-  //     activeLyrView = layerView;
-  //     return activeLyrView;
-  //   });
+  let filterField = `${fieldPrefix}_2022_${changeMode}`;
+  // let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
 
-  //   // create filters groups
-  //   const gainsFilter = {
-  //     where: "CATEGORY='Shared-Use Equestrian'",
-  //   };
-  //   const lossFilter = {
-  //     where: "CATEGORY='Hiking Trail' or CATEGORY='Hiking Access Trail'",
-  //   };
-  //   const sameFilter = {
-  //     where: "CATEGORY='Mtn Bike Trail'",
-  //   };
+  // create filters groups
+  const gainsFilter = {
+    where: " " + filterField + " >= 0.5",
+  };
+  const lossFilter = {
+    where: " " + filterField + " <= 0.5",
+    // where: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode} < -1`,
+  };
+  const sameFilter = {
+    where: `-0.5 < ${fieldPrefix}_${sliderValue.innerHTML}_${changeMode} < 0.5`,
+  };
 
-  //   document.getElementById("gainLossBox").addEventListener("change", (event) => {
-  //     let target = event.target;
-  //     switch (target.id) {
-  //       case "gain":
-  //         // filterTrails(noFilter);
-  //         break;
-  //       case "loss":
-  //         // filterTrails(sharedFilter);
-  //         break;
-  //       case "same":
-  //         // filterTrails(hikeFilter);
-  //         break;
-  //     }
-  //   });
+  document.getElementById("gainLossBox").addEventListener("change", (event) => {
+    let target = event.target;
+    switch (target.id) {
+      case "gain":
+        FilterAnnualAndTotal(gainsFilter);
+        console.log(gainsFilter.where);
+        break;
+      case "loss":
+        console.log(lossFilter.where);
 
-  //   function filterTrails(featureFilter) {
-  //     if (featureFilter != noFilter) {
-  //       trailsLayerView.featureEffect = new FeatureEffect({
-  //         filter: featureFilter,
-  //         includedEffect: "drop-shadow(3px 3px 3px)",
-  //         excludedEffect: "opacity(35%) grayscale(25%)"
-  //       });
-  //     } else {
-  //       // this is the 'noFilter' reset so no effect is applied
-  //       trailsLayerView.featureEffect = new FeatureEffect({
-  //         filter: featureFilter,
-  //         excludedEffect: ""
-  //       });
-  //     }
-  //   }
-  // });
+        FilterAnnualAndTotal(lossFilter);
+        break;
+      case "same":
+        FilterAnnualAndTotal(sameFilter);
+        console.log(sameFilter.where);
+        break;
+    }
+  });
+
+  function FilterAnnualAndTotal(featureFilter) {
+    let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
+    // let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
+
+    // create filters groups
+    const gainsFilter = {
+      where: " " + filterField + " >= 0.5",
+    };
+    const lossFilter = {
+      where: " " + filterField + " <= 0.5",
+      // where: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode} < -1`,
+    };
+    const sameFilter = {
+      where: `-0.5 < ${fieldPrefix}_${sliderValue.innerHTML}_${changeMode} < 0.5`,
+    };
+
+    // if (featureFilter != noFilter) {
+    activeLyrView.featureEffect = new FeatureEffect({
+      filter: featureFilter,
+      includedEffect: "",
+      excludedEffect: "opacity(15%)",
+    });
+    // } else {
+    //   // this is the 'noFilter' reset so no effect is applied
+    //   trailsLayerView.featureEffect = new FeatureEffect({
+    //     filter: featureFilter,
+    //     excludedEffect: "",
+    //   });
+    // }
+  } // END FilterAnnualAndTotal()
 
   //***********************************/
   //PLACEHOLDER TABS
@@ -611,12 +646,16 @@ require([
   //*******************************************************************
   //*******************************************************************
   let displayMode = "time";
-  let changeMode = "n";
+  // let changeMode = "n";
   // set initial renderer display year
-  setYear(2010);
+  setYear(2022);
+  // setYear(2010);
   gainLossBox.style.visibility = "hidden";
 
+  console.log(sliderValue.innerHTML);
+
   // NOT WORKING - MAYBE HAVE TO OVERRIDE A DEFAULT??
+  // timeBtn.click();
   // set time button to focus state on load
   // timeBtn.classList.remove("button is-primary my-4");
   // timeBtn.classList.add("button is-primary my-4 is-focused");

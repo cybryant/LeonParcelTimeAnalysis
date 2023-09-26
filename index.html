@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leon Development Time Series</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" /> -->
     <link
       rel="stylesheet"
       href="https://js.arcgis.com/4.25/esri/themes/light/main.css"
@@ -28,7 +28,6 @@
     </script> -->
   </head>
   <body class="has-background-success-light">
-    <!-- NOTIFICATION BOXES -->
     <!-- wrapper section so the entire visible screen background is styled -->
     <section class="hero is-fullheight has-background-success-light">
       <!-- SET UP COLUMNS -->
@@ -71,7 +70,7 @@
               </li>
             </ul>
           </div>
-          <!-- Variable Attribute Panel -->
+          <!-- Application Control Panel -->
           <div class="panel has-background-white-bis">
             <p class="panel-heading is-size-6">Choose an attribute to explore:</p>
             <div id="attributeDiv" class="panel-block">
@@ -131,7 +130,7 @@
           <!-- Choose Yearly Change Display Mode -->
           <div id="changeModeBlock" class="panel has-text-centered has-background-white-bis">
             <p class="panel-heading is-size-6">
-              How would you like values displayed?
+              How would you like changing values displayed?
             </p>
             <div id="changeModeDiv" class="panel-block">
               <p class="control">
@@ -191,7 +190,7 @@
                 </div>
                 <div id="gainLossBox">
                   <label class="checkbox">
-                    <input type="checkbox" id="gain" name="gainLossBxs" checked/>
+                    <input type="checkbox" id="gain" name="gainLossBxs"/>
                     show gains&nbsp;&nbsp;
                   </label>
                   <label class="checkbox">

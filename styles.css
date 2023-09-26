@@ -3,7 +3,7 @@ body {
   /* background-color: hsl(142, 52%, 96%); */
   width: 100%;
   height: 100%;
-  /* font-family: "Roboto", sans-serif; */
+  font-family: "Roboto", sans-serif;
 }
 
 #applicationDiv {
