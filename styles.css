@@ -37,11 +37,17 @@ img#loading.esri-component {
   bottom: 40%;
 }
 
+#sliderAndGainLossFlexDiv {
+  display: flex;
+  flex-flow: column;
+}
+
 /**************************/
 /*     TIME SLIDER    */
 /**************************/
 
 #sliderContainer {
+  order: 1;
   /* color: #fbf4b5; */
   /* flex: 0 0 80px; */
   /* order: 2; */
@@ -52,22 +58,16 @@ img#loading.esri-component {
   flex-flow: row;
   align-items: center;
   justify-content: center;
-  opacity: 0.98;
+  opacity: 0.96;
   /* padding: 5px; */
-}
-
-#sliderMiddle {
-  display: flex;
-  flex-flow: row;
-  width: 100%;
-  align-items: flex-start;
 }
 
 /* manually center sliderContainer in Mapview's center bottom*/
 .esri-ui-manual-container > div#sliderContainer.box.esri-component {
   /* since item is 60% of view, then 20% left margin will center it; will have to adjust if sliderContainer width is changed */
   left: 20%;
-  bottom: 26px;
+  bottom: 4%;
+  /* bottom: 26px; */
 }
 
 #sliderValue {
@@ -121,15 +121,23 @@ img#loading.esri-component {
 /*     GAIN / LOSS BOX    */
 /**************************/
 .esri-ui-manual-container > div#gainLossBox.esri-component {
+  order: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: black;
+  font-size: small;
   background-color: white;
-  width: 30%;
-  left: 35%;
-  bottom: 22px;
-  /* font-family: "Avenir Next"; */
-  /* border: 0.5px solid gray; */
+  opacity: 0.96;
+  width: 40%;
+  left: 30%;
+  bottom: 3.5%;
+  /* bottom: 22px; */
+  /* font-family: "Roboto Condensed", sans-serif; */
   box-shadow: 2px 2px 2px lightgrey;
   border-radius: 10px;
+  /* text-align: center; */
+  height: 3%;
 }
 
 /**************************/
@@ -137,7 +145,7 @@ img#loading.esri-component {
 /**************************/
 
 div.esri-expand__content--expanded {
-  opacity: 0.98;
+  opacity: 0.96;
 }
 
 /***************************/

@@ -179,7 +179,7 @@ require([
   const view = new MapView({
     map: map,
     container: "viewDiv",
-    center: [-84.23, 30.47],
+    center: [-84.275, 30.47],
     // center: [-84.23, 30.47],
     scale: 140000,
     //zoom: 13,
@@ -521,7 +521,7 @@ require([
     setAttribute();
   } // END SetChangeMode()
 
-  // show the Gaines/Losses box if Annual or Total mode is chosen, otherwise hide it
+  // show the Gains/Losses box if Annual or Total mode is chosen, otherwise hide it
   changeModeDiv.addEventListener("change", DisplayGainLossBox);
   function DisplayGainLossBox() {
     for (var i = 0; i < changeModeBtns.length; i++) {
@@ -555,65 +555,137 @@ require([
     return activeLyrView;
   });
 
-  let filterField = `${fieldPrefix}_2022_${changeMode}`;
-  // let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
+  let gainLossDiv = document.getElementById("gainLossBox");
+  let gainLossBtns = gainLossDiv.getElementsByTagName("INPUT");
+  gainLossDiv.addEventListener("change", SetGainLossMode);
 
-  // create filters groups
-  const gainsFilter = {
-    where: " " + filterField + " >= 0.5",
-  };
-  const lossFilter = {
-    where: " " + filterField + " <= 0.5",
-    // where: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode} < -1`,
-  };
-  const sameFilter = {
-    where: `-0.5 < ${fieldPrefix}_${sliderValue.innerHTML}_${changeMode} < 0.5`,
-  };
+  function SetGainLossMode() {
+    let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
+    let gainsFilter;
+    let lossFilter;
+    let sameFilter;
+    for (var i = 0; i < gainLossBtns.length; i++) {
+      if (gainLossBtns[i].checked) {
+        let checkedBtn = gainLossBtns[i].id;
+        switch (checkedBtn) {
+          case "all": // empty filter parameter to serve as a reset
+            let noFilter = {};
+            FilterAnnualAndTotal(noFilter);
+            break;
+          case "gain":
+            switch (fieldPrefix) {
+              case "resunits":
+                gainsFilter = { where: " " + filterField + " >= 0.5" };
+                break;
+              case "homestead":
+                gainsFilter = { where: " " + filterField + " >= 0.5" };
+                break;
+              case "nonressf":
+                gainsFilter = { where: " " + filterField + " >= 50" };
+                break;
+              case "pyr_market":
+                gainsFilter = { where: " " + filterField + " >= 100" };
+                break;
+              case "pyr_taxes":
+                gainsFilter = { where: " " + filterField + " >= 25" };
+                break;
+            } // END gain >> fieldPrefix SWITCH
+            FilterAnnualAndTotal(gainsFilter);
 
-  document.getElementById("gainLossBox").addEventListener("change", (event) => {
-    let target = event.target;
-    switch (target.id) {
-      case "gain":
-        FilterAnnualAndTotal(gainsFilter);
-        console.log(gainsFilter.where);
-        break;
-      case "loss":
-        console.log(lossFilter.where);
+            break;
+          case "loss":
+            switch (fieldPrefix) {
+              case "resunits":
+                lossFilter = { where: " " + filterField + " <= -0.5" };
+                break;
+              case "homestead":
+                lossFilter = { where: " " + filterField + " <= -0.5" };
+                break;
+              case "nonressf":
+                lossFilter = { where: " " + filterField + " <= -50" };
+                break;
+              case "pyr_market":
+                lossFilter = { where: " " + filterField + " <= -100" };
+                break;
+              case "pyr_taxes":
+                lossFilter = { where: " " + filterField + " <= -25" };
+                break;
+            } // END loss >> fieldPrefix SWITCH
+            FilterAnnualAndTotal(lossFilter);
+            break;
+          case "same":
+            switch (fieldPrefix) {
+              case "resunits":
+                sameFilter = {
+                  where: " " + filterField + " > -0.5 and  " + filterField + " < 0.5",
+                };
+                break;
+              case "homestead":
+                sameFilter = {
+                  where: " " + filterField + " > -0.5 and  " + filterField + " < 0.5",
+                };
+                break;
+              case "nonressf":
+                sameFilter = {
+                  where: " " + filterField + " > -50 and  " + filterField + " < 50",
+                };
+                break;
+              case "pyr_market":
+                sameFilter = {
+                  where: " " + filterField + " > -100 and  " + filterField + " < 100",
+                };
+                break;
+              case "pyr_taxes":
+                sameFilter = {
+                  where: " " + filterField + " > -25 and  " + filterField + " < 25",
+                };
+                break;
+            } // END same >> fieldPrefix SWITCH
+            FilterAnnualAndTotal(sameFilter);
+            break;
+        } // END SWITCH
+      } //END if
+    } // END for
+  } // End SetGainLossMode
 
-        FilterAnnualAndTotal(lossFilter);
-        break;
-      case "same":
-        FilterAnnualAndTotal(sameFilter);
-        console.log(sameFilter.where);
-        break;
-    }
-  });
+  // document.getElementById("gainLossBox").addEventListener("change", (event) => {
+  //   let target = event.target;
+  //   let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
+  //   switch (target.id) {
+  //     case "gain":
+  //       let gainsFilter = {
+  //         where: " " + filterField + " >= 0.5",
+  //       };
+  //       FilterAnnualAndTotal(gainsFilter);
+  //       console.log(gainsFilter.where);
+  //       break;
+  //     case "loss":
+  //       let lossFilter = {
+  //         where: " " + filterField + " <= -0.5",
+  //       };
+  //       FilterAnnualAndTotal(lossFilter);
+  //       console.log(lossFilter.where);
+  //       break;
+  //     case "same":
+  //       let sameFilter = {
+  //         where: " " + filterField + " > -0.5 and  " + filterField + " < 0.5",
+  //       };
+  //       FilterAnnualAndTotal(sameFilter);
+  //       console.log(sameFilter.where);
+  //       break;
+  //   }
+  // });
 
   function FilterAnnualAndTotal(featureFilter) {
-    let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
-    // let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
-
-    // create filters groups
-    const gainsFilter = {
-      where: " " + filterField + " >= 0.5",
-    };
-    const lossFilter = {
-      where: " " + filterField + " <= 0.5",
-      // where: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode} < -1`,
-    };
-    const sameFilter = {
-      where: `-0.5 < ${fieldPrefix}_${sliderValue.innerHTML}_${changeMode} < 0.5`,
-    };
-
     // if (featureFilter != noFilter) {
     activeLyrView.featureEffect = new FeatureEffect({
       filter: featureFilter,
-      includedEffect: "",
-      excludedEffect: "opacity(15%)",
+      includedEffect: "opacity(80%)",
+      excludedEffect: "opacity(10%)",
     });
     // } else {
     //   // this is the 'noFilter' reset so no effect is applied
-    //   trailsLayerView.featureEffect = new FeatureEffect({
+    //   activeLyrView.featureEffect = new FeatureEffect({
     //     filter: featureFilter,
     //     excludedEffect: "",
     //   });
@@ -621,7 +693,7 @@ require([
   } // END FilterAnnualAndTotal()
 
   //***********************************/
-  //PLACEHOLDER TABS
+  //         PLACEHOLDER TABS
   //***********************************/
 
   document.getElementById("landUseTab").addEventListener("click", landUseMessage);
@@ -646,13 +718,8 @@ require([
   //*******************************************************************
   //*******************************************************************
   let displayMode = "time";
-  // let changeMode = "n";
-  // set initial renderer display year
   setYear(2022);
-  // setYear(2010);
   gainLossBox.style.visibility = "hidden";
-
-  console.log(sliderValue.innerHTML);
 
   // NOT WORKING - MAYBE HAVE TO OVERRIDE A DEFAULT??
   // timeBtn.click();
