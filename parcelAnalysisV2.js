@@ -64,40 +64,40 @@ require([
   //*****************************
 
   // properties common to all the hexbin layers
-  let commonProps_HexLyr = {
+  let commonProps_TimeLyrs = {
     labelsVisible: false,
     visible: true,
-    opacity: 0.8,
+    opacity: 0.82,
   };
 
   const resunitsTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resunits_hexbins/FeatureServer",
     title: "Residential Units",
-    ...commonProps_HexLyr,
+    ...commonProps_TimeLyrs,
   });
 
   const homesteadTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_hexbins/FeatureServer",
     title: "Homsteaded Units",
-    ...commonProps_HexLyr,
+    ...commonProps_TimeLyrs,
   });
 
   const nonressfTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonressf_hexbins/FeatureServer",
     title: "Nonresidential Square Feet",
-    ...commonProps_HexLyr,
+    ...commonProps_TimeLyrs,
   });
 
   const pyr_marketTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_hexbins/FeatureServer",
     title: "Prior Year Market",
-    ...commonProps_HexLyr,
+    ...commonProps_TimeLyrs,
   });
 
   const pyr_taxesTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_taxes_hexbins/FeatureServer",
     title: "Prior Year Taxes per Acre",
-    ...commonProps_HexLyr,
+    ...commonProps_TimeLyrs,
   });
 
   //****************************
@@ -171,6 +171,7 @@ require([
   // create the map object from portal basemap & add the default layer (i.e. resunitsTime)
   const map = new Map({
     basemap: "gray-vector",
+    // basemap: "dark-gray-vector",
     layers: [resunitsTimeLyr, urbServArea],
   });
 
@@ -547,17 +548,12 @@ require([
   // the active layer is set in the SetAttribute() function
   let activeLyrView;
 
-  // once layerView loads, assign to the view variable & return it
-  view.whenLayerView(activeLyr).then((layerView) => {
-    activeLyrView = layerView;
-    return activeLyrView;
-  });
-
   let gainLossDiv = document.getElementById("gainLossBox");
   let gainLossBtns = gainLossDiv.getElementsByTagName("INPUT");
   gainLossDiv.addEventListener("change", SetGainLossMode);
 
   function SetGainLossMode() {
+    // once layerView loads, assign to the view variable & return it
     let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
     let gainsFilter;
     let lossFilter;
@@ -568,7 +564,7 @@ require([
         switch (checkedBtn) {
           case "all": // empty filter parameter to serve as a reset
             let noFilter = {};
-            FilterAnnualAndTotal(noFilter);
+            FilterAnnualAndTotal(noFilter, activeLyrView);
             break;
           case "gain":
             switch (fieldPrefix) {
@@ -647,10 +643,14 @@ require([
   } // End SetGainLossMode
 
   function FilterAnnualAndTotal(featureFilter) {
-    activeLyrView.featureEffect = new FeatureEffect({
-      filter: featureFilter,
-      includedEffect: "opacity(80%)",
-      excludedEffect: "opacity(10%)",
+    view.whenLayerView(activeLyr).then((layerView) => {
+      activeLyrView = layerView;
+      // console.log(activeLyrView);
+      activeLyrView.featureEffect = new FeatureEffect({
+        filter: featureFilter,
+        includedEffect: "opacity(80%)",
+        excludedEffect: "opacity(10%)",
+      });
     });
   } // END FilterAnnualAndTotal()
 
