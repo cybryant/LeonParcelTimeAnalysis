@@ -67,7 +67,7 @@ require([
   let commonProps_HexLyr = {
     labelsVisible: false,
     visible: true,
-    opacity: 0.6,
+    opacity: 0.8,
   };
 
   const resunitsTimeLyr = new FeatureLayer({
@@ -130,7 +130,7 @@ require([
   let commonProps_HotSpotLyr = {
     labelsVisible: false,
     visible: true,
-    opacity: 0.6,
+    opacity: 0.8,
     renderer: hotspotRenderer,
   };
 
@@ -171,7 +171,6 @@ require([
   // create the map object from portal basemap & add the default layer (i.e. resunitsTime)
   const map = new Map({
     basemap: "gray-vector",
-    // layers: [hexLayer, urbServArea],
     layers: [resunitsTimeLyr, urbServArea],
   });
 
@@ -182,7 +181,6 @@ require([
     center: [-84.275, 30.47],
     // center: [-84.23, 30.47],
     scale: 140000,
-    //zoom: 13,
     constraints: {
       snapToZoom: false,
     },
@@ -575,19 +573,19 @@ require([
           case "gain":
             switch (fieldPrefix) {
               case "resunits":
-                gainsFilter = { where: " " + filterField + " >= 0.5" };
+                gainsFilter = { where: " " + filterField + " > 0.5" };
                 break;
               case "homestead":
-                gainsFilter = { where: " " + filterField + " >= 0.5" };
+                gainsFilter = { where: " " + filterField + " > 0.5" };
                 break;
               case "nonressf":
-                gainsFilter = { where: " " + filterField + " >= 50" };
+                gainsFilter = { where: " " + filterField + " > 500" };
                 break;
               case "pyr_market":
-                gainsFilter = { where: " " + filterField + " >= 100" };
+                gainsFilter = { where: " " + filterField + " > 1000" };
                 break;
               case "pyr_taxes":
-                gainsFilter = { where: " " + filterField + " >= 25" };
+                gainsFilter = { where: " " + filterField + " > 100" };
                 break;
             } // END gain >> fieldPrefix SWITCH
             FilterAnnualAndTotal(gainsFilter);
@@ -596,19 +594,19 @@ require([
           case "loss":
             switch (fieldPrefix) {
               case "resunits":
-                lossFilter = { where: " " + filterField + " <= -0.5" };
+                lossFilter = { where: " " + filterField + " < -0.5" };
                 break;
               case "homestead":
-                lossFilter = { where: " " + filterField + " <= -0.5" };
+                lossFilter = { where: " " + filterField + " < -0.5" };
                 break;
               case "nonressf":
-                lossFilter = { where: " " + filterField + " <= -50" };
+                lossFilter = { where: " " + filterField + " < -500" };
                 break;
               case "pyr_market":
-                lossFilter = { where: " " + filterField + " <= -100" };
+                lossFilter = { where: " " + filterField + " < -1000" };
                 break;
               case "pyr_taxes":
-                lossFilter = { where: " " + filterField + " <= -25" };
+                lossFilter = { where: " " + filterField + " <= -100" };
                 break;
             } // END loss >> fieldPrefix SWITCH
             FilterAnnualAndTotal(lossFilter);
@@ -617,27 +615,27 @@ require([
             switch (fieldPrefix) {
               case "resunits":
                 sameFilter = {
-                  where: " " + filterField + " > -0.5 and  " + filterField + " < 0.5",
+                  where: " " + filterField + " >= -0.5 and  " + filterField + " <= 0.5",
                 };
                 break;
               case "homestead":
                 sameFilter = {
-                  where: " " + filterField + " > -0.5 and  " + filterField + " < 0.5",
+                  where: " " + filterField + " >= -0.5 and  " + filterField + " <= 0.5",
                 };
                 break;
               case "nonressf":
                 sameFilter = {
-                  where: " " + filterField + " > -50 and  " + filterField + " < 50",
+                  where: " " + filterField + " >= -500 and  " + filterField + " <= 500",
                 };
                 break;
               case "pyr_market":
                 sameFilter = {
-                  where: " " + filterField + " > -100 and  " + filterField + " < 100",
+                  where: " " + filterField + " >= -1000 and  " + filterField + " <= 1000",
                 };
                 break;
               case "pyr_taxes":
                 sameFilter = {
-                  where: " " + filterField + " > -25 and  " + filterField + " < 25",
+                  where: " " + filterField + " >= -100 and  " + filterField + " <= 100",
                 };
                 break;
             } // END same >> fieldPrefix SWITCH
@@ -648,48 +646,12 @@ require([
     } // END for
   } // End SetGainLossMode
 
-  // document.getElementById("gainLossBox").addEventListener("change", (event) => {
-  //   let target = event.target;
-  //   let filterField = `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`;
-  //   switch (target.id) {
-  //     case "gain":
-  //       let gainsFilter = {
-  //         where: " " + filterField + " >= 0.5",
-  //       };
-  //       FilterAnnualAndTotal(gainsFilter);
-  //       console.log(gainsFilter.where);
-  //       break;
-  //     case "loss":
-  //       let lossFilter = {
-  //         where: " " + filterField + " <= -0.5",
-  //       };
-  //       FilterAnnualAndTotal(lossFilter);
-  //       console.log(lossFilter.where);
-  //       break;
-  //     case "same":
-  //       let sameFilter = {
-  //         where: " " + filterField + " > -0.5 and  " + filterField + " < 0.5",
-  //       };
-  //       FilterAnnualAndTotal(sameFilter);
-  //       console.log(sameFilter.where);
-  //       break;
-  //   }
-  // });
-
   function FilterAnnualAndTotal(featureFilter) {
-    // if (featureFilter != noFilter) {
     activeLyrView.featureEffect = new FeatureEffect({
       filter: featureFilter,
       includedEffect: "opacity(80%)",
       excludedEffect: "opacity(10%)",
     });
-    // } else {
-    //   // this is the 'noFilter' reset so no effect is applied
-    //   activeLyrView.featureEffect = new FeatureEffect({
-    //     filter: featureFilter,
-    //     excludedEffect: "",
-    //   });
-    // }
   } // END FilterAnnualAndTotal()
 
   //***********************************/
