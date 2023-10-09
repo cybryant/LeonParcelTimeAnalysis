@@ -181,7 +181,7 @@ require([
     container: "viewDiv",
     center: [-84.275, 30.47],
     // center: [-84.23, 30.47],
-    scale: 140000,
+    scale: 170000,
     constraints: {
       snapToZoom: false,
     },
@@ -455,6 +455,9 @@ require([
         } // END hotspot IF
       } // END hotspot FOR
     } // END displayMode IF/ELSE
+    // set the gain/loss button back to "Show All"
+    radiobtn = document.getElementById("all");
+    radiobtn.checked = true;
   } // END SetAttribute()
 
   //*************************/

@@ -19,48 +19,47 @@
     <!-- external API locations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="https://js.arcgis.com/4.25/"></script>
-    <!-- <script type="module">
-      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-      const div = d3.selectAll("div");
-    </script> -->
+    <!-- <script src="https://kit.fontawesome.com/6d9e6eba16.js" crossorigin="anonymous"></script> -->
   </head>
-  <body class="has-background-success-light">
+  <body class="has-background-grey-light">
     <!-- wrapper section so the entire visible screen background is styled -->
-    <section class="hero is-fullheight has-background-success-light">
+    <section class="hero is-fullheight has-background-grey-light">
       <!-- SET UP COLUMNS -->
       <div class="columns has-text-centered">
         <!-- CONTROL PANEL COLUMN-->
         <div id="firstColumn" class="column is-narrow">
           <!-- <nav class="level"> -->
           <div>
-            <h3 class="title">Tallahassee<br />Development Analysis</h3>
-            <h4 class="subtitle pt-1">2009 to 2022</h4>
+            <h3 class="title has-text-white-bis">Tallahassee<br />Development Analysis</h3>
+            <h4 class="subtitle is-4 pt-1 has-text-white-bis">2009 to 2022</h4>
           </div>
           <!-- </nav> -->
-          <div class="tabs is-boxed is-small has-text-centered pt-5 is-fullwidth is-toggle">
+          <div
+            class="tabs is-boxed is-medium has-text-centered pt-5 is-toggle is-toggle-rounded is-fullwidth"
+          >
             <ul>
               <li id="parcelTab" class="is-active">
                 <a>
-                  <span class="icon is-small"
-                    ><i class="fas fa-parcel" aria-hidden="true"></i
-                  ></span>
-                  <span>Parcel<br />Data</span>
+                  <!-- <span class="icon is-small"
+                    ><i class="fa-solid fa-house" aria-hidden="true"></i
+                  ></span> -->
+                  <span class="has-text-grey">Parcel<br />Data</span>
                 </a>
               </li>
               <li id="landUseTab">
                 <a>
-                  <span class="icon is-small"
+                  <!-- <span class="icon is-small"
                     ><i class="fas fa-landuse" aria-hidden="true"></i
-                  ></span>
-                  <span>Land Use<br />Patterns</span>
+                  ></span> -->
+                  <span class="has-text-grey-lighter">Land Use<br />Patterns</span>
                 </a>
               </li>
               <li id="growthTab">
                 <a>
-                  <span class="icon is-small"
+                  <!-- <span class="icon is-small"
                     ><i class="fas fa-growth" aria-hidden="true"></i
-                  ></span>
-                  <span>Growth<br />Scenarios</span>
+                  ></span> -->
+                  <span class="has-text-grey-lighter">Growth<br />Scenarios</span>
                 </a>
               </li>
             </ul>
