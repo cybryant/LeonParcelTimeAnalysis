@@ -309,13 +309,13 @@ const classBreakNums = {
       "#7b4f1c", // [1] brown 3
       "#ad8b62", // [2] brown 2
       "#d2b797", // [3] brown 1
-      "#e6d8b6", // [4] neutral/no change
-      "#f5f4cf", // [5] green 1
-      "#daebab", // [6] green 2
-      "#c2e075", // [7] green 3
-      "#aad048", // [8] green 4
-      "#84a338", // [9] green 5 (darkest green)
-    ], // ESRI Green and Brown 1
+      "#ffffcc", // [4] neutral/no change
+      "#d9f0a3", // [5] green 1
+      "#addd8e", // [6] green 2
+      "#78c679", // [7] green 3
+      "#31a354", // [8] green 4
+      "#006837", // [9] green 5 (darkest green)
+    ], // Green 4 & Brown
   }, // END classBreakNums: pyr_taxes
 }; // END classBreakNums
 
