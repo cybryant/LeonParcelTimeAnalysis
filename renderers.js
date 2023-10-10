@@ -535,6 +535,9 @@ const hotspotRenderer = {
   type: "unique-value",
   field: "pattern",
   defaultSymbol: null,
+  legendOptions: {
+    title: "Classification",
+  },
   uniqueValueInfos: [
     { value: "Persistent Hot Spot", symbol: createHotSymbol("#990000") },
     { value: "Intensifying Hot Spot", symbol: createHotSymbol("#d7301f") },

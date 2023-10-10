@@ -67,7 +67,7 @@ require([
   let commonProps_TimeLyrs = {
     labelsVisible: false,
     visible: true,
-    opacity: 0.82,
+    opacity: 0.7,
   };
 
   const resunitsTimeLyr = new FeatureLayer({
@@ -130,37 +130,37 @@ require([
   let commonProps_HotSpotLyr = {
     labelsVisible: false,
     visible: true,
-    opacity: 0.8,
+    opacity: 0.7,
     renderer: hotspotRenderer,
   };
 
   const resunitsLayer = new FeatureLayer({
-    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resUnits_EmergingHotSpotAnalysis/FeatureServer",
-    title: "Residential Units Hotspot / Coldspot Analysis",
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resunits_STCube_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Residential Units Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
   const nonResSFLayer = new FeatureLayer({
-    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonResSF_STCube_EmergingHotSpotAnalysis/FeatureServer",
-    title: "Nonresidential SF Hotspot / Coldspot Analysis",
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonressf__EmergingHotSpotAnalysis/FeatureServer",
+    title: "Nonresidential SF Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
   const homesteadLayer = new FeatureLayer({
-    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_STCube_EmergingHotSpotAnalysis/FeatureServer",
-    title: "Homestead Hotspot / Coldspot Analysis",
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Homestead Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
   const PYR_MARKETLayer = new FeatureLayer({
-    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/PYR_MARKET_STCube_EmergingHotSpotAnalysis/FeatureServer",
-    title: "Valuation Hotspot / Coldspot Analysis",
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Valuation Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
   const PYR_TAXESLayer = new FeatureLayer({
-    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/PYR_TAXES_STCube_EmergingHotSpotAnalysis/FeatureServer",
-    title: "Property Taxes Hotspot / Coldspot Analysis",
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_taxes_EmergingHotSpotAnalysis/FeatureServer",
+    title: "Property Taxes Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
@@ -181,7 +181,7 @@ require([
     container: "viewDiv",
     center: [-84.275, 30.47],
     // center: [-84.23, 30.47],
-    scale: 170000,
+    scale: 100000,
     constraints: {
       snapToZoom: false,
     },
@@ -726,4 +726,4 @@ window.onclick = function (event) {
 };
 
 //TEMP WHILE IN PRODUCTION - HIDE MODAL ON OPEN
-modal.style.display = "none";
+// modal.style.display = "none";
