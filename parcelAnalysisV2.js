@@ -72,25 +72,25 @@ require([
 
   const resunitsTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resunits_hexbins/FeatureServer",
-    title: "Residential Units",
+    title: "Residential Units Per Acre",
     ...commonProps_TimeLyrs,
   });
 
   const homesteadTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_hexbins/FeatureServer",
-    title: "Homsteaded Units",
+    title: "Homsteaded Units per Acre",
     ...commonProps_TimeLyrs,
   });
 
   const nonressfTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonressf_hexbins/FeatureServer",
-    title: "Nonresidential Square Feet",
+    title: "Nonresidential Square Feet per Acre",
     ...commonProps_TimeLyrs,
   });
 
   const pyr_marketTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_hexbins/FeatureServer",
-    title: "Prior Year Market",
+    title: "Prior Year Market per Acre",
     ...commonProps_TimeLyrs,
   });
 

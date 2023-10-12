@@ -19,20 +19,6 @@ const usBoundRndr = {
 //*******************************************************************
 //*******************************************************************
 
-// // color ramp for all hexbin layers
-// const colors = [
-//   "#00ffd4", // increasing (0)
-//   "#00d9b4", // increasing (1)
-//   "#00b294", // increasing (2)
-//   "#008c74", // increasing (3)
-//   "#315b61", // increasing (4)
-//   "#fffacd", // no change (5)
-//   "#e67500", // decreasing (6)
-//   "#ffaa00", // decreasing (7)
-//   "#f28e00", // decreasing (8)
-//   "#b45a00", // not used but darker brown in decreasing ramp if needed
-// ];
-
 // adjusts layer title based on how the user chooses to display change
 function layerTitle(changeMode) {
   if (changeMode == "n") {
@@ -283,7 +269,7 @@ const classBreakNums = {
       "-$999,999 to - $50,000",
       "-$49,999 to - $5,000",
       "-$4,999 to - $100",
-      "no change",
+      "little change",
       "$101 to $2,500",
       "$2,501 to $5,000",
       "$5,001 to $25,000",
@@ -297,7 +283,7 @@ const classBreakNums = {
       "-$999,999 to - $50,000",
       "-$49,999 to - $5,000",
       "-$4,999 to - $100",
-      "no change",
+      "little change",
       "$101 to $2,500",
       "$2,501 to $5,000",
       "$5,001 to $25,000",
@@ -305,17 +291,17 @@ const classBreakNums = {
       "$100,001 to $1,125,000",
     ],
     colors: [
-      "#664015", // [0] brown 4 (darkest brown)
-      "#7b4f1c", // [1] brown 3
-      "#ad8b62", // [2] brown 2
-      "#d2b797", // [3] brown 1
+      "#a11506", // [0] orange 4 (darkest orange)
+      "#d04814", // [1] orange 3
+      "#ef6a1d", // [2] orange 2
+      "#ffa143", // [3] orange 1
       "#ffffcc", // [4] neutral/no change
       "#d9f0a3", // [5] green 1
       "#addd8e", // [6] green 2
       "#78c679", // [7] green 3
       "#31a354", // [8] green 4
       "#006837", // [9] green 5 (darkest green)
-    ], // Green 4 & Brown
+    ], // Green 4 & Orange 1
   }, // END classBreakNums: pyr_taxes
 }; // END classBreakNums
 
