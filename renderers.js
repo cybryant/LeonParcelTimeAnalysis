@@ -495,7 +495,7 @@ function timeRenderer(fieldPrefix, changeMode) {
     type: "class-breaks",
     defaultSymbol: null, // don't want anything displayed for empty values
     defaultLabel: null,
-    field: `${fieldPrefix}_${sliderValue.innerHTML}}_${changeMode}`,
+    field: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`,
     legendOptions: {
       title: `${sliderValue.innerHTML}: ${layerTitle(changeMode)}`,
     },
@@ -542,4 +542,132 @@ const hotspotRenderer = {
     { value: "Intensifying Cold Spot", symbol: createHotSymbol("#0570b0") },
     { value: "Persistent Cold Spot", symbol: createHotSymbol("#034e7b") },
   ],
+};
+
+
+//*******************************************************************
+//*******************************************************************
+//              CLUSTERING PROPERTIES FOR POINT LAYERS
+//*******************************************************************
+//*******************************************************************
+function ClusterProperties(fieldPrefix, changeMode) {
+  return { 
+    type: "cluster",  
+    fields: [
+      {
+      name: `${fieldPrefix}_sum`,
+      alias: `Cluster Sum (average is in parens)`,
+      // onStatisticField: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`,
+      onStatisticField: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`,
+      statisticType: "sum"
+      },
+      {
+      name: `${fieldPrefix}_avg`,
+      alias: "Cluster Average",
+      onStatisticField: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`,
+      statisticType: "avg"
+      },
+    ],
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "picture-marker",
+//!!!!!!!!!!!!!!!!!!!!!!!
+// TO DO - update image to adjust with attribute
+//!!!!!!!!!!!!!!!!!!!!!!!
+        url: "house.svg",
+        // placeholder for simple marker if decide to use it
+        // type: "simple-marker",
+        // style: "circle",
+        // color: "rgba(128, 128, 128, .5)",
+        // color: symbolColor,
+        // size: 24,
+        // outline: {
+        //   color: "black",
+        //   width: 1
+        // }
+      },
+//!!!!!!!!!!!!!!!!!!!!!!!
+// TO DO - adjust so stops update based on attribute
+//!!!!!!!!!!!!!!!!!!!!!!!
+      visualVariables: [
+        {
+          type: "size",
+          field: `${fieldPrefix}_sum`,
+          stops: [ 
+            { value: 5, size: 8 },
+            { value: 100, size: 20 },
+            { value: 1000, size: 30 },
+            { value: 5000, size: 48 }
+          ]
+        }
+      ]
+    },
+    labelingInfo: [
+      {
+        deconflictionStrategy: "none",
+        labelExpressionInfo: {
+          expression: `
+            var number = Text($feature.${fieldPrefix}_sum, '#,###')
+            var average = Text(Round($feature.${fieldPrefix}_avg, 1))
+            var label = number + TextFormatting.NewLine + '(' + average + ')'
+            return label
+          `
+        },
+        symbol: {
+          type: "text",
+          color: "white",
+          font: {
+            weight: "bold",
+            family: "Noto Sans",
+            size: "12px"
+          },
+          haloColor: "gray",
+          // haloColor: symbolColor,
+          haloSize: 1
+        },
+        labelPlacement: "center-center"
+      }
+    ],
+    clusterRadius: "120px",
+    popupTemplate: {
+      title: "Cluster Summary",
+      // content: "This cluster represents {cluster_count} one-acre bins with a total of <b>${fieldPrefix}_sum</b> units at a density of <b>{resunits_avg}</b> dwelling units per acre.",
+      content: [
+        // {
+        // // type: "text",
+        // // text: `This cluster represents {cluster_count} one-acre bins with a total of <b>${fieldPrefix_sum}</b> units at a density of <b>{resunits_avg}</b> dwelling units per acre.`, 
+        // },
+        {
+          type: "fields",
+          fieldInfos: [
+            {
+              fieldName: "cluster_count",
+              label: "number of bins/acres",
+              format: {
+                places: 0,
+                digitSeparator: true
+              }
+            },
+            {
+              fieldName: `${fieldPrefix}_sum`,
+              label: "total of all bins",
+              format: {
+                places: 0,
+                digitSeparator: true
+              }
+            },
+            {
+              fieldName: `${fieldPrefix}_avg`,
+              label: "average per bin/acre",
+              format: {
+                places: 1,
+                digitSeparator: true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
 };

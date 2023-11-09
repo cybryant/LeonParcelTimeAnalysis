@@ -11,11 +11,6 @@ require([
   "esri/widgets/Expand",
   "esri/widgets/LayerList",
   "esri/layers/support/FeatureEffect",
-  // "esri/renderers/visualVariables/ColorVariable",
-  // "esri/renderers/ClassBreaksRenderer",
-  // "esri/renderers/UniqueValueRenderer",
-  // "esri/layers/GeoJSONLayer",
-  // "esri/renderers/SimpleRenderer",
   "esri/core/reactiveUtils",
 ], (
   Map,
@@ -30,11 +25,7 @@ require([
   Expand,
   LayerList,
   FeatureEffect,
-  // ColorVariable,
-  // ClassBreaksRenderer,
-  // UniqueValueRenderer,
-  // GeoJSONLayer,
-  // SimpleRenderer,
+
   reactiveUtils
 ) => {
   //*******************************************************************
@@ -68,6 +59,27 @@ require([
     labelsVisible: false,
     visible: true,
     opacity: 0.7,
+    //!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO - update fields so automatically update with layer selection 
+    //!!!!!!!!!!!!!!!!!!!!!!!!
+    popupTemplate: {
+      title: "Bin Summary",
+      content: [      
+        {
+          type: "fields", 
+          fieldInfos: [
+            {
+              fieldName: "resunits_2022_n",
+              label: "residential units 2022"
+            },
+            {
+              fieldName: "resunits_2009_n",
+              label: "residential units 2009"
+            }
+          ]
+        }
+      ]
+    },
   };
 
   const resunitsTimeLyr = new FeatureLayer({
@@ -106,21 +118,145 @@ require([
   //****************************
 
   // properties common to all the point layers
-  // these are just used for clustering labels
-  let commonProps_PtsLyr = {
-    labelsVisible: true,
-    visible: false,
-  };
+  // these are used for the clustering display
+  // let commonProps_PtsLyrs = {
+  //   featureReduction: { 
+  //     type: "cluster",  
+  //     fields: [
+  //       {
+  //       name: "resunits_sum",
+  //       alias: "Sum of Residential Units",
+  //       onStatisticField: "resunits_2022_n",
+  //       statisticType: "sum"
+  //       },
+  //       {
+  //       name: "resunits_avg",
+  //       alias: "Sum of Residential Units",
+  //       onStatisticField: "resunits_2022_n",
+  //       statisticType: "avg"
+  //       },
+  //     ],
+  //     renderer: {
+  //       type: "simple",
+  //       symbol: {
+  //         type: "picture-marker",
+  //         url: "house.svg",
+  //         // placeholder for simple marker if decide to use it
+  //         // type: "simple-marker",
+  //         // style: "circle",
+  //         // color: "rgba(128, 128, 128, .5)",
+  //         // color: symbolColor,
+  //         // size: 24,
+  //         // outline: {
+  //         //   color: "black",
+  //         //   width: 1
+  //         // }
+  //       },
+  //       visualVariables: [
+  //         {
+  //           type: "size",
+  //           field: "resunits_sum",
+  //           stops: [ 
+  //             { value: 5, size: 8 },
+  //             { value: 100, size: 20 },
+  //             { value: 1000, size: 30 },
+  //             { value: 5000, size: 48 }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //     labelingInfo: [
+  //       {
+  //         deconflictionStrategy: "none",
+  //         labelExpressionInfo: {
+  //           expression: `
+  //             var number = Text($feature.resunits_sum, '#,###')
+  //             var density = Text(Round($feature.resunits_avg, 1))
+  //             var label = number + TextFormatting.NewLine + '(' + density + ')'
+  //             return label
+  //           `
+  //         },
+  //         symbol: {
+  //           type: "text",
+  //           color: "white",
+  //           font: {
+  //             weight: "bold",
+  //             family: "Noto Sans",
+  //             size: "12px"
+  //           },
+  //           haloColor: "gray",
+  //           // haloColor: symbolColor,
+  //           haloSize: 1
+  //         },
+  //         labelPlacement: "center-center"
+  //       }
+  //     ],
+  //     clusterRadius: "120px",
+  //     popupTemplate: {
+  //       title: "Cluster summary",
+  //       content: "This cluster represents {cluster_count} one-acre bins with a total of <b>{resunits_sum}</b> units at a density of <b>{resunits_avg}</b> dwelling units per acre.",
+  //       fieldInfos: [
+  //         {
+  //           fieldName: "cluster_count",
+  //           format: {
+  //             places: 0,
+  //             digitSeparator: true
+  //           }
+  //         },
+  //         {
+  //           fieldName: "resunits_sum",
+  //           format: {
+  //             places: 0,
+  //             digitSeparator: true
+  //           }
+  //         },
+  //         {
+  //           fieldName: "resunits_avg",
+  //           format: {
+  //             places: 1,
+  //             digitSeparator: true
+  //           }
+  //         }
+  //       ]
+  //     },
+  //   },
+  // };
 
   // resunits points
+  const resunitsPtsLyr = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resunits_points/FeatureServer",
+    title: "Residential Units (clusters)",
+    // ...commonProps_PtsLyrs,
+  });
 
   // homestead points
+  const homesteadPtsLyr = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_points_view/FeatureServer",
+    title: "Homsteaded Units (clusters)",
+    // ...commonProps_PtsLyrs,
+  });
 
   // nonressf points
+  const nonressfPtsLyr = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonressf_points/FeatureServer",
+    title: "Nonresidential SF (clusters)",
+    // ...commonProps_PtsLyrs,
+  });
 
   // pyr_market points
+  const pyr_marketPtsLyr = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_points/FeatureServer",
+    title: "Prior Year Valuation (clusters)",
+    // ...commonProps_PtsLyrs,
+  });
 
   // pyr_taxes points
+  const pyr_taxesPtsLyr = new FeatureLayer({
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_taxes_points/FeatureServer",
+    title: "Property Taxes (clusters)",
+    // ...commonProps_PtsLyrs,
+  });
+
 
   //*****************************
   // HOTSPOT LAYERS
@@ -134,31 +270,31 @@ require([
     renderer: hotspotRenderer,
   };
 
-  const resunitsLayer = new FeatureLayer({
+  const resunitsHtSptLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resunits_STCube_EmergingHotSpotAnalysis/FeatureServer",
     title: "Residential Units Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
-  const nonResSFLayer = new FeatureLayer({
+  const nonressfHtSptLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonressf__EmergingHotSpotAnalysis/FeatureServer",
     title: "Nonresidential SF Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
-  const homesteadLayer = new FeatureLayer({
+  const homesteadHtSptLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_EmergingHotSpotAnalysis/FeatureServer",
     title: "Homestead Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
-  const PYR_MARKETLayer = new FeatureLayer({
+  const pyr_marketHtSptLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_EmergingHotSpotAnalysis/FeatureServer",
     title: "Valuation Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
   });
 
-  const PYR_TAXESLayer = new FeatureLayer({
+  const pyr_taxesHtSptLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_taxes_EmergingHotSpotAnalysis/FeatureServer",
     title: "Property Taxes Hotspots/Coldspots",
     ...commonProps_HotSpotLyr,
@@ -171,8 +307,7 @@ require([
   // create the map object from portal basemap & add the default layer (i.e. resunitsTime)
   const map = new Map({
     basemap: "gray-vector",
-    // basemap: "dark-gray-vector",
-    layers: [resunitsTimeLyr, urbServArea],
+    // layers property would normally be set here but instead are set by the initial states of the event listeners
   });
 
   //set the mapView parameters
@@ -399,32 +534,37 @@ require([
           switch (checkedBtn) {
             case "resunits":
               fieldPrefix = "resunits";
-              map.layers = [resunitsTimeLyr, urbServArea];
+              map.layers = [resunitsTimeLyr, resunitsPtsLyr, urbServArea];
               resunitsTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              resunitsPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = resunitsTimeLyr;
               break;
             case "nonressf":
               fieldPrefix = "nonressf";
-              map.layers = [nonressfTimeLyr, urbServArea];
+              map.layers = [nonressfTimeLyr, nonressfPtsLyr, urbServArea];
               nonressfTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              nonressfPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = nonressfTimeLyr;
               break;
             case "homestead":
               fieldPrefix = "homestead";
-              map.layers = [homesteadTimeLyr, urbServArea];
+              map.layers = [homesteadTimeLyr, homesteadPtsLyr, urbServArea];
               homesteadTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              homesteadPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = homesteadTimeLyr;
               break;
             case "pyr_market":
               fieldPrefix = "pyr_market";
-              map.layers = [pyr_marketTimeLyr, urbServArea];
+              map.layers = [pyr_marketTimeLyr, pyr_marketPtsLyr, urbServArea];
               pyr_marketTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              pyr_marketPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = pyr_marketTimeLyr;
               break;
             case "pyr_taxes":
               fieldPrefix = "pyr_taxes";
-              map.layers = [pyr_taxesTimeLyr, urbServArea];
+              map.layers = [pyr_taxesTimeLyr, pyr_taxesPtsLyr, urbServArea];
               pyr_taxesTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              pyr_taxesPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = pyr_taxesTimeLyr;
               break;
           } // END time SWITCH
@@ -437,19 +577,19 @@ require([
           let checkedBtn = attributeBtns[i].id;
           switch (checkedBtn) {
             case "resunits":
-              map.layers = [resunitsLayer, urbServArea];
+              map.layers = [resunitsHtSptLyr, urbServArea];
               break;
             case "nonressf":
-              map.layers = [nonResSFLayer, urbServArea];
+              map.layers = [nonressfHtSptLyr, urbServArea];
               break;
             case "homestead":
-              map.layers = [homesteadLayer, urbServArea];
+              map.layers = [homesteadHtSptLyr, urbServArea];
               break;
             case "pyr_market":
-              map.layers = [PYR_MARKETLayer, urbServArea];
+              map.layers = [pyr_marketHtSptLyr, urbServArea];
               break;
             case "pyr_taxes":
-              map.layers = [PYR_TAXESLayer, urbServArea];
+              map.layers = [pyr_taxesHtSptLyr, urbServArea];
               break;
           } // END hotspot SWITCH
         } // END hotspot IF
@@ -588,7 +728,6 @@ require([
                 break;
             } // END gain >> fieldPrefix SWITCH
             FilterAnnualAndTotal(gainsFilter);
-
             break;
           case "loss":
             switch (fieldPrefix) {
@@ -685,13 +824,13 @@ require([
   let displayMode = "time";
   setYear(2022);
   gainLossBox.style.visibility = "hidden";
+}); //*****************************************************************
+//*********************************************************************
+//                        END MAIN FUNCTION
+//*********************************************************************
+//*********************************************************************
+//*********************************************************************
 
-  // NOT WORKING - MAYBE HAVE TO OVERRIDE A DEFAULT??
-  // timeBtn.click();
-  // set time button to focus state on load
-  // timeBtn.classList.remove("button is-primary my-4");
-  // timeBtn.classList.add("button is-primary my-4 is-focused");
-}); //           ******END MAIN FUNCTION*****
 
 //*******************************************************************
 //*******************************************************************
@@ -725,5 +864,5 @@ window.onclick = function (event) {
   }
 };
 
-//TEMP WHILE IN PRODUCTION - HIDE MODAL ON OPEN
-// modal.style.display = "none";
+//TEMPORARY - WHILE IN PRODUCTION - HIDE MODAL ON OPEN
+modal.style.display = "none";
