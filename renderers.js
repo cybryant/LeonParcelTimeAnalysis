@@ -580,7 +580,7 @@ function AttributeMax (fieldPrefix) {
       maximumValue = 3000;
       break;
     case "homestead":
-      maximumValue = 5;
+      maximumValue = 500;
       break;
     case "nonressf":
       maximumValue = 2500000;
@@ -589,7 +589,7 @@ function AttributeMax (fieldPrefix) {
       maximumValue = 500000000;
       break;
     case "pyr_taxes":
-      maximumValue = 3000000;
+      maximumValue = 5000000;
       break;      
     } 
   return maximumValue;

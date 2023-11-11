@@ -63,7 +63,7 @@ require([
     // TODO - update fields so automatically update with layer selection 
     //!!!!!!!!!!!!!!!!!!!!!!!!
     popupTemplate: {
-      title: "Bin Summary",
+      title: "Hexagram Summary",
       content: [      
         {
           type: "fields", 
@@ -120,7 +120,6 @@ require([
   const resunitsPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resunits_points/FeatureServer",
     title: "Residential Units (clusters)",
-    
   });
 
   const homesteadPtsLyr = new FeatureLayer({
@@ -133,13 +132,11 @@ require([
     title: "Nonresidential Square Feet (clusters)",
   });
 
-  // pyr_market points
   const pyr_marketPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_points/FeatureServer",
     title: "Valuation (clusters)",
   });
 
-  // pyr_taxes points
   const pyr_taxesPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_taxes_points/FeatureServer",
     title: "Property Taxes (clusters)",
