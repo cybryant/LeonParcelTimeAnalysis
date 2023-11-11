@@ -550,14 +550,58 @@ const hotspotRenderer = {
 //              CLUSTERING PROPERTIES FOR POINT LAYERS
 //*******************************************************************
 //*******************************************************************
+
+function AttributeMin (fieldPrefix) {
+  let minimumValue
+  switch (fieldPrefix) {
+    case "resunits":
+      minimumValue = 5;
+      break;
+    case "homestead":
+      minimumValue = 5;
+      break;
+    case "nonressf":
+      minimumValue = 10000;
+      break;
+    case "pyr_market":
+      minimumValue = 500000;
+      break;
+    case "pyr_taxes":
+      minimumValue = 100000;
+      break;    
+  } // end switch
+  return minimumValue;
+} // end AttributeMin()
+
+function AttributeMax (fieldPrefix) {
+  let maximumValue
+  switch (fieldPrefix) {
+    case "resunits":
+      maximumValue = 3000;
+      break;
+    case "homestead":
+      maximumValue = 5;
+      break;
+    case "nonressf":
+      maximumValue = 2500000;
+      break;
+    case "pyr_market":
+      maximumValue = 500000000;
+      break;
+    case "pyr_taxes":
+      maximumValue = 3000000;
+      break;      
+    } 
+  return maximumValue;
+} // end AttributeMax()
+
 function ClusterProperties(fieldPrefix, changeMode) {
   return { 
     type: "cluster",  
     fields: [
       {
       name: `${fieldPrefix}_sum`,
-      alias: `Cluster Sum (average is in parens)`,
-      // onStatisticField: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`,
+      alias: `Cluster Sum (average is in '[ ]')`,
       onStatisticField: `${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}`,
       statisticType: "sum"
       },
@@ -570,48 +614,41 @@ function ClusterProperties(fieldPrefix, changeMode) {
     ],
     renderer: {
       type: "simple",
+      field:`${fieldPrefix}_sum`,
       symbol: {
         type: "picture-marker",
-//!!!!!!!!!!!!!!!!!!!!!!!
-// TO DO - update image to adjust with attribute
-//!!!!!!!!!!!!!!!!!!!!!!!
-        url: "house.svg",
-        // placeholder for simple marker if decide to use it
-        // type: "simple-marker",
-        // style: "circle",
-        // color: "rgba(128, 128, 128, .5)",
-        // color: symbolColor,
-        // size: 24,
-        // outline: {
-        //   color: "black",
-        //   width: 1
-        // }
+        url: `resunits.svg`,
+        // url: `${fieldPrefix}.svg`,
       },
-//!!!!!!!!!!!!!!!!!!!!!!!
-// TO DO - adjust so stops update based on attribute
-//!!!!!!!!!!!!!!!!!!!!!!!
       visualVariables: [
         {
           type: "size",
           field: `${fieldPrefix}_sum`,
-          stops: [ 
-            { value: 5, size: 8 },
-            { value: 100, size: 20 },
-            { value: 1000, size: 30 },
-            { value: 5000, size: 48 }
-          ]
-        }
-      ]
+          minDataValue: AttributeMin(fieldPrefix),
+          maxDataValue: AttributeMax(fieldPrefix),
+          minSize: 8,
+          maxSize: 40,
+        },
+      ]    
     },
     labelingInfo: [
       {
-        deconflictionStrategy: "none",
+        // deconflictionStrategy: "none",
         labelExpressionInfo: {
           expression: `
-            var number = Text($feature.${fieldPrefix}_sum, '#,###')
-            var average = Text(Round($feature.${fieldPrefix}_avg, 1))
-            var label = number + TextFormatting.NewLine + '(' + average + ')'
-            return label
+            var valueSum = $feature.${fieldPrefix}_sum
+            var letterCountSum = Count(Text(Round(valueSum)));
+  
+           Decode(letterCountSum,
+              4, Text(valueSum / Pow(10, 3), "##.0k"),
+              5, Text(valueSum / Pow(10, 3), "##k"),
+              6, Text(valueSum / Pow(10, 3), "##k"),
+              7, Text(valueSum / Pow(10, 6), "##m"),
+              8, Text(valueSum / Pow(10, 6), "##m"),
+              9, Text(valueSum / Pow(10, 6), "##m"),
+              10, Text(valueSum / Pow(10, 6), "##m"),
+              Text(valueSum, "#,###")
+            )
           `
         },
         symbol: {
@@ -623,8 +660,40 @@ function ClusterProperties(fieldPrefix, changeMode) {
             size: "12px"
           },
           haloColor: "gray",
-          // haloColor: symbolColor,
           haloSize: 1
+        },
+        labelPlacement: "center-center"
+      },
+      {
+        // deconflictionStrategy: "none",
+        labelExpressionInfo: {
+          expression: `
+            var valueAvg = $feature.${fieldPrefix}_avg
+            var letterCountAvg = Count(Text(Round(valueAvg)));
+
+          Decode(letterCountAvg,
+              4, Text(valueAvg / Pow(10, 3), "[##.0k]"),
+              5, Text(valueAvg / Pow(10, 3), "[##k]"),
+              6, Text(valueAvg / Pow(10, 3), "[##k]"),
+              7, Text(valueAvg / Pow(10, 6), "[##m]"),
+              8, Text(valueAvg / Pow(10, 6), "[##m]"),
+              9, Text(valueAvg / Pow(10, 6), "[##m]"),
+              10, Text(valueAvg / Pow(10, 6), "[##m]"),
+              Text(valueAvg, "[#,###]")
+            )
+          `
+        },
+        symbol: {
+          type: "text",
+          color: "white",
+          font: {
+            weight: "bold",
+            family: "Noto Sans",
+            size: "10px"
+          },
+          haloColor: "gray",
+          haloSize: .75,
+          yoffset: "-11px"
         },
         labelPlacement: "center-center"
       }
@@ -643,7 +712,7 @@ function ClusterProperties(fieldPrefix, changeMode) {
           fieldInfos: [
             {
               fieldName: "cluster_count",
-              label: "number of bins/acres",
+              label: "number of hexagrams/acres",
               format: {
                 places: 0,
                 digitSeparator: true
@@ -651,7 +720,7 @@ function ClusterProperties(fieldPrefix, changeMode) {
             },
             {
               fieldName: `${fieldPrefix}_sum`,
-              label: "total of all bins",
+              label: "total of hexagram values",
               format: {
                 places: 0,
                 digitSeparator: true
@@ -659,7 +728,7 @@ function ClusterProperties(fieldPrefix, changeMode) {
             },
             {
               fieldName: `${fieldPrefix}_avg`,
-              label: "average per bin/acre",
+              label: "average value per hexagram/acre",
               format: {
                 places: 1,
                 digitSeparator: true

@@ -102,13 +102,13 @@ require([
 
   const pyr_marketTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_hexbins/FeatureServer",
-    title: "Prior Year Market per Acre",
+    title: "Valuation per Acre",
     ...commonProps_TimeLyrs,
   });
 
   const pyr_taxesTimeLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_taxes_hexbins/FeatureServer",
-    title: "Prior Year Taxes per Acre",
+    title: "Taxes per Acre",
     ...commonProps_TimeLyrs,
   });
 
@@ -117,144 +117,32 @@ require([
   // used for cluster display
   //****************************
 
-  // properties common to all the point layers
-  // these are used for the clustering display
-  // let commonProps_PtsLyrs = {
-  //   featureReduction: { 
-  //     type: "cluster",  
-  //     fields: [
-  //       {
-  //       name: "resunits_sum",
-  //       alias: "Sum of Residential Units",
-  //       onStatisticField: "resunits_2022_n",
-  //       statisticType: "sum"
-  //       },
-  //       {
-  //       name: "resunits_avg",
-  //       alias: "Sum of Residential Units",
-  //       onStatisticField: "resunits_2022_n",
-  //       statisticType: "avg"
-  //       },
-  //     ],
-  //     renderer: {
-  //       type: "simple",
-  //       symbol: {
-  //         type: "picture-marker",
-  //         url: "house.svg",
-  //         // placeholder for simple marker if decide to use it
-  //         // type: "simple-marker",
-  //         // style: "circle",
-  //         // color: "rgba(128, 128, 128, .5)",
-  //         // color: symbolColor,
-  //         // size: 24,
-  //         // outline: {
-  //         //   color: "black",
-  //         //   width: 1
-  //         // }
-  //       },
-  //       visualVariables: [
-  //         {
-  //           type: "size",
-  //           field: "resunits_sum",
-  //           stops: [ 
-  //             { value: 5, size: 8 },
-  //             { value: 100, size: 20 },
-  //             { value: 1000, size: 30 },
-  //             { value: 5000, size: 48 }
-  //           ]
-  //         }
-  //       ]
-  //     },
-  //     labelingInfo: [
-  //       {
-  //         deconflictionStrategy: "none",
-  //         labelExpressionInfo: {
-  //           expression: `
-  //             var number = Text($feature.resunits_sum, '#,###')
-  //             var density = Text(Round($feature.resunits_avg, 1))
-  //             var label = number + TextFormatting.NewLine + '(' + density + ')'
-  //             return label
-  //           `
-  //         },
-  //         symbol: {
-  //           type: "text",
-  //           color: "white",
-  //           font: {
-  //             weight: "bold",
-  //             family: "Noto Sans",
-  //             size: "12px"
-  //           },
-  //           haloColor: "gray",
-  //           // haloColor: symbolColor,
-  //           haloSize: 1
-  //         },
-  //         labelPlacement: "center-center"
-  //       }
-  //     ],
-  //     clusterRadius: "120px",
-  //     popupTemplate: {
-  //       title: "Cluster summary",
-  //       content: "This cluster represents {cluster_count} one-acre bins with a total of <b>{resunits_sum}</b> units at a density of <b>{resunits_avg}</b> dwelling units per acre.",
-  //       fieldInfos: [
-  //         {
-  //           fieldName: "cluster_count",
-  //           format: {
-  //             places: 0,
-  //             digitSeparator: true
-  //           }
-  //         },
-  //         {
-  //           fieldName: "resunits_sum",
-  //           format: {
-  //             places: 0,
-  //             digitSeparator: true
-  //           }
-  //         },
-  //         {
-  //           fieldName: "resunits_avg",
-  //           format: {
-  //             places: 1,
-  //             digitSeparator: true
-  //           }
-  //         }
-  //       ]
-  //     },
-  //   },
-  // };
-
-  // resunits points
   const resunitsPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resunits_points/FeatureServer",
     title: "Residential Units (clusters)",
-    // ...commonProps_PtsLyrs,
+    
   });
 
-  // homestead points
   const homesteadPtsLyr = new FeatureLayer({
-    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_points_view/FeatureServer",
+    url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_points/FeatureServer",
     title: "Homsteaded Units (clusters)",
-    // ...commonProps_PtsLyrs,
   });
 
-  // nonressf points
   const nonressfPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonressf_points/FeatureServer",
-    title: "Nonresidential SF (clusters)",
-    // ...commonProps_PtsLyrs,
+    title: "Nonresidential Square Feet (clusters)",
   });
 
   // pyr_market points
   const pyr_marketPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_points/FeatureServer",
-    title: "Prior Year Valuation (clusters)",
-    // ...commonProps_PtsLyrs,
+    title: "Valuation (clusters)",
   });
 
   // pyr_taxes points
   const pyr_taxesPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_taxes_points/FeatureServer",
     title: "Property Taxes (clusters)",
-    // ...commonProps_PtsLyrs,
   });
 
 

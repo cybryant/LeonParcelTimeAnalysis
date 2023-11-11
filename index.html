@@ -18,32 +18,31 @@
 
     <!-- external API locations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-    <script src="https://js.arcgis.com/4.25/"></script>
-    <!-- <script src="https://kit.fontawesome.com/6d9e6eba16.js" crossorigin="anonymous"></script> -->
+    <script src="https://js.arcgis.com/4.28/"></script>
   </head>
-  <body class="has-background-grey-light">
+  <body class="has-background-grey">
     <!-- wrapper section so the entire visible screen background is styled -->
-    <section class="hero is-fullheight has-background-grey-light">
+    <section class="hero is-fullheight has-background-grey">
       <!-- SET UP COLUMNS -->
       <div class="columns has-text-centered">
         <!-- CONTROL PANEL COLUMN-->
-        <div id="firstColumn" class="column is-narrow">
+        <div id="firstColumn" class="column is-one-quarter">
           <!-- <nav class="level"> -->
           <div>
-            <h3 class="title has-text-white-bis">Tallahassee Development</h3>
-            <h4 class="subtitle is-4 pt-1 has-text-white-bis">2009 to 2022</h4>
+            <h3 class="title has-text-white is-size-4">Tallahassee Development</h3>
+            <h4 class="subtitle is-4 pt-1 has-text-white is-size-5">2009 to 2022</h4>
           </div>
           <!-- </nav> -->
           <div
-            class="tabs is-boxed is-medium has-text-centered pt-5 is-toggle is-toggle-rounded is-fullwidth"
+            class="tabs is-small has-text-centered is-fullwidth pt-3"
           >
             <ul>
-              <li id="parcelTab" class="is-active">
+              <li id="parcelTab" class="is-active ">
                 <a>
                   <!-- <span class="icon is-small"
                     ><i class="fa-solid fa-house" aria-hidden="true"></i
                   ></span> -->
-                  <span class="has-text-grey">Parcel<br />Data</span>
+                  <span class="has-text-light">Parcel<br />Data</span>
                 </a>
               </li>
               <li id="landUseTab">
@@ -51,7 +50,7 @@
                   <!-- <span class="icon is-small"
                     ><i class="fas fa-landuse" aria-hidden="true"></i
                   ></span> -->
-                  <span class="has-text-grey-lighter">Land Use<br />Patterns</span>
+                  <span class="has-text-grey-light">Land Use<br />Patterns</span>
                 </a>
               </li>
               <li id="growthTab">
@@ -59,13 +58,13 @@
                   <!-- <span class="icon is-small"
                     ><i class="fas fa-growth" aria-hidden="true"></i
                   ></span> -->
-                  <span class="has-text-grey-lighter">Growth<br />Scenarios</span>
+                  <span class="has-text-grey-light">Growth<br/>Scenarios</span>
                 </a>
               </li>
             </ul>
           </div>
           <!-- Application Control Panel -->
-          <div class="panel has-background-white-bis">
+          <div class="panel has-background-grey-lighter">
             <p class="panel-heading is-size-6">Choose an attribute to explore:</p>
             <div id="attributeDiv" class="panel-block">
               <p class="control">
@@ -74,55 +73,40 @@
                   residential units
                 </label>
                 <label class="radio">
+                  <input type="radio" id="homestead" name="attributePanel" />
+                  homesteads
+                </label>
+                <label class="radio">
                   <input type="radio" id="nonressf" name="attributePanel" />
-                  nonresidential ft<sup>2</sup> </label
+                  nonresidential sq ft </label
                 ><br />
                 <label class="radio">
                   <input type="radio" id="pyr_market" name="attributePanel" />
                   valuation
                 </label>
                 <label class="radio">
-                  <input type="radio" id="homestead" name="attributePanel" />
-                  homesteads
-                </label>
-                <label class="radio">
                   <input type="radio" id="pyr_taxes" name="attributePanel" />
                   property taxes
                 </label>
-                <!-- <br />
-                <label class="checkbox">
-                  <input type="checkbox" id="numSales"/>
-                  Number of Sales<br />
-                </label> -->
-                <!-- <br />
-                <label class="checkbox">
-                  <input type="checkbox" id="valPerUnit"/>
-                  Valuation per Unit<br />
-                </label>
-                <br />
-                <label class="checkbox">
-                  <input type="checkbox" id="taxPerUnit"/>
-                  Taxes per Unit<br />
-                </label> -->
               </p>
             </div>
           </div>
 
           <!-- Choose Analysis -->
-          <div class="panel has-text-centered has-background-white-bis">
+          <div class="panel has-text-centered has-background-grey-lighter is-size-7">
             <p class="panel-heading is-size-6">
-              Do you want to see how values change over<br />time, or see an emerging hotspot
+              Do you want to see how values change over time or an emerging hotspot
               analysis?
             </p>
-            <button id="timeBtn" class="button is-primary my-4">Over Time</button>
+            <button id="timeBtn" class="button has-background-primary-dark my-4 has-text-grey-lighter">Over Time</button>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <button id="hotspotBtn" class="button is-primary my-4">Hotspots</button>
+            <button id="hotspotBtn" class="button has-background-primary-dark my-4 has-text-grey-lighter">Hotspots</button>
           </div>
 
           <!-- Choose Yearly Change Display Mode -->
-          <div id="changeModeBlock" class="panel has-text-centered has-background-white-bis">
+          <div id="changeModeBlock" class="panel has-text-centered has-background-grey-lighter">
             <p class="panel-heading is-size-6">How would you like changing values displayed?</p>
-            <div id="changeModeDiv" class="panel-block">
+            <div id="changeModeDiv" class="panel-block is-size-7">
               <p class="control">
                 <label class="radio">
                   <input type="radio" id="n" name="modePanel" checked />
