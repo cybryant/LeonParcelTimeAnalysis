@@ -44,6 +44,10 @@ function createHexSymbol(color) {
   };
 }
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// TO DO - Need to refine the min and max cutoff decimals because they are losing small values in between
+// and also showing 2 colors when using the gain/loss filter
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // values to be used in making the class breaks for various user choices
 const classBreakNums = {
   resunits: {
@@ -63,7 +67,7 @@ const classBreakNums = {
       "-127 to -27 units",
       "-26.9 to -10 units",
       "-9.9 to -0.5 units",
-      "no change",
+      "small to no change",
       "+0.6 to 4 units",
       "+4.1 to 10 units",
       "+10.1 to 20 units",
@@ -76,7 +80,7 @@ const classBreakNums = {
       "-126 to -28 units",
       "-27.9 to -10 units",
       "-9.9 to -0.5 units",
-      "no change",
+      "small to no change",
       "+0.6 to 1.5 units",
       "+1.6 to 12 units",
       "+12.1 to 24 units",
@@ -113,7 +117,7 @@ const classBreakNums = {
       "-5 to -2.5",
       "-2.4 to -1.1",
       "-1 to -0.5",
-      "no change",
+      "small to no change",
       ".6 to 1",
       "1.1 to 2",
       "2.1 to 3",
@@ -126,7 +130,7 @@ const classBreakNums = {
       "-13 to -6",
       "-5.9 to -3",
       "-2.9 to -0.5",
-      "no change",
+      "small to no change",
       ".6 to 1",
       "1.1 to 2",
       "2.1 to 5",
@@ -163,7 +167,7 @@ const classBreakNums = {
       "-186,000 to -50,000 sq ft",
       "-49,999 to -10,000 sq ft",
       "-9,999 to -500 sq ft",
-      "no change",
+      "small to no change",
       "501 to 1,500 sq ft",
       "1,501 to 5,000 sq ft",
       "5,001 to 20,000 sq ft",
@@ -176,7 +180,7 @@ const classBreakNums = {
       "-186,000 to -50,000 sq ft",
       "-49,999 to -10,000 sq ft",
       "-9,999 to -500 sq ft",
-      "no change",
+      "small to no change",
       "501 to 1,500 sq ft",
       "1,501 to 5,000 sq ft",
       "5,001 to 20,000 sq ft",
@@ -217,7 +221,7 @@ const classBreakNums = {
       "-$999,999 to -$100,000",
       "-$99,999 to -$50,000",
       "-$49,999 to -$1,000",
-      "no change",
+      "small to no change",
       "$1,000 to $25,000",
       "$25,001 to $50,000",
       "$50,001 to $100,000",
@@ -231,7 +235,7 @@ const classBreakNums = {
       "-$999,999 to -$100,000",
       "-$99,999 to -$50,000",
       "-$49,999 to -$1,000",
-      "no change",
+      "small to no change",
       "$1,000 to $25,000",
       "$25,001 to $50,000",
       "$50,001 to $100,000",
@@ -269,7 +273,7 @@ const classBreakNums = {
       "-$999,999 to - $50,000",
       "-$49,999 to - $5,000",
       "-$4,999 to - $100",
-      "little change",
+      "small to change",
       "$101 to $2,500",
       "$2,501 to $5,000",
       "$5,001 to $25,000",
@@ -283,7 +287,7 @@ const classBreakNums = {
       "-$999,999 to - $50,000",
       "-$49,999 to - $5,000",
       "-$4,999 to - $100",
-      "little change",
+      "small to change",
       "$101 to $2,500",
       "$2,501 to $5,000",
       "$5,001 to $25,000",
@@ -551,49 +555,111 @@ const hotspotRenderer = {
 //*******************************************************************
 //*******************************************************************
 
-function AttributeMin (fieldPrefix) {
-  let minimumValue
-  switch (fieldPrefix) {
+const minMaxNums = {
+  resunits: {
+    actual:[5, 3000],
+    annualChg: [3, 50],
+    totalChg: [3, 100]
+    },
+  homestead: {
+    actual:[5, 500],
+    annualChg: [0, 20],
+    totalChg: [0, 250]
+    },
+  nonressf: {
+    actual:[10000, 250000],
+    annualChg: [0, 5000],
+    totalChg: [0, 50000]
+    },
+  pyr_market: {
+    actual:[500000, 500000000],
+    annualChg: [0,30000000],
+    totalChg: [0,50000000]
+    }, 
+  pyr_taxes: {
+    actual:[100000, 5000000],
+    annualChg: [0, 250000],
+    totalChg: [0, 2000000]
+    }
+}
+
+function AttributeMinMax (fieldPrefix, changeMode, minOrMax) {
+  let minMaxValue
+  switch(fieldPrefix) {
     case "resunits":
-      minimumValue = 5;
-      break;
+      switch(changeMode){
+        case "n": minMaxValue = minMaxNums.resunits.actual[minOrMax];
+          break;
+        case "A": minMaxValue = minMaxNums.resunits.annualChg[minOrMax];
+          break;
+        case "T": minMaxValue = minMaxNums.resunits.totalChg[minOrMax];
+          break;
+      } // end "resunits" changeMode switch
+      return minMaxValue
     case "homestead":
-      minimumValue = 5;
-      break;
+      switch(changeMode){
+        case "n": minMaxValue = minMaxNums.homestead.actual[minOrMax];
+          break;
+        case "A": minMaxValue = minMaxNums.homestead.annualChg[minOrMax];
+          break;
+        case "T": minMaxValue = minMaxNums.homestead.totalChg[minOrMax];
+          break;
+      } // end "resunits" changeMode switch
+      return minMaxValue
     case "nonressf":
-      minimumValue = 10000;
-      break;
+      switch(changeMode){
+        case "n": minMaxValue = minMaxNums.nonressf.actual[minOrMax];
+          break;
+        case "A": minMaxValue = minMaxNums.nonressf.annualChg[minOrMax];
+          break;
+        case "T": minMaxValue = minMaxNums.nonressf.totalChg[minOrMax];
+          break;
+      } // end "resunits" changeMode switch
+      return minMaxValue
     case "pyr_market":
-      minimumValue = 500000;
-      break;
+      switch(changeMode){
+        case "n": minMaxValue = minMaxNums.pyr_market.actual[minOrMax];
+          break;
+        case "A": minMaxValue = minMaxNums.pyr_market.annualChg[minOrMax];
+          break;
+        case "T": minMaxValue = minMaxNums.pyr_market.totalChg[minOrMax];
+          break;
+      } // end "resunits" changeMode switch
+      return minMaxValue
     case "pyr_taxes":
-      minimumValue = 100000;
-      break;    
-  } // end switch
-  return minimumValue;
+      switch(changeMode){
+        case "n": minMaxValue = minMaxNums.pyr_taxes.actual[minOrMax];
+          break;
+        case "A": minMaxValue = minMaxNums.pyr_taxes.annualChg[minOrMax];
+          break;
+        case "T": minMaxValue = minMaxNums.pyr_taxes.totalChg[minOrMax];
+          break;
+      } // end "resunits" changeMode switch
+      return minMaxValue;
+  } // end fieldPrefix switch
 } // end AttributeMin()
 
-function AttributeMax (fieldPrefix) {
-  let maximumValue
-  switch (fieldPrefix) {
-    case "resunits":
-      maximumValue = 3000;
-      break;
-    case "homestead":
-      maximumValue = 500;
-      break;
-    case "nonressf":
-      maximumValue = 2500000;
-      break;
-    case "pyr_market":
-      maximumValue = 500000000;
-      break;
-    case "pyr_taxes":
-      maximumValue = 5000000;
-      break;      
-    } 
-  return maximumValue;
-} // end AttributeMax()
+// function AttributeMax (fieldPrefix, changeMode) {
+//   let maxValue
+//   switch(fieldPrefix) {
+//     case "resunits":
+//       maxValue = 3000;
+//       break;
+//     case "homestead":
+//       maxValue = 500;
+//       break;
+//     case "nonressf":
+//       maxValue = 2500000;
+//       break;
+//     case "pyr_market":
+//       maxValue = 500000000;
+//       break;
+//     case "pyr_taxes":
+//       maxValue = 5000000;
+//       break;      
+//     } 
+//   return maxValue;
+// } // end AttributeMax()
 
 function ClusterProperties(fieldPrefix, changeMode) {
   return { 
@@ -624,8 +690,8 @@ function ClusterProperties(fieldPrefix, changeMode) {
         {
           type: "size",
           field: `${fieldPrefix}_sum`,
-          minDataValue: AttributeMin(fieldPrefix),
-          maxDataValue: AttributeMax(fieldPrefix),
+          minDataValue: AttributeMinMax(fieldPrefix, changeMode, 0),
+          maxDataValue: AttributeMinMax(fieldPrefix, changeMode, 1),
           minSize: 8,
           maxSize: 40,
         },
@@ -643,10 +709,10 @@ function ClusterProperties(fieldPrefix, changeMode) {
               4, Text(valueSum / Pow(10, 3), "##.0k"),
               5, Text(valueSum / Pow(10, 3), "##k"),
               6, Text(valueSum / Pow(10, 3), "##k"),
-              7, Text(valueSum / Pow(10, 6), "##m"),
-              8, Text(valueSum / Pow(10, 6), "##m"),
-              9, Text(valueSum / Pow(10, 6), "##m"),
-              10, Text(valueSum / Pow(10, 6), "##m"),
+              7, Text(valueSum / Pow(10, 6), "##.#m"),
+              8, Text(valueSum / Pow(10, 6), "##.#m"),
+              9, Text(valueSum / Pow(10, 6), "##.#m"),
+              10, Text(valueSum / Pow(10, 9), "##.##b"),
               Text(valueSum, "#,###")
             )
           `
@@ -675,10 +741,10 @@ function ClusterProperties(fieldPrefix, changeMode) {
               4, Text(valueAvg / Pow(10, 3), "[##.0k]"),
               5, Text(valueAvg / Pow(10, 3), "[##k]"),
               6, Text(valueAvg / Pow(10, 3), "[##k]"),
-              7, Text(valueAvg / Pow(10, 6), "[##m]"),
-              8, Text(valueAvg / Pow(10, 6), "[##m]"),
-              9, Text(valueAvg / Pow(10, 6), "[##m]"),
-              10, Text(valueAvg / Pow(10, 6), "[##m]"),
+              7, Text(valueAvg / Pow(10, 6), "[##.#m]"),
+              8, Text(valueAvg / Pow(10, 6), "[##.#m]"),
+              9, Text(valueAvg / Pow(10, 6), "[##.#m]"),
+              10, Text(valueAvg / Pow(10, 9), "[##.##b]"),
               Text(valueAvg, "[#,###]")
             )
           `
@@ -701,26 +767,17 @@ function ClusterProperties(fieldPrefix, changeMode) {
     clusterRadius: "120px",
     popupTemplate: {
       title: "Cluster Summary",
-      // content: "This cluster represents {cluster_count} one-acre bins with a total of <b>${fieldPrefix}_sum</b> units at a density of <b>{resunits_avg}</b> dwelling units per acre.",
       content: [
-        // {
-        // // type: "text",
-        // // text: `This cluster represents {cluster_count} one-acre bins with a total of <b>${fieldPrefix_sum}</b> units at a density of <b>{resunits_avg}</b> dwelling units per acre.`, 
-        // },
+        {
+        type: "text",
+        text: "This cluster represents <b>{cluster_count}</b> one-acre bins.", 
+        },
         {
           type: "fields",
           fieldInfos: [
             {
-              fieldName: "cluster_count",
-              label: "number of hexagrams/acres",
-              format: {
-                places: 0,
-                digitSeparator: true
-              }
-            },
-            {
               fieldName: `${fieldPrefix}_sum`,
-              label: "total of hexagram values",
+              label: "total of bin values",
               format: {
                 places: 0,
                 digitSeparator: true
@@ -728,7 +785,7 @@ function ClusterProperties(fieldPrefix, changeMode) {
             },
             {
               fieldName: `${fieldPrefix}_avg`,
-              label: "average value per hexagram/acre",
+              label: "average value per bin",
               format: {
                 places: 1,
                 digitSeparator: true
@@ -740,3 +797,25 @@ function ClusterProperties(fieldPrefix, changeMode) {
     }
   }
 };
+
+function TimeLyrPopupTemplate(fieldPrefix, changeMode) {
+  let yearsText = ['2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022']
+  let fieldInfoData = []
+  let i = 0
+  while (i < yearsText.length) {
+    fieldInfoData.push ({
+      fieldName: `${fieldPrefix}_${yearsText[i]}_${changeMode}`,
+      label: `${yearsText[i]}`
+      })
+      i ++
+    }
+  return {
+    title: "Hexagram Values For Each Year",
+    content: [      
+      {
+        type: "fields", 
+        fieldInfos: fieldInfoData
+      }
+    ]
+  }
+} 

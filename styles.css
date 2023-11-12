@@ -206,7 +206,8 @@ div.esri-expand__content--expanded {
   top: 10%;
   bottom: 10% auto;
   padding: 20px;
-  border: 12px solid #ffaa00;
+  /* border: 12px solid #ffaa00; */
+  border: 12px solid hsl(204, 86%, 53%);
   border-radius: 10px;
   width: 80%; /* Could be more or less, depending on screen size */
   height: 80%;

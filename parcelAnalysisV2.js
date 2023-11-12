@@ -59,27 +59,6 @@ require([
     labelsVisible: false,
     visible: true,
     opacity: 0.7,
-    //!!!!!!!!!!!!!!!!!!!!!!!!
-    // TODO - update fields so automatically update with layer selection 
-    //!!!!!!!!!!!!!!!!!!!!!!!!
-    popupTemplate: {
-      title: "Hexagram Summary",
-      content: [      
-        {
-          type: "fields", 
-          fieldInfos: [
-            {
-              fieldName: "resunits_2022_n",
-              label: "residential units 2022"
-            },
-            {
-              fieldName: "resunits_2009_n",
-              label: "residential units 2009"
-            }
-          ]
-        }
-      ]
-    },
   };
 
   const resunitsTimeLyr = new FeatureLayer({
@@ -111,6 +90,7 @@ require([
     title: "Taxes per Acre",
     ...commonProps_TimeLyrs,
   });
+  
 
   //****************************
   // POINT LAYERS
@@ -409,6 +389,10 @@ require([
   // set an active layer identifier so that it can be use in the gaines/losses filter
   let activeLyr = resunitsTimeLyr;
 
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // TO DO - when new layer is chosen, close any existing popup instances
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
   // set appropriate renderers based on display mode, attribute, and value change mode selections
   function setAttribute() {
     if (displayMode == "time") {
@@ -421,6 +405,7 @@ require([
               fieldPrefix = "resunits";
               map.layers = [resunitsTimeLyr, resunitsPtsLyr, urbServArea];
               resunitsTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              resunitsTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               resunitsPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = resunitsTimeLyr;
               break;
@@ -428,6 +413,7 @@ require([
               fieldPrefix = "nonressf";
               map.layers = [nonressfTimeLyr, nonressfPtsLyr, urbServArea];
               nonressfTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              nonressfTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               nonressfPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = nonressfTimeLyr;
               break;
@@ -435,6 +421,7 @@ require([
               fieldPrefix = "homestead";
               map.layers = [homesteadTimeLyr, homesteadPtsLyr, urbServArea];
               homesteadTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              homesteadTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               homesteadPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = homesteadTimeLyr;
               break;
@@ -442,6 +429,7 @@ require([
               fieldPrefix = "pyr_market";
               map.layers = [pyr_marketTimeLyr, pyr_marketPtsLyr, urbServArea];
               pyr_marketTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              pyr_marketTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               pyr_marketPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = pyr_marketTimeLyr;
               break;
@@ -449,6 +437,7 @@ require([
               fieldPrefix = "pyr_taxes";
               map.layers = [pyr_taxesTimeLyr, pyr_taxesPtsLyr, urbServArea];
               pyr_taxesTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
+              pyr_taxesTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               pyr_taxesPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
               activeLyr = pyr_taxesTimeLyr;
               break;
