@@ -557,12 +557,12 @@ const hotspotRenderer = {
 
 const minMaxNums = {
   resunits: {
-    actual:[5, 3000],
+    actual:[20, 3000],
     annualChg: [3, 50],
     totalChg: [3, 100]
     },
   homestead: {
-    actual:[5, 500],
+    actual:[20, 1500],
     annualChg: [0, 20],
     totalChg: [0, 250]
     },
@@ -637,29 +637,70 @@ function AttributeMinMax (fieldPrefix, changeMode, minOrMax) {
       } // end "resunits" changeMode switch
       return minMaxValue;
   } // end fieldPrefix switch
-} // end AttributeMin()
+} // end AttributeMinMax()
 
-// function AttributeMax (fieldPrefix, changeMode) {
-//   let maxValue
-//   switch(fieldPrefix) {
-//     case "resunits":
-//       maxValue = 3000;
-//       break;
-//     case "homestead":
-//       maxValue = 500;
-//       break;
-//     case "nonressf":
-//       maxValue = 2500000;
-//       break;
-//     case "pyr_market":
-//       maxValue = 500000000;
-//       break;
-//     case "pyr_taxes":
-//       maxValue = 5000000;
-//       break;      
-//     } 
-//   return maxValue;
-// } // end AttributeMax()
+function ClusterPopUpTitle(fieldPrefix, changeMode) {
+  let popUpTitle
+  switch(changeMode){
+    case "n":
+      switch(fieldPrefix){
+        case 'resunits': 
+          popUpTitle = "Residential Unit Count for Selected Cluster";
+          break;
+        case 'homestead': 
+          popUpTitle = "Homestead Count for Selected Cluster";
+          break;
+        case 'nonressf': 
+          popUpTitle =  "Nonresidential Square Feet for Selected Cluster";
+          break;
+        case 'pyr_market': 
+          popUpTitle = "Market Valuation for Selected Cluster";
+          break;
+        case 'pyr_taxes': 
+          popUpTitle = "Property Taxes for Selected Cluster";
+          break;
+      } // end resunits switch
+      return popUpTitle
+      case "A":
+        switch(fieldPrefix){
+          case 'resunits': 
+            popUpTitle = "Annual Net Change in Residential Unit Count for Selected Cluster";
+            break;
+          case 'homestead': 
+            popUpTitle = "Annual Net Change in Homestead Count for Selected Cluster";
+            break;
+          case 'nonressf': 
+            popUpTitle =  "Annual Net Change in Nonresidential Square Feet for Selected Cluster";
+            break;
+          case 'pyr_market': 
+            popUpTitle = "Annual Net Change in Market Valuation for Selected Cluster";
+            break;
+          case 'pyr_taxes': 
+            popUpTitle = "Annual Net Change in Property Taxes for Selected Cluster";
+            break;
+        } // end fieldPrefix switch
+        return popUpTitle
+    case "T":
+      switch(fieldPrefix){
+        case 'resunits': 
+          popUpTitle = "Cumulative Change in Residential Unit Count for Selected Cluster";
+          break;
+        case 'homestead': 
+          popUpTitle = "Cumulative Change in Homestead Count for Selected Cluster";
+          break;
+        case 'nonressf': 
+          popUpTitle =  "Cumulative Change in Nonresidential Square Feet for Selected Cluster";
+          break;
+        case 'pyr_market': 
+          popUpTitle = "Cumulative Change in Market Valuation for Selected Cluster";
+          break;
+        case 'pyr_taxes': 
+          popUpTitle = "Cumulative Change in Property Taxes for Selected Cluster";
+          break;
+      } // end resunits switch
+      return popUpTitle
+  } // end changeMode switch
+} //end ClusterPopUpTitle()
 
 function ClusterProperties(fieldPrefix, changeMode) {
   return { 
@@ -699,7 +740,6 @@ function ClusterProperties(fieldPrefix, changeMode) {
     },
     labelingInfo: [
       {
-        // deconflictionStrategy: "none",
         labelExpressionInfo: {
           expression: `
             var valueSum = $feature.${fieldPrefix}_sum
@@ -731,7 +771,6 @@ function ClusterProperties(fieldPrefix, changeMode) {
         labelPlacement: "center-center"
       },
       {
-        // deconflictionStrategy: "none",
         labelExpressionInfo: {
           expression: `
             var valueAvg = $feature.${fieldPrefix}_avg
@@ -766,7 +805,8 @@ function ClusterProperties(fieldPrefix, changeMode) {
     ],
     clusterRadius: "120px",
     popupTemplate: {
-      title: "Cluster Summary",
+      title: ClusterPopUpTitle(fieldPrefix, changeMode),
+      // title: "Cluster Summary",
       content: [
         {
         type: "text",
@@ -798,6 +838,69 @@ function ClusterProperties(fieldPrefix, changeMode) {
   }
 };
 
+function PopUpTitle(fieldPrefix, changeMode) {
+  let popUpTitle
+  switch(changeMode){
+    case "n":
+      switch(fieldPrefix){
+        case 'resunits': 
+          popUpTitle = "Annual Residential Unit Count for Selected Hexagram";
+          break;
+        case 'homestead': 
+          popUpTitle = "Annual Homestead Count for Selected Hexagram";
+          break;
+        case 'nonressf': 
+          popUpTitle =  "Annual Nonresidential Square Feet Count for Selected Hexagram";
+          break;
+        case 'pyr_market': 
+          popUpTitle = "Annual Market Valuation for Selected Hexagram";
+          break;
+        case 'pyr_taxes': 
+          popUpTitle = "Annual Property Taxes for Selected Hexagram";
+          break;
+      } // end fieldPrefix switch
+      return popUpTitle
+    case "A":
+      switch(fieldPrefix){
+        case 'resunits': 
+          popUpTitle = "Annual Change in Residential Unit Count for Selected Hexagram";
+          break;
+        case 'homestead': 
+          popUpTitle = "Annual Change in Homestead Count for Selected Hexagram";
+          break;
+        case 'nonressf': 
+          popUpTitle =  "Annual Change in Nonresidential Square Feet for Selected Hexagram";
+          break;
+        case 'pyr_market': 
+          popUpTitle = "Annual Change in Market Valuation for Selected Hexagram";
+          break;
+        case 'pyr_taxes': 
+          popUpTitle = "Annual Change in Property Taxes for Selected Hexagram";
+          break;
+      } // end fieldPrefix switch
+      return popUpTitle
+    case "T":
+      switch(fieldPrefix){
+        case 'resunits': 
+          popUpTitle = "Cumulative Change in Residential Unit Count for Selected Hexagram";
+          break;
+        case 'homestead': 
+          popUpTitle = "Cumulative Change in Homestead Count for Selected Hexagram";
+          break;
+        case 'nonressf': 
+          popUpTitle =  "Cumulative Change in Nonresidential Square Feet for Selected Hexagram";
+          break;
+        case 'pyr_market': 
+          popUpTitle = "Cumulative Change in Market Valuation for Selected Hexagram";
+          break;
+        case 'pyr_taxes': 
+          popUpTitle = "Cumulative Change in Property Taxes for Selected Hexagram";
+          break;
+      } // end fieldPrefix switch
+      return popUpTitle
+  } // end changeMode switch
+} //end PopUpTitle()
+
 function TimeLyrPopupTemplate(fieldPrefix, changeMode) {
   let yearsText = ['2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022']
   let fieldInfoData = []
@@ -810,7 +913,7 @@ function TimeLyrPopupTemplate(fieldPrefix, changeMode) {
       i ++
     }
   return {
-    title: "Hexagram Values For Each Year",
+    title: PopUpTitle(fieldPrefix, changeMode),
     content: [      
       {
         type: "fields", 
@@ -818,4 +921,4 @@ function TimeLyrPopupTemplate(fieldPrefix, changeMode) {
       }
     ]
   }
-} 
+} // end TimeLyrPopupTemplate()

@@ -50,13 +50,29 @@ require([
     listMode: "hide",
   });
 
+  //****************************************
+  // URBAN SERVICE AREA LAYER
+  //****************************************
+  const majorProjects = new FeatureLayer({
+    portalItem: {
+      id: "519611c095eb4288ad59ce3ec4d45a6f",
+    },
+    title: "Completed Major Development Projects",
+    labelsVisible: false,
+    legendEnabled: false,
+    visible: false,
+    // renderer: usBoundRndr,
+    popupEnabled: true,
+    // listMode: "hide",
+  });
+
   //*****************************
   // TIME LAYERS
   //*****************************
 
   // properties common to all the hexbin layers
   let commonProps_TimeLyrs = {
-    labelsVisible: false,
+    labelsVisible: true,
     visible: true,
     opacity: 0.7,
   };
@@ -403,7 +419,7 @@ require([
           switch (checkedBtn) {
             case "resunits":
               fieldPrefix = "resunits";
-              map.layers = [resunitsTimeLyr, resunitsPtsLyr, urbServArea];
+              map.layers = [resunitsTimeLyr, resunitsPtsLyr, urbServArea, majorProjects];
               resunitsTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               resunitsTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               resunitsPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
@@ -411,7 +427,7 @@ require([
               break;
             case "nonressf":
               fieldPrefix = "nonressf";
-              map.layers = [nonressfTimeLyr, nonressfPtsLyr, urbServArea];
+              map.layers = [nonressfTimeLyr, nonressfPtsLyr, urbServArea, majorProjects];
               nonressfTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               nonressfTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               nonressfPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
@@ -419,7 +435,7 @@ require([
               break;
             case "homestead":
               fieldPrefix = "homestead";
-              map.layers = [homesteadTimeLyr, homesteadPtsLyr, urbServArea];
+              map.layers = [homesteadTimeLyr, homesteadPtsLyr, urbServArea, majorProjects];
               homesteadTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               homesteadTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               homesteadPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
@@ -427,7 +443,7 @@ require([
               break;
             case "pyr_market":
               fieldPrefix = "pyr_market";
-              map.layers = [pyr_marketTimeLyr, pyr_marketPtsLyr, urbServArea];
+              map.layers = [pyr_marketTimeLyr, pyr_marketPtsLyr, urbServArea, majorProjects];
               pyr_marketTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               pyr_marketTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               pyr_marketPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
@@ -435,7 +451,7 @@ require([
               break;
             case "pyr_taxes":
               fieldPrefix = "pyr_taxes";
-              map.layers = [pyr_taxesTimeLyr, pyr_taxesPtsLyr, urbServArea];
+              map.layers = [pyr_taxesTimeLyr, pyr_taxesPtsLyr, urbServArea, majorProjects];
               pyr_taxesTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               pyr_taxesTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               pyr_taxesPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
