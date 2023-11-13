@@ -705,6 +705,7 @@ function ClusterPopUpTitle(fieldPrefix, changeMode) {
 function ClusterProperties(fieldPrefix, changeMode) {
   return { 
     type: "cluster",  
+    // maxScale: 7000,
     fields: [
       {
       name: `${fieldPrefix}_sum`,
@@ -922,3 +923,32 @@ function TimeLyrPopupTemplate(fieldPrefix, changeMode) {
     ]
   }
 } // end TimeLyrPopupTemplate()
+
+function PtsLyrLabels (fieldPrefix, changeMode){
+  return{
+      labelExpressionInfo: { expression: `$feature.${fieldPrefix}_${sliderValue.innerHTML}_${changeMode}` },
+      symbol: {
+        type: "text",
+        font: {
+          weight: "bold",
+          family: "Noto Sans",
+          size: "12px"
+        },
+        color: "white",
+        haloSize: 1,
+        haloColor: "gray"
+      },
+      labelPlacement: "center-center",
+      minScale: 6999
+  };
+}
+
+// const ptsLyrRenderer = {
+//   type: "simple",  // autocasts as new SimpleRenderer()
+//   symbol: {
+//     type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+//     size: 6,
+//     color: transparent,
+//     outline: transparent
+//   }
+// };

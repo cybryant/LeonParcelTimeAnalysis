@@ -72,7 +72,7 @@ require([
 
   // properties common to all the hexbin layers
   let commonProps_TimeLyrs = {
-    labelsVisible: true,
+    labelsVisible: false,
     visible: true,
     opacity: 0.7,
   };
@@ -116,26 +116,31 @@ require([
   const resunitsPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/resunits_points/FeatureServer",
     title: "Residential Units (clusters)",
+    // renderer: ptsLyrRenderer
   });
 
   const homesteadPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/homestead_points/FeatureServer",
     title: "Homsteaded Units (clusters)",
+    // renderer: ptsLyrRenderer
   });
 
   const nonressfPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/nonressf_points/FeatureServer",
     title: "Nonresidential Square Feet (clusters)",
+    // renderer: ptsLyrRenderer
   });
 
   const pyr_marketPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_market_points/FeatureServer",
     title: "Valuation (clusters)",
+    // renderer: ptsLyrRenderer
   });
 
   const pyr_taxesPtsLyr = new FeatureLayer({
     url: "https://services.arcgis.com/ptvDyBs1KkcwzQNJ/arcgis/rest/services/pyr_taxes_points/FeatureServer",
     title: "Property Taxes (clusters)",
+    // renderer: ptsLyrRenderer
   });
 
 
@@ -382,6 +387,12 @@ require([
     }),
     "top-left"
   );
+  view.ui.add(
+    new Zoom({
+      view: view,
+    }),
+    "top-left"
+  );
 
   // make legend show full on larger screens or as an expandable widget on smaller screens
   // let screenWidth = screen.width;
@@ -423,6 +434,7 @@ require([
               resunitsTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               resunitsTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               resunitsPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
+              resunitsPtsLyr.labelingInfo = [PtsLyrLabels (fieldPrefix, changeMode)]
               activeLyr = resunitsTimeLyr;
               break;
             case "nonressf":
@@ -431,6 +443,7 @@ require([
               nonressfTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               nonressfTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               nonressfPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
+              nonressfPtsLyr.labelingInfo = [PtsLyrLabels (fieldPrefix, changeMode)]
               activeLyr = nonressfTimeLyr;
               break;
             case "homestead":
@@ -439,6 +452,7 @@ require([
               homesteadTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               homesteadTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               homesteadPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
+              homesteadPtsLyr.labelingInfo = [PtsLyrLabels (fieldPrefix, changeMode)]
               activeLyr = homesteadTimeLyr;
               break;
             case "pyr_market":
@@ -447,6 +461,7 @@ require([
               pyr_marketTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               pyr_marketTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               pyr_marketPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
+              pyr_marketPtsLyr.labelingInfo = [PtsLyrLabels (fieldPrefix, changeMode)]
               activeLyr = pyr_marketTimeLyr;
               break;
             case "pyr_taxes":
@@ -455,6 +470,7 @@ require([
               pyr_taxesTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               pyr_taxesTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               pyr_taxesPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
+              pyr_taxesPtsLyr.labelingInfo = [PtsLyrLabels (fieldPrefix, changeMode)]
               activeLyr = pyr_taxesTimeLyr;
               break;
           } // END time SWITCH
