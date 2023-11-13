@@ -705,7 +705,7 @@ function ClusterPopUpTitle(fieldPrefix, changeMode) {
 function ClusterProperties(fieldPrefix, changeMode) {
   return { 
     type: "cluster",  
-    // maxScale: 7000,
+    maxScale: 7000,
     fields: [
       {
       name: `${fieldPrefix}_sum`,
@@ -943,12 +943,12 @@ function PtsLyrLabels (fieldPrefix, changeMode){
   };
 }
 
-// const ptsLyrRenderer = {
-//   type: "simple",  // autocasts as new SimpleRenderer()
-//   symbol: {
-//     type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
-//     size: 6,
-//     color: transparent,
-//     outline: transparent
-//   }
-// };
+const ptsLyrRenderer = {
+  type: "simple",  // autocasts as new SimpleRenderer()
+  symbol: {
+    type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+    size: .5,
+    color: "gray",
+    outline: null
+  }
+};
