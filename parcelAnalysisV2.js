@@ -35,7 +35,7 @@ require([
   //*******************************************************************
 
   //****************************************
-  // URBAN SERVICE AREA LAYER
+  // CONTEXT LAYERS
   //****************************************
   const urbServArea = new FeatureLayer({
     portalItem: {
@@ -50,20 +50,44 @@ require([
     listMode: "hide",
   });
 
-  //****************************************
-  // URBAN SERVICE AREA LAYER
-  //****************************************
+
   const majorProjects = new FeatureLayer({
     portalItem: {
       id: "519611c095eb4288ad59ce3ec4d45a6f",
     },
     title: "Completed Major Development Projects",
     labelsVisible: false,
+    legendEnabled: true,
+    visible: false,
+    popupEnabled: true,
+  });
+
+  const commonPlaces = new FeatureLayer({
+    portalItem: {
+      id: "66257a2f60514a3d9a52fc9dc5095203",
+    },
+    title: "Common Places",
+    labelsVisible:true,
     legendEnabled: false,
     visible: false,
-    // renderer: usBoundRndr,
     popupEnabled: true,
-    // listMode: "hide",
+    labelingInfo: {
+      labelExpressionInfo: { expression: "$feature.NAME" },
+      symbol: {
+        type: "text",
+        font: {
+          weight: "bold",
+          family: "Noto Sans",
+          size: "8px"
+        },
+        color: "gray",
+        haloSize: 1,
+        haloColor: "white",
+        yoffset: "-20px",
+        Xoffset: "-45px" // seem to be hitting against a minimum default here b/c doesn't move further despite this setting
+      },
+      labelPlacement: "above-right",
+    }
   });
 
   //*****************************
@@ -430,7 +454,7 @@ require([
           switch (checkedBtn) {
             case "resunits":
               fieldPrefix = "resunits";
-              map.layers = [resunitsTimeLyr, resunitsPtsLyr, urbServArea, majorProjects];
+              map.layers = [resunitsTimeLyr, resunitsPtsLyr, urbServArea, majorProjects, commonPlaces];
               resunitsTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               resunitsTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               resunitsPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
@@ -439,7 +463,7 @@ require([
               break;
             case "nonressf":
               fieldPrefix = "nonressf";
-              map.layers = [nonressfTimeLyr, nonressfPtsLyr, urbServArea, majorProjects];
+              map.layers = [nonressfTimeLyr, nonressfPtsLyr, urbServArea, majorProjects, commonPlaces];
               nonressfTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               nonressfTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               nonressfPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
@@ -448,7 +472,7 @@ require([
               break;
             case "homestead":
               fieldPrefix = "homestead";
-              map.layers = [homesteadTimeLyr, homesteadPtsLyr, urbServArea, majorProjects];
+              map.layers = [homesteadTimeLyr, homesteadPtsLyr, urbServArea, majorProjects, commonPlaces];
               homesteadTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               homesteadTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               homesteadPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
@@ -457,7 +481,7 @@ require([
               break;
             case "pyr_market":
               fieldPrefix = "pyr_market";
-              map.layers = [pyr_marketTimeLyr, pyr_marketPtsLyr, urbServArea, majorProjects];
+              map.layers = [pyr_marketTimeLyr, pyr_marketPtsLyr, urbServArea, majorProjects, commonPlaces];
               pyr_marketTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               pyr_marketTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               pyr_marketPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
@@ -466,7 +490,7 @@ require([
               break;
             case "pyr_taxes":
               fieldPrefix = "pyr_taxes";
-              map.layers = [pyr_taxesTimeLyr, pyr_taxesPtsLyr, urbServArea, majorProjects];
+              map.layers = [pyr_taxesTimeLyr, pyr_taxesPtsLyr, urbServArea, majorProjects, commonPlaces];
               pyr_taxesTimeLyr.renderer = timeRenderer(fieldPrefix, changeMode);
               pyr_taxesTimeLyr.popupTemplate = TimeLyrPopupTemplate(fieldPrefix, changeMode)
               pyr_taxesPtsLyr.featureReduction = ClusterProperties(fieldPrefix, changeMode);
